@@ -1,1 +1,8 @@
+# Editors
 .idea
+.devcontainer
+.vscode
+/temp
+
+# OS
+.DS_Store
