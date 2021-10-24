@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 import psycopg
 
@@ -14,12 +14,41 @@ def health():
     return jsonify(status='UP')
 
 
-@app.route('/users')
+@app.route('/users', methods=['GET', 'POST', 'PUT'])
 def users():
     """Returns all Users."""
-    with conn.cursor() as cur:
-        cur.execute('SELECT * FROM Users')
-        return jsonify(cur.fetchall())
+    if request.method == 'POST':
+        with conn.cursor() as cur:
+            data = request.json
+            try:
+                cur.execute('''
+                    INSERT INTO Users (userID, username) VALUES (%s, %s)
+                    ''', (data['userID'], data['username']))
+            except BaseException as ex:
+                conn.rollback()
+                return str(ex), 400
+            else:
+                conn.commit()
+                return 'OK', 200
+    elif request.method == 'PUT':
+        with conn.cursor() as cur:
+            data = request.json
+            try:
+                cur.execute('''
+                    UPDATE Users SET username = (%s) WHERE userID = (%s)
+                    ''', (data['username'], data['userID']))
+            except BaseException as ex:
+                conn.rollback()
+                return str(ex), 400
+            else:
+                conn.commit()
+            return 'OK', 200
+    elif request.method == 'GET':
+        with conn.cursor() as cur:
+            cur.execute('SELECT * FROM Users')
+            return jsonify(cur.fetchall())
+    else:
+        return 'Unknown method', 403
 
 
 if __name__ == '__main__':

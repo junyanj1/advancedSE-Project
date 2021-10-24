@@ -10,6 +10,7 @@ $$ LANGUAGE 'plpgsql';
 -- User table
 CREATE TABLE Users (
     userID VARCHAR(255) UNIQUE,
+    username VARCHAR(255) NOT NULL,
     createdAt TIMESTAMP WITH TIME ZONE  NOT NULL  DEFAULT current_timestamp,
     updatedAt TIMESTAMP WITH TIME ZONE  NOT NULL  DEFAULT current_timestamp,
     PRIMARY KEY (userID)
@@ -24,6 +25,7 @@ CREATE TRIGGER tg_users_updated_at
 
 
 -- Initial data
-INSERT INTO Users (userID) VALUES
-    ('charizard@example.com'),
-    ('pikachu@example.com');
+INSERT INTO Users (userID, username) VALUES
+    ('charizard@example.com', 'Charizard'),
+    ('pikachu@example.com', 'Pikachu');
+
