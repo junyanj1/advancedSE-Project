@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  app-dev:
+    build:
+      context: ./app
+      dockerfile: Dockerfile  # DEV file
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+
+  db:
+    image: postgres:alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - ./db/init.dev.sql:/docker-entrypoint-initdb.d/init.dev.sql
+    environment:
+      POSTGRES_DB: aapi
+      POSTGRES_HOST_AUTH_METHOD: trust

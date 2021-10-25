@@ -12,7 +12,7 @@ Collaborators:
 
 ### Prerequisites
 
-Install [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/). Confirm Docker and Docker-compose is installed by:
+Install [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/). Confirm both Docker and Docker-compose are installed by:
 ```sh
 $ docker --version
 Docker version xx.xx.x, build xxxxxxx
@@ -21,17 +21,18 @@ $ docker-compose --version
 docker-compose version x.xx.x, build xxxxxxxx
 ```
 
-### Start server in production mode
-*IN PROGRESS*
-
-### Start server in dev mode
+### Start the API Server
 
 Clone this repository and inside the repository's root directory:
 ```sh
-$ docker-compose up --build
+# Production mode
+$ docker-compose -f docker-compose.prod.yml up
+
+# Or, development mode
+$ docker-compose -f docker-compose.dev.yml up --build  
 ```
 
-Confirm that the server is running:
+The default port number is 80 for production and 3000 for development mode. Confirm that the server is running:
 ```sh
 $ curl localhost:3000/health
 {"status":"UP"}

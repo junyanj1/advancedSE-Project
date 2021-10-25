@@ -1,11 +1,30 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+
 import psycopg
+import time
 
 
+# Init app
 app = Flask(__name__)
 CORS(app)
-conn = psycopg.connect('postgresql://postgres@db:5432/aapi')  # connect to DB
+
+
+def connect_to_db(attempts=5):
+    '''Returns a psycopg.Connection instance.'''
+    while attempts:
+        try:
+            return psycopg.connect('postgresql://postgres@db:5432/aapi')
+        except psycopg.errors.OperationalError:
+            attempts -= 1
+            print(f'DB connection failed, remaining attempts: {attempts}, ' +
+                  f'reconnect in {(wait_time := 10 / attempts)} seconds')
+            time.sleep(wait_time)
+    raise Exception(f'DB Connection failed after {attempts} attempts')
+
+
+# Connect to DB
+conn = connect_to_db()
 
 
 @app.route('/health')
@@ -52,4 +71,5 @@ def users():
 
 
 if __name__ == '__main__':
+    # Only for dev
     app.run(host='0.0.0.0', port=3000)
