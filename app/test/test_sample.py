@@ -2,6 +2,7 @@ import unittest
 
 import sample
 
+
 class Test_App(unittest.TestCase):
 
     def test01_happy_path(self):
@@ -10,5 +11,5 @@ class Test_App(unittest.TestCase):
 
     def test02_bad_inputs(self):
         """Bad input test."""
-        with self.assertRaises(TypeError) as ex:
+        with self.assertRaises(TypeError):
             sample.simply_add("apple", "banana")
