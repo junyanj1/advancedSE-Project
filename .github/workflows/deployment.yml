@@ -23,20 +23,20 @@ jobs:
       - name: Pull new code
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: cd ~/comsw4156-project && git checkout ${GITHUB_REF#refs/heads/} && git pull --rebase
+          command: |
+            cd ~/comsw4156-project
+            echo $PWD
+            git checkout ${GITHUB_REF#refs/heads/} && git pull --rebase
           host: ${{ secrets.HOST }}
           username: ec2-user
           privateKey: ${{ secrets.PRIVATE_KEY}}
 
-      - name: Where am I
-        run: |
-          whoami
-          uname -r
-
       - name: Deploy
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: cd ~/comsw4156-project && COMMIT_ID=$(git rev-parse --short HEAD) docker-compose -f docker-compose.prod.yml up -d --no-deps --build app
+          command: |
+            cd ~/comsw4156-project
+            COMMIT_ID=$(git rev-parse --short HEAD) docker-compose -f docker-compose.prod.yml up -d --no-deps --build app
           host: ${{ secrets.HOST }}
           username: ec2-user
           privateKey: ${{ secrets.PRIVATE_KEY}}
