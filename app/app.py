@@ -1,8 +1,9 @@
+import os
+import time
+
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-
 import psycopg
-import time
 
 
 # Init app
@@ -30,7 +31,8 @@ conn = connect_to_db()
 @app.route('/health')
 def health():
     """Returns server status."""
-    return jsonify(status='UP2')
+    commit_id = os.getenv('COMMIT_ID', default='unknown')
+    return jsonify(status='UP', commit_id=commit_id)
 
 
 @app.route('/users', methods=['GET', 'POST', 'PUT'])

@@ -18,6 +18,8 @@ services:
       - 3000:3000
     depends_on:
       - db
+    environment:
+      COMMIT_ID: ${COMMIT_ID:-unknown_env}
 
   db:
     image: postgres:alpine
