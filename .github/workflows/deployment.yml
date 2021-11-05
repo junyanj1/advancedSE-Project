@@ -31,7 +31,7 @@ jobs:
       - name: Deploy
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: cd ~/comsw4156-project && docker-compose -f docker-compose.prod.yml up -d --no-deps --build comsw4156-app
+          command: cd ~/comsw4156-project && docker-compose -f docker-compose.prod.yml up -d --no-deps --build app
           host: ${{ secrets.HOST }}
           username: ec2-user
           privateKey: ${{ secrets.PRIVATE_KEY}}

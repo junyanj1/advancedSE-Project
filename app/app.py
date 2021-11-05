@@ -30,7 +30,7 @@ conn = connect_to_db()
 @app.route('/health')
 def health():
     """Returns server status."""
-    return jsonify(status='UP')
+    return jsonify(status='UP2')
 
 
 @app.route('/users', methods=['GET', 'POST', 'PUT'])
