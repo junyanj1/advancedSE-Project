@@ -8,7 +8,7 @@ END;
 $$ LANGUAGE 'plpgsql';
 
 -- User table
-CREATE TABLE Users (
+CREATE TABLE SampleUsers (
     user_id VARCHAR(255) UNIQUE,
     username VARCHAR(255) NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE  NOT NULL  DEFAULT current_timestamp,
@@ -17,15 +17,15 @@ CREATE TABLE Users (
 );
 
 -- Updated_at trigger
-CREATE TRIGGER tg_users_updated_at
+CREATE TRIGGER tg_sampleusers_updated_at
     BEFORE UPDATE
-    ON Users
+    ON SampleUsers
     FOR EACH ROW
     EXECUTE PROCEDURE update_updated_at_column();
 
 
 -- Initial data
-INSERT INTO Users (user_id, username) VALUES
+INSERT INTO SampleUsers (user_id, username) VALUES
     ('charizard@example.com', 'Charizard'),
     ('pikachu@example.com', 'Pikachu');
 
