@@ -47,7 +47,7 @@ jobs:
         uses: garygrossgarten/github-action-ssh@release
         with:
           command: |
-            cd ~/comsw4156-project
+            cd ~/advancedSE-Project
             echo $PWD
             git checkout ${GITHUB_REF#refs/heads/} && git pull --rebase
           host: ${{ secrets.HOST }}
@@ -58,7 +58,7 @@ jobs:
         uses: garygrossgarten/github-action-ssh@release
         with:
           command: |
-            cd ~/comsw4156-project
+            cd ~/advancedSE-Project
             echo "coverage = ${{ steps.test-coverage.outputs.RATE }} %"
             mkdir -p ./nginx/static/badges/
             curl "https://img.shields.io/badge/coverage-${{ steps.test-coverage.outputs.RATE }}%25-${{ steps.test-coverage.outputs.COLOR }}" > ./nginx/static/badges/coverage-badge.svg
@@ -71,7 +71,7 @@ jobs:
         uses: garygrossgarten/github-action-ssh@release
         with:
           command: |
-            cd ~/comsw4156-project
+            cd ~/advancedSE-Project
             COMMIT_ID=$(git rev-parse --short HEAD) docker-compose -f docker-compose.prod.yml up -d --no-deps --build app
           host: ${{ secrets.HOST }}
           username: ec2-user
