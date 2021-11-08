@@ -1,1 +1,14 @@
+# Editors
 .idea
+.devcontainer
+.vscode
+/temp
+
+# OS
+.DS_Store
+
+# Python
+__pycache__/
+htmlcov
+.coverage
+.coverage.*
