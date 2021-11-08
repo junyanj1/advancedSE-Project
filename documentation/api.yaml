@@ -1,0 +1,375 @@
+openapi: 3.0.0
+info:
+  title: advancedSE-Project
+  description: COMS W4156 Project
+  version: 0.1.0
+
+# Creat User
+# Create Event
+# Send Invitation
+# Get status
+# Get Attendance
+# RSVP
+# Check-in
+
+
+externalDocs:
+  description: Project Repository
+  url: https://github.com/junyanj1/advancedSE-Project
+tags:
+  - name: Organizer
+    description: Things that organizer can do
+  - name: Event
+    description: Event related APIs
+  - name: Attendance
+    description: Attendance, Check-in, APIs
+paths:
+  /organization:
+    post:
+      tags:
+        - Organizer
+      summary: Create a new Organization
+      description: You can get the API Key from this
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                organization_name:
+                  type: string
+                  example: Columbia University
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationWithKey"
+  /organization/{organization_id}:
+    get:
+      tags:
+        - Organizer
+      summary: Get Organization detail
+      parameters:
+        - name: organization_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Organization"
+      security:
+        - ApiKeyAuth: []
+  /users:
+    post:
+      tags:
+        - Organizer
+      summary: Create a new User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+      security:
+        - ApiKeyAuth: []
+  /users/{email}:
+    get:
+      tags:
+        - Organizer
+      summary: Get User detail
+      parameters:
+        - name: email
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+      security:
+        - ApiKeyAuth: []
+  /users/{email}/events:
+    get:
+      tags:
+        - Organizer
+      summary: Get a list of events organized by this user
+      parameters:
+        - name: email
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: "#/components/schemas/Event"
+      security:
+        - ApiKeyAuth: []
+
+  /events:
+    post:
+      tags:
+        - Event
+      summary: Create a new Event
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EventPostBody"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Event"
+      security:
+        - ApiKeyAuth: []
+  /events/{event_id}:
+    get:
+      tags:
+        - Event
+      summary: Get Event detail
+      parameters:
+        - name: event_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Event"
+      security:
+        - ApiKeyAuth: []
+
+  /events/{event_id}/attendances:
+    get:
+      tags:
+        - Attendance
+      summary: Get list of attendees/rsvp/invited people of an event
+      parameters:
+        - name: event_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: invited
+          in: query
+          schema:
+            type: boolean
+          example: true
+        - name: rsvped
+          in: query
+          schema:
+            type: boolean
+          example: true
+        - name: checked_in
+          in: query
+          schema:
+            type: boolean
+          example: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: "#/components/schemas/Attendance"
+      security:
+        - ApiKeyAuth: []
+  /events/{event_id}/invite:
+    post:
+      tags:
+        - Attendance
+      summary: Request invites
+      parameters:
+        - name: event_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              description: list of emails
+              items:
+                type: string
+              example:
+                - abc@abc.com
+                - def@def.com
+      responses:
+        "200":
+          description: OK
+      security:
+        - ApiKeyAuth: []
+  /events/{event_id}/rsvp/{personal_code}:
+    get:
+      tags:
+        - Attendance
+      summary: RSVP (see description)
+      description: This API is intended to be used by the invitee. This link should be sent to the user. When the user invokes this link, the server finds the user based on the personalized code and marks this invitee as rsvped.
+      parameters:
+        - name: event_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: personal_code
+          in: path
+          required: true
+          schema:
+            type: string
+          description: A unique code
+      responses:
+        "200":
+          description: OK
+  /events/{event_id}/check_in/{personal_code}:
+    get:
+      tags:
+        - Attendance
+      summary: Check In (see description)
+      description: This API is intended to be used by the attendee. When the user invokes this link, the server finds the user based on the personalized code and check this person in.
+      parameters:
+        - name: event_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: personal_code
+          in: path
+          required: true
+          schema:
+            type: string
+          description: A unique code
+      responses:
+        "200":
+          description: OK
+# servers:
+#   - url: http://
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+  schemas:
+    Organization:
+      type: object
+      properties:
+        organization_id:
+          type: string
+          example: abcdefghijklmn
+        organization_name:
+          type: string
+          example: Columbia University
+    OrganizationWithKey:
+      allOf:     # Combines the Organization and the inline model
+        - $ref: '#/components/schemas/Organization'
+        - type: object
+          properties:
+            api_key:
+              type: string
+              example: asdfasdfasd
+    User:
+      type: object
+      properties:
+        organization_id:
+          type: string
+          example: abcdefghijklmn
+          nullable: true
+        email:
+          type: string
+          example: abc@abc.com
+          description: Uniquely identifies the User
+        username:
+          type: string
+          example: Pikachu
+          description: Display name
+          nullable: true
+    EventPostBody:
+      type: object
+      properties:
+        organizer:
+          type: string
+          example: abc@abc.com
+        title:
+          type: string
+          example: Winter Career Fair
+        description:
+          type: string
+          example: "This is a winter career fair"
+        location:
+          type: string
+          example: Columbia University, 2960 Broadway, New York, NY 10027
+        lat:
+          type: number
+          example: 12.34
+          nullable: true
+        long:
+          type: number
+          example: 12.34
+          nullable: true
+        time:
+          type: string
+          example: "2021-03-22T18:34:00Z"
+          description: iso 8601 time format
+        duration:
+          type: string
+          example: "1h 30min"
+    Event:
+      allOf:     # Combines the EventPostBody and the inline model
+        - type: object
+          properties:
+            event_id:
+              type: string
+              example: abcdefghijklmn
+              description: Uniquely identifies the Event
+        - $ref: '#/components/schemas/EventPostBody'
+    Attendance:
+      type: object
+      properties:
+        event_id:
+          type: string
+          example: abcdefghijklmn
+        email:
+          type: string
+          example: abc@abc.com
+        invited:
+          type: boolean
+          example: true
+        rsvped:
+          type: boolean
+          example: true
+        checked_in:
+          type: boolean
+          example: true
