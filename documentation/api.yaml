@@ -3,6 +3,9 @@ info:
   title: advancedSE-Project
   description: COMS W4156 Project
   version: 0.1.0
+  contact:
+    name: Team Aapi
+    url: https://github.com/junyanj1/advancedSE-Project
 
 # Creat User
 # Create Event
@@ -12,6 +15,9 @@ info:
 # RSVP
 # Check-in
 
+
+servers:
+  - url: http://18.218.235.18
 
 externalDocs:
   description: Project Repository
@@ -24,7 +30,7 @@ tags:
   - name: Attendance
     description: Attendance, Check-in, APIs
   - name: Sample
-    description: Sample Proof-of-Concept APIs
+    description: (Deprecated) Sample Proof-of-Concept APIs
 paths:
   # /organization:
   #   post:

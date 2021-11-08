@@ -12,6 +12,10 @@ Collaborators:
 * Xihao Luo (UNI: xl3082)
 
 
+## API Specification
+
+http://18.218.235.18/static/index.html
+
 ## Server
 
 A dev server is running on AWS
@@ -42,7 +46,7 @@ Clone this repository and inside the repository's root directory:
 $ docker-compose -f docker-compose.prod.yml up
 
 # Or, development mode
-$ docker-compose -f docker-compose.dev.yml up --build  
+$ docker-compose -f docker-compose.dev.yml up --build
 ```
 
 The default port number is 80 for production and 3000 for development mode. Confirm that the server is running:
@@ -80,6 +84,18 @@ $ coverage run -m unittest discover test
 $ coverage report --omit "test*"
 ```
 
+### Docker Commands
+
+Shutdown server and clear containers
+```sh
+$ docker-compose -f docker-compose.dev.yml down
+```
+
+Clean up all dangling images, containers, networks, etc.
+```sh
+$ docker system prune
+```
+
 ### Adding new Python library
 1. Add module to `/app/requirements.txt`
 2. Rebuild VS Code container
@@ -90,15 +106,9 @@ $ coverage report --omit "test*"
 
     a. Close dev server
 
-    b. Clean up Docker (see below)
+    b. Clean up Docker (see abov)
 
     c. Restart the API Server
-
-### Clean up Docker
-Clean up dangling images, containers, etc.
-```sh
-$ docker system prune
-```
 
 
 ## References
