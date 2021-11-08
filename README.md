@@ -1,4 +1,8 @@
 # advancedSE-Project
+
+![Commit](http://18.218.235.18/static/badges/commit-badge.svg)
+![Coverage](http://18.218.235.18/static/badges/coverage-badge.svg)
+
 Group project for Professor Kaiser's advanced software engineering course.
 
 Collaborators:
@@ -34,6 +38,11 @@ $ docker-compose -f docker-compose.dev.yml up --build
 
 The default port number is 80 for production and 3000 for development mode. Confirm that the server is running:
 ```sh
+# Production mode
+$ curl localhost/health
+{"status":"UP"}
+
+# Development mode
 $ curl localhost:3000/health
 {"status":"UP"}
 ```
@@ -46,4 +55,4 @@ $ curl localhost:3000/health
 
 3. If prompted, select the one that has Dockerfile.
 
-4. (Optional) To enable IntelliSense and other debugging features, install Python VSCode extension in Dev container and set interpreter path to `/usr/local/bin/python`.Cl
+4. (Optional) To enable IntelliSense and other debugging features, install Python VSCode extension in Dev container and set interpreter path to `/usr/local/bin/python`.

@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CD
+name: Deploy
 
 # Controls when the workflow will run
 on:
@@ -11,14 +11,37 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  push:
+  deploy:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Run a one-line script
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - name: Print description
         run: echo "Action triggered by a ${{ github.event_name }} event at ${GITHUB_REF#refs/heads/}"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r app/requirements.txt
+          pip install coverage
+
+      - name: Run tests
+        working-directory: ./app
+        id: test-coverage
+        run: |
+          coverage run -m unittest discover test
+          coverage report --omit "test*"
+          PERCENTAGE=$(coverage report --omit "test*" | tail -c 5 | head -c -2 | xargs)
+          echo "coverage = $PERCENTAGE%"
+          echo "::set-output name=RATE::$PERCENTAGE"
+          echo "::set-output name=COLOR::$([ $PERCENTAGE -lt 90 ] && echo orange || echo green)"
+          echo "::set-output name=HASH_SHORT::$(git rev-parse --short HEAD)"
 
       - name: Pull new code
         uses: garygrossgarten/github-action-ssh@release
@@ -27,6 +50,19 @@ jobs:
             cd ~/comsw4156-project
             echo $PWD
             git checkout ${GITHUB_REF#refs/heads/} && git pull --rebase
+          host: ${{ secrets.HOST }}
+          username: ec2-user
+          privateKey: ${{ secrets.PRIVATE_KEY}}
+
+      - name: Get badge
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: |
+            cd ~/comsw4156-project
+            echo "coverage = ${{ steps.test-coverage.outputs.RATE }} %"
+            mkdir -p ./nginx/static/badges/
+            curl "https://img.shields.io/badge/coverage-${{ steps.test-coverage.outputs.RATE }}%25-${{ steps.test-coverage.outputs.COLOR }}" > ./nginx/static/badges/coverage-badge.svg
+            curl "https://img.shields.io/badge/build-${{ steps.test-coverage.outputs.HASH_SHORT }}-informational" > ./nginx/static/badges/commit-badge.svg
           host: ${{ secrets.HOST }}
           username: ec2-user
           privateKey: ${{ secrets.PRIVATE_KEY}}
