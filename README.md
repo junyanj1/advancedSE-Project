@@ -17,15 +17,13 @@ Collaborators:
 http://18.218.235.18/static/index.html
 
 ## Server
-
-A dev server is running on AWS
 ```sh
 $ curl 18.218.235.18/health
 {"commit_id":"xxxxxxx","status":"UP"}
 ```
 
 
-## Install and Run
+## Install and Run Locally
 
 ### Prerequisites
 
