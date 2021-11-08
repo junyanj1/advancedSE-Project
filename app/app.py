@@ -5,6 +5,8 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import psycopg
 
+from db.database import Database
+
 
 # Init app
 app = Flask(__name__)
@@ -25,7 +27,7 @@ def connect_to_db(attempts=5):
 
 
 # Connect to DB
-conn = connect_to_db()
+db = Database()
 
 
 @app.route('/health')
@@ -37,39 +39,31 @@ def health():
 
 @app.route('/users', methods=['GET', 'POST', 'PUT'])
 def users():
-    """Returns all Users."""
     if request.method == 'POST':
-        with conn.cursor() as cur:
-            data = request.json
-            try:
-                cur.execute('''
-                    INSERT INTO Users (user_id, username) VALUES (%s, %s)
-                    ''', (data['user_id'], data['username']))
-            except BaseException as ex:
-                conn.rollback()
-                return str(ex), 400
-            else:
-                conn.commit()
-                return 'OK', 200
-    elif request.method == 'PUT':
-        with conn.cursor() as cur:
-            data = request.json
-            try:
-                cur.execute('''
-                    UPDATE Users SET username = (%s) WHERE user_id = (%s)
-                    ''', (data['username'], data['user_id']))
-            except BaseException as ex:
-                conn.rollback()
-                return str(ex), 400
-            else:
-                conn.commit()
+        data = request.json
+        try:
+            db.set('INSERT INTO Users (user_id, username) VALUES (%s, %s)', (data['user_id'], data['username']))
             return 'OK', 200
+        except Exception as ex:
+            return str(ex), 400
+    elif request.method == 'PUT':
+        data = request.json
+        try:
+            db.set('UPDATE Users SET username = (%s) WHERE user_id = (%s)', (data['username'], data['user_id']))
+            return 'OK', 200
+        except Exception as ex:
+            return str(ex), 400
     elif request.method == 'GET':
-        with conn.cursor() as cur:
-            cur.execute('SELECT * FROM Users')
-            return jsonify(cur.fetchall())
+        result = db.get('SELECT * FROM Users')
+        return jsonify(result)
     else:
         return 'Unknown method', 403
+
+
+@app.route('/users/<id>')
+def user(id):
+    result = db.get_one('SELECT * FROM Users WHERE user_id = (%s)', (id,))
+    return jsonify(result)
 
 
 if __name__ == '__main__':
