@@ -16,7 +16,10 @@ class SampleController():
 
     def create_sample_user(self, email: str, username: str) -> Dict:
         if not email:  # if email is not provided throw error
-            abort(400, "You need to put email..")
+            abort(400, 'You need to put email..')
 
-        self.db.set('INSERT INTO SampleUsers (user_id, username) VALUES (%s, %s)', (email, username))
-        return self.db.get_one('SELECT * FROM SampleUsers WHERE user_id = (%s)', (email,))
+        self.db.set('''
+            INSERT INTO SampleUsers (user_id, username) VALUES (%s, %s)
+            ''', (email, username))
+        return self.db.get_one('''
+            SELECT * FROM SampleUsers WHERE user_id = (%s)''', (email,))

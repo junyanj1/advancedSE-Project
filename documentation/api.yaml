@@ -23,6 +23,8 @@ tags:
     description: Event related APIs
   - name: Attendance
     description: Attendance, Check-in, APIs
+  - name: Sample
+    description: Sample Proof-of-Concept APIs
 paths:
   # /organization:
   #   post:
@@ -280,6 +282,73 @@ paths:
       responses:
         "200":
           description: OK
+  /sample/users:
+    get:
+      deprecated: true
+      tags:
+        - Sample
+      summary: Get sample users
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                      example: abc@abc.com
+                      description: Does not need to be unique
+                    username:
+                      type: string
+                      example: Pikachu
+                      description: Display name
+                    time:
+                      type: string
+                      example: "2021-03-22T18:34:00Z"
+                      description: "iso 8601 time format"
+    post:
+      deprecated: true
+      tags:
+        - Sample
+      summary: Create a new Sample User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: abc@abc.com
+                  description: Does not need to be unique
+                username:
+                  type: string
+                  example: Pikachu
+                  description: Display name
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                    example: abc@abc.com
+                    description: Does not need to be unique
+                  username:
+                    type: string
+                    example: Pikachu
+                    description: Display name
+                  time:
+                    type: string
+                    example: "2021-03-22T18:34:00Z"
+                    description: "iso 8601 time format"
 # servers:
 #   - url: http://
 components:
@@ -329,9 +398,9 @@ components:
     EventPostBody:
       type: object
       properties:
-        organizer:
+        organizer_id:
           type: string
-          example: abc@abc.com
+          example: abcdefghijklmn
         title:
           type: string
           example: Winter Career Fair

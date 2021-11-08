@@ -1,9 +1,9 @@
+import json
 import os
-import time
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-import psycopg
+from werkzeug.exceptions import HTTPException
 from controllers.attendance_controller import AttendanceController
 from controllers.event_controller import EventController
 from controllers.sample_controller import SampleController
@@ -17,21 +17,22 @@ app = Flask(__name__)
 CORS(app)
 
 
-def connect_to_db(attempts=5):
-    '''Returns a psycopg.Connection instance.'''
-    while attempts:
-        try:
-            return psycopg.connect('postgresql://postgres@db:5432/aapi')
-        except psycopg.errors.OperationalError:
-            attempts -= 1
-            print(f'DB connection failed, remaining attempts: {attempts}, ' +
-                  f'reconnect in {(wait_time := 10 / attempts)} seconds')
-            time.sleep(wait_time)
-    raise Exception(f'DB Connection failed after {attempts} attempts')
+# Error handling
+@app.errorhandler(HTTPException)
+def handle_exception(e):
+    """Return JSON instead of HTML for HTTP errors."""
+    response = e.get_response()
+    response.data = json.dumps({
+        "code": e.code,
+        "name": e.name,
+        "description": e.description,
+    })
+    response.content_type = "application/json"
+    return response
 
 
 # Connect to DB
-db = Database()
+db = Database('postgresql://postgres@db:5432/aapi')
 
 attendance = AttendanceController(db)
 event = EventController(db)
@@ -78,7 +79,7 @@ def create_event():
         data.get("organizer_id"),  # "abcdefghijklmn"
         data.get("title"),  # "Winter Career Fair"
         data.get("description"),  # "This is a winter career fair"
-        data.get("location"),  # "Columbia University, 2960 Broadway, New York, NY 10027"
+        data.get("location"),  # "Columbia University, 2960 Broadway..."
         data.get("lat", None),  # 12.34  !NULLABLE
         data.get("long", None),  # 12.34  !NULLABLE
         data.get("time"),  # "2021-03-22T18:34:00Z"
@@ -139,8 +140,6 @@ def create_sample_user():
         data.get('email'),  # "abc@abc.com"
         data.get('username'),  # "Pikachu"
     ))
-
-
 
 
 if __name__ == '__main__':
