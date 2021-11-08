@@ -43,8 +43,8 @@ def users():
             data = request.json
             try:
                 cur.execute('''
-                    INSERT INTO Users (userID, username) VALUES (%s, %s)
-                    ''', (data['userID'], data['username']))
+                    INSERT INTO Users (user_id, username) VALUES (%s, %s)
+                    ''', (data['user_id'], data['username']))
             except BaseException as ex:
                 conn.rollback()
                 return str(ex), 400
@@ -56,8 +56,8 @@ def users():
             data = request.json
             try:
                 cur.execute('''
-                    UPDATE Users SET username = (%s) WHERE userID = (%s)
-                    ''', (data['username'], data['userID']))
+                    UPDATE Users SET username = (%s) WHERE user_id = (%s)
+                    ''', (data['username'], data['user_id']))
             except BaseException as ex:
                 conn.rollback()
                 return str(ex), 400

@@ -2,21 +2,21 @@
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
 BEGIN
-    NEW.updatedAt = now();
+    NEW.updated_at = now();
     RETURN NEW;
 END;
 $$ LANGUAGE 'plpgsql';
 
 -- User table
 CREATE TABLE Users (
-    userID VARCHAR(255) UNIQUE,
+    user_id VARCHAR(255) UNIQUE,
     username VARCHAR(255) NOT NULL,
-    createdAt TIMESTAMP WITH TIME ZONE  NOT NULL  DEFAULT current_timestamp,
-    updatedAt TIMESTAMP WITH TIME ZONE  NOT NULL  DEFAULT current_timestamp,
-    PRIMARY KEY (userID)
+    created_at TIMESTAMP WITH TIME ZONE  NOT NULL  DEFAULT current_timestamp,
+    updated_at TIMESTAMP WITH TIME ZONE  NOT NULL  DEFAULT current_timestamp,
+    PRIMARY KEY (user_id)
 );
 
--- UpdatedAt trigger
+-- Updated_at trigger
 CREATE TRIGGER tg_users_updated_at
     BEFORE UPDATE
     ON Users
@@ -25,7 +25,7 @@ CREATE TRIGGER tg_users_updated_at
 
 
 -- Initial data
-INSERT INTO Users (userID, username) VALUES
+INSERT INTO Users (user_id, username) VALUES
     ('charizard@example.com', 'Charizard'),
     ('pikachu@example.com', 'Pikachu');
 

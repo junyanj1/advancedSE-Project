@@ -27,7 +27,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ./db/init.prod.sql:/docker-entrypoint-initdb.d/init.prod.sql
+      - ./db/prod:/docker-entrypoint-initdb.d/
     environment:
       POSTGRES_DB: aapi
       POSTGRES_HOST_AUTH_METHOD: trust
