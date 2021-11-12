@@ -49,7 +49,7 @@ CREATE TABLE Events (
 -- Attendence Table
 CREATE TABLE Attendance (
     event_id VARCHAR(255) NOT NULL,
-    user_id VARCHAR(255) NOT NULL,
+    user_email VARCHAR(255) NOT NULL,
     user_role VARCHAR(255),
     personal_code VARCHAR(255),
     is_invited BOOLEAN,
@@ -57,9 +57,8 @@ CREATE TABLE Attendance (
     is_checked_in BOOLEAN,
     created_at TIMESTAMP WITH TIME ZONE  NOT NULL  DEFAULT current_timestamp,
     updated_at TIMESTAMP WITH TIME ZONE  NOT NULL  DEFAULT current_timestamp,
-    PRIMARY KEY (event_id, user_id),
-    FOREIGN KEY (event_id) REFERENCES Events,
-    FOREIGN KEY (user_id) REFERENCES Users
+    PRIMARY KEY (event_id, user_email),
+    FOREIGN KEY (event_id) REFERENCES Events
 );
 
 -- Updated_at trigger
