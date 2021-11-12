@@ -53,7 +53,7 @@ def create_user():
     data = request.json
     return jsonify(user.create_user(
         data.get("organization_id"),
-        data.get("user_id"),
+        # data.get("user_id"),
         data.get("email"),
         data.get("username"),
     ))
@@ -75,17 +75,28 @@ def get_user_events(user_id):
 def create_event():
     """POST /events"""
     data = request.json
-    return jsonify(event.create_event(
-        data.get("organizer_id"),  # "abcdefghijklmn"
-        data.get("title"),  # "Winter Career Fair"
-        data.get("description"),  # "This is a winter career fair"
-        data.get("location"),  # "Columbia University, 2960 Broadway..."
-        data.get("lat", None),  # 12.34  !NULLABLE
-        data.get("long", None),  # 12.34  !NULLABLE
-        data.get("time"),  # "2021-03-22T18:34:00Z"
-        data.get("duration"),  # "1h 30min"
-    ))
+    try:
+        return jsonify(event.create_event(
+            data.get("organizer_id"),  # "abcdefghijklmn"
+            data.get("title"),  # "Winter Career Fair"
+            data.get("description"),  # "This is a winter career fair"
+            data.get("location_name"),  # "Columbia University"
+            data.get("address"),  # "2960 Broadway..."
+            data.get("lat", None),  # 12.34  !NULLABLE
+            data.get("long", None),  # 12.34  !NULLABLE
+            data.get("start_time"),  # "2021-03-22T18:34:00Z"
+            data.get("end_time"),  # "2021-03-22T20:34:00Z"
+            data.get("attendee_limit"),  # 500
+        ))
+    except AttributeError as e:
+        print(e)
 
+@app.route('/events/<event_id>')
+def get_event(event_id):
+    """GET /events/<event_id>"""
+    return jsonify(event.get_event(
+        event_id,  # "abcdefghijklmn"
+    ))
 
 @app.route('/events/<event_id>/attendances')
 def get_attendances(event_id):
