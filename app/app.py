@@ -130,6 +130,15 @@ def rsvp(event_id, personal_code):
     ))
 
 
+@app.route('/events/<event_id>/unrsvp/<personal_code>')
+def unrsvp(event_id, personal_code):
+    """GET /events/<event_id>/unrsvp/<personal_code>"""
+    return jsonify(attendance.unrsvp(
+        event_id,  # "abcdefghijklmn"
+        personal_code,  # "abcdefghijklmn"
+    ))
+
+
 @app.route('/events/<event_id>/check_in/<personal_code>')
 def check_in(event_id, personal_code):
     """GET /events/<event_id>/check_in/<personal_code>"""
