@@ -1,6 +1,6 @@
 from types import prepare_class
 from db.database import Database
-from models import Event
+from models.event import Event
 from schema import Schema, And, Use, Optional, SchemaError
 import re
 from flask import abort
@@ -44,12 +44,13 @@ class EventController():
             print(e)
         return validated
 
-    def check_event_input(self, organizer_id, title, description, location, lat, long, start_time, end_time, attendee_limit):
+    def check_event_input(self, organizer_id, title, description, location_name, address, lat, long, start_time, end_time, attendee_limit):
         schema = Schema({
                           'organizer_id': And(str, lambda s: bool(re.match("^[A-Za-z0-9]*$", s))),
                           'title': And(str, lambda s: bool(re.match("^[A-Za-z0-9]*$", s))),
                           'description': And(str, lambda s: bool(re.match("^[A-Za-z0-9.,]*$", s))),
-                          'location': And(str, lambda s: bool(re.match("^[A-Za-z0-9.,]*$", s))),
+                          'location_name': And(str, lambda s: bool(re.match("^[A-Za-z0-9.,]*$", s))),
+                          'address': And(str, lambda s: bool(re.match("^[A-Za-z0-9.,]*$", s))),
                           'lat': float,
                           'long': float,
                           'start_time': And(str, lambda s: bool(re.match(ISO_8601, s))),
@@ -61,7 +62,8 @@ class EventController():
                  'organizer_id': organizer_id,
                  'title': title,
                  'description': description,
-                 'location': location,
+                 'location_name': location_name,
+                 'address': address,
                  'lat': lat,
                  'long': long,
                  'start_time': start_time,

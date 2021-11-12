@@ -1,7 +1,8 @@
 from db.database import Database
 from schema import Schema, And, Use, Optional, SchemaError
 import re
-from models import User, Event
+from models.user import User
+from models.event import Event
 from flask import abort
 from psycopg.errors import *
 
