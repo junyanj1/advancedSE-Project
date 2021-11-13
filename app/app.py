@@ -91,12 +91,14 @@ def create_event():
     except AttributeError as e:
         print(e)
 
+
 @app.route('/events/<event_id>')
 def get_event(event_id):
     """GET /events/<event_id>"""
     return jsonify(event.get_event(
         event_id,  # "abcdefghijklmn"
     ))
+
 
 @app.route('/events/<event_id>/attendances')
 def get_attendances(event_id):
