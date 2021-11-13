@@ -20,7 +20,6 @@ CREATE TABLE Users (
     user_id VARCHAR(255) UNIQUE,
     org_id VARCHAR(255) NOT NULL,
     username VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL  UNIQUE,
     created_at TIMESTAMP WITH TIME ZONE  NOT NULL  DEFAULT current_timestamp,
     updated_at TIMESTAMP WITH TIME ZONE  NOT NULL  DEFAULT current_timestamp,
     PRIMARY KEY (user_id)
@@ -33,8 +32,8 @@ CREATE TABLE Events (
     user_id VARCHAR(255) NOT NULL,
     event_description TEXT,
     event_location loc,
-    event_start_time TIMESTAMP WITH TIME ZONE  NOT NULL  DEFAULT current_timestamp,
-    event_end_time TIMESTAMP WITH TIME ZONE  NOT NULL  DEFAULT current_timestamp,
+    event_start_time TIMESTAMP,
+    event_end_time TIMESTAMP,
     attendee_limit INTEGER,
     has_started BOOLEAN,
     has_ended BOOLEAN,
@@ -62,7 +61,7 @@ CREATE TABLE Attendance (
 );
 
 -- Updated_at trigger
-CREATE TRIGGER tg_sampleusers_updated_at
+CREATE TRIGGER users_updated_at
     BEFORE UPDATE
     ON Users
     FOR EACH ROW
