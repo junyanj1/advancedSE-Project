@@ -44,7 +44,7 @@ class Test_SampleController(unittest.TestCase):
             }
         ]
         actual = self.sample_controller.get_sample_users()
-        self.assertEquals(expected, actual)
+        self.assertEqual(expected, actual)
 
     def test02_create_sample_user(self):
         """Happy path for correct inputs."""
@@ -61,7 +61,7 @@ class Test_SampleController(unittest.TestCase):
             'Charizard'
         )
 
-        self.assertEquals(expected, actual)
+        self.assertEqual(expected, actual)
 
     def test03_create_sample_user_error(self):
         """Bad input test"""
@@ -69,5 +69,5 @@ class Test_SampleController(unittest.TestCase):
             # This should cause error
             self.sample_controller.create_sample_user('', '')
 
-        self.assertEquals(400, ctx.exception.code)
-        self.assertEquals('You need to put email..', ctx.exception.description)
+        self.assertEqual(400, ctx.exception.code)
+        self.assertEqual('You need to put email..', ctx.exception.description)

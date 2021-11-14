@@ -3,6 +3,7 @@ from flask import abort
 from psycopg.errors import ForeignKeyViolation, UniqueViolation
 from models.attendance import Attendance
 
+
 class AttendanceController():
     def __init__(self, db: Database):
         self.db = db
@@ -34,10 +35,11 @@ class AttendanceController():
         attendances = self.db.get(statement, param)
         resp = []
         for att in attendances:
-            resp.append(Attendance(att.event_id, att.user_email, 
-                                   att.personal_code, att.is_invited,
-                                   att.is_rsvped, att.is_checked_in, 
-                                   att.created_at, att.updated_at))
+            resp.append(Attendance(att["event_id"], att["user_email"],
+                                   att["user_role"], att["personal_code"],
+                                   att["is_invited"], att["is_rsvped"],
+                                   att["is_checked_in"], att["created_at"],
+                                   att["updated_at"]).to_dict())
         return resp
 
     def check_in(self, event_id: str, personal_code: str) -> None:
@@ -58,11 +60,15 @@ class AttendanceController():
         param = [event_id, personal_code]
         exist = self.db.get(query, param)
         if not exist:
-            return abort(400, "The input event_id-personal_code combination is invalid..")
+            return abort(400, "The input event_id-personal_code \
+                               combination is invalid..")
         try:
-            statement = "UPDATE Attendance SET is_checked_in = True WHERE event_id = %s AND personal_code = %s"
+            statement = "UPDATE Attendance \
+                         SET is_checked_in = True \
+                         WHERE event_id = %s \
+                         AND personal_code = %s"
         except (ForeignKeyViolation, UniqueViolation):
-                abort(400, 'Invalid parameter value')
+            abort(400, 'Invalid parameter value')
         return self.db.set(statement, param)
 
     def invite(self, event_id: str, emails: list) -> None:
@@ -71,7 +77,7 @@ class AttendanceController():
         @param: emails: list
 
         Request event invites
-        ** Question here: do we create new users if there are unknown emails? 
+        ** Question here: do we create new users if there are unknown emails?
         ** How to reduce costly queries?
         ** For iteration 1, all emails are linked to existing users.
         '''
@@ -82,7 +88,8 @@ class AttendanceController():
         if not exist:
             return abort(400, "The input event_id is invalid..")
         statement = """
-                    INSERT INTO Attendance (event_id, user_email, personal_code, is_invited)
+                    INSERT INTO Attendance
+                    (event_id, user_email, personal_code, is_invited)
                     VALUES (%s, %s, %s, True)
                     """
         failed = []
@@ -98,18 +105,24 @@ class AttendanceController():
         '''
         @param: event_id: str, required,
         @param: personal_code: str, required
-        Questions: Can a user rsvp without a personal_code? A public link? 
+        Questions: Can a user rsvp without a personal_code? A public link?
                    Do we want to give unrsvp option?
         '''
         if not event_id or not personal_code:
             return abort(400, "Missing event_id or personal_code..")
-        query = "SELECT * FROM Attendance WHERE event_id = %s AND personal_code = %s"
+        query = "SELECT * FROM Attendance \
+                 WHERE event_id = %s \
+                 AND personal_code = %s"
         param = [event_id, personal_code]
         exist = self.db.get(query, param)
         if not exist:
-            return abort(400, "The input event_id-personal_code combination is invalid..")
+            return abort(400, "The input event_id-personal_code \
+                               combination is invalid..")
         try:
-            statement = "UPDATE Attendance SET is_rsvped = True WHERE event_id = %s AND personal_code = %s"
+            statement = "UPDATE Attendance \
+                         SET is_rsvped = True \
+                         WHERE event_id = %s \
+                        AND personal_code = %s"
         except (ForeignKeyViolation, UniqueViolation):
             abort(400, 'Invalid parameter value')
         return self.db.set(statement, param)
@@ -121,13 +134,19 @@ class AttendanceController():
         '''
         if not event_id or not personal_code:
             return abort(400, "Missing event_id or personal_code..")
-        query = "SELECT * FROM Attendance WHERE event_id = %s AND personal_code = %s"
+        query = "SELECT * FROM Attendance \
+                 WHERE event_id = %s \
+                 AND personal_code = %s"
         param = [event_id, personal_code]
         exist = self.db.get(query, param)
         if not exist:
-            return abort(400, "The input event_id-personal_code combination is invalid..")
+            return abort(400, "The input event_id-personal_code \
+                               combination is invalid..")
         try:
-            statement = "UPDATE Attendance SET is_rsvped = False WHERE event_id = %s AND personal_code = %s"
+            statement = "UPDATE Attendance \
+                         SET is_rsvped = False \
+                         WHERE event_id = %s \
+                         AND personal_code = %s"
         except (ForeignKeyViolation, UniqueViolation):
             abort(400, 'Invalid parameter value')
         return self.db.set(statement, param)
