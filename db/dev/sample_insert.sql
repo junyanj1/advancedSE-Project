@@ -1,7 +1,7 @@
 Insert INTO Users VALUES
-    ('organizer1@gmail.com', '1', 'sample user1'),
-    ('organizer2@gmail.com', '2', 'sample user2'),
-    ('organizer3@gmail.com', '3', 'sample user3');
+    ('organizer1@gmail.com', 'org1', 'sampleUser1'),
+    ('organizer2@gmail.com', 'org2', 'sampleUser2'),
+    ('organizer3@gmail.com', 'org3', 'sampleUser3');
 
 INSERT INTO Events VALUES
     ('1', 
