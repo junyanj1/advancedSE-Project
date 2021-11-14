@@ -18,7 +18,7 @@ CREATE TYPE loc AS (
 -- User table
 CREATE TABLE Users (
     user_id VARCHAR(255) UNIQUE,
-    org_id VARCHAR(255) NOT NULL,
+    org_name VARCHAR(255),
     username VARCHAR(255) NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE  NOT NULL  DEFAULT current_timestamp,
     updated_at TIMESTAMP WITH TIME ZONE  NOT NULL  DEFAULT current_timestamp,
@@ -35,8 +35,8 @@ CREATE TABLE Events (
     event_start_time TIMESTAMP,
     event_end_time TIMESTAMP,
     attendee_limit INTEGER,
-    has_started BOOLEAN,
-    has_ended BOOLEAN,
+    has_started BOOLEAN DEFAULT FALSE,  -- maybe remove later
+    has_ended BOOLEAN DEFAULT FALSE,  -- maybe remove later
     created_at TIMESTAMP WITH TIME ZONE  NOT NULL  DEFAULT current_timestamp,
     updated_at TIMESTAMP WITH TIME ZONE  NOT NULL  DEFAULT current_timestamp,
     PRIMARY KEY (event_id),
