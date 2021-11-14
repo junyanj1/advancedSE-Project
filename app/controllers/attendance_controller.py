@@ -46,6 +46,7 @@ class AttendanceController():
         '''
         @param: event_id: str, required,
         @param: personal_code: str, required
+        @return: updated row in Attendance
 
         This API is intended to be used by the attendee.
         When the user invokes this link, the server finds the user
@@ -71,7 +72,16 @@ class AttendanceController():
         except (ForeignKeyViolation, UniqueViolation):
             abort(400, 'Invalid parameter value')
 
-        return self.db.get_one(query, param)
+        updated = self.db.get_one(query, param)
+        if not updated:
+            return abort(400, "The input event_id-personal_code \
+                               combination is invalid..")
+
+        return Attendance(updated["event_id"], updated["user_email"],
+                          updated["user_role"], updated["personal_code"],
+                          updated["is_invited"], updated["is_rsvped"],
+                          updated["is_checked_in"], updated["created_at"],
+                          updated["updated_at"]).to_dict()
 
     def invite(self, event_id: str, emails: list) -> None:
         '''
@@ -107,6 +117,7 @@ class AttendanceController():
         '''
         @param: event_id: str, required,
         @param: personal_code: str, required
+        @return: updated row in Attendance
         Questions: Can a user rsvp without a personal_code? A public link?
                    Do we want to give unrsvp option?
         '''
@@ -116,7 +127,7 @@ class AttendanceController():
                  WHERE event_id = %s \
                  AND personal_code = %s"
         param = [event_id, personal_code]
-        exist = self.db.get(query, param)
+        exist = self.db.get_one(query, param)
         if not exist:
             return abort(400, "The input event_id-personal_code \
                                combination is invalid..")
@@ -128,12 +139,23 @@ class AttendanceController():
             self.db.set(statement, param)
         except (ForeignKeyViolation, UniqueViolation):
             abort(400, 'Invalid parameter value')
-        return None
+
+        updated = self.db.get_one(query, param)
+        if not updated:
+            return abort(400, "The input event_id-personal_code \
+                               combination is invalid..")
+
+        return Attendance(updated["event_id"], updated["user_email"],
+                          updated["user_role"], updated["personal_code"],
+                          updated["is_invited"], updated["is_rsvped"],
+                          updated["is_checked_in"], updated["created_at"],
+                          updated["updated_at"]).to_dict()
 
     def unrsvp(self, event_id: str, personal_code: str) -> None:
         '''
         @param: event_id: str, required,
         @param: personal_code: str, required
+        @return: updated row in Attendance
         '''
         if not event_id or not personal_code:
             return abort(400, "Missing event_id or personal_code..")
@@ -141,7 +163,7 @@ class AttendanceController():
                  WHERE event_id = %s \
                  AND personal_code = %s"
         param = [event_id, personal_code]
-        exist = self.db.get(query, param)
+        exist = self.db.get_one(query, param)
         if not exist:
             return abort(400, "The input event_id-personal_code \
                                combination is invalid..")
@@ -153,4 +175,14 @@ class AttendanceController():
             self.db.set(statement, param)
         except (ForeignKeyViolation, UniqueViolation):
             abort(400, 'Invalid parameter value')
-        return None
+
+        updated = self.db.get_one(query, param)
+        if not updated:
+            return abort(400, "The input event_id-personal_code \
+                               combination is invalid..")
+
+        return Attendance(updated["event_id"], updated["user_email"],
+                          updated["user_role"], updated["personal_code"],
+                          updated["is_invited"], updated["is_rsvped"],
+                          updated["is_checked_in"], updated["created_at"],
+                          updated["updated_at"]).to_dict()

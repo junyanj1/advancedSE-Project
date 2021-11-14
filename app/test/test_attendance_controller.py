@@ -192,7 +192,7 @@ class Test_RSVP(unittest.TestCase):
                 'user_role': 'attendee',
                 'personal_code': 'random',
                 'is_invited': True,
-                'is_rsvped': False,
+                'is_rsvped': True,
                 'is_checked_in': False,
                 'created_at': 'Mon, 08 Nov 2021 16:11:54 GMT',
                 'updated_at': 'Mon, 08 Nov 2021 16:11:54 GMT'
@@ -207,8 +207,19 @@ class Test_RSVP(unittest.TestCase):
 
     def test01_rsvp(self):
         """Happy Path"""
+        expected = {
+            'event_id': '1',
+            'user_email': 'email@gmail.com',
+            'user_role': 'attendee',
+            'personal_code': 'random',
+            'is_invited': True,
+            'is_rsvped': True,
+            'is_checked_in': False,
+            'created_at': 'Mon, 08 Nov 2021 16:11:54 GMT',
+            'updated_at': 'Mon, 08 Nov 2021 16:11:54 GMT'
+        }
         actual = self.attendance_controller.rsvp("1", "random")
-        self.assertEqual(None, actual)
+        self.assertEqual(expected, actual)
 
     def test02_rsvp(self):
         """Bad input test: empty event id"""
@@ -230,10 +241,46 @@ class Test_RSVP(unittest.TestCase):
         self.assertEqual("Missing event_id or personal_code..",
                          ctx.exception.description)
 
+
+class Test_UNRSVP(unittest.TestCase):
+
+    def setUp(self) -> None:
+        # Mock db and db methods
+        db = Mock()
+        db.get_one = Mock(return_value={
+                'event_id': '1',
+                'user_email': 'email@gmail.com',
+                'user_role': 'attendee',
+                'personal_code': 'random',
+                'is_invited': True,
+                'is_rsvped': False,
+                'is_checked_in': False,
+                'created_at': 'Mon, 08 Nov 2021 16:11:54 GMT',
+                'updated_at': 'Mon, 08 Nov 2021 16:11:54 GMT'
+            }
+        )
+
+        # Create AttendanceController
+        self.attendance_controller = AttendanceController(db)
+
+    def tearDown(self) -> None:
+        self.attendance_controller = None
+
     def test01_unrsvp(self):
         """Happy Path"""
+        expected = {
+            'event_id': '1',
+            'user_email': 'email@gmail.com',
+            'user_role': 'attendee',
+            'personal_code': 'random',
+            'is_invited': True,
+            'is_rsvped': False,
+            'is_checked_in': False,
+            'created_at': 'Mon, 08 Nov 2021 16:11:54 GMT',
+            'updated_at': 'Mon, 08 Nov 2021 16:11:54 GMT'
+        }
         actual = self.attendance_controller.unrsvp("1", "random")
-        self.assertEqual(None, actual)
+        self.assertEqual(expected, actual)
 
     def test02_unrsvp(self):
         """Bad input test: empty event id"""
