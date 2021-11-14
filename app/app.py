@@ -32,7 +32,7 @@ def handle_exception(e):
 
 
 # Connect to DB
-db = Database('postgresql://postgres@db:5432/aapi')
+db = Database(Database.get_connection('postgresql://postgres@db:5432/aapi'))
 
 attendance = AttendanceController(db)
 event = EventController(db)

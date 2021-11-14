@@ -3,14 +3,15 @@ from typing import Any, List, Dict, Optional, Sequence
 
 import psycopg
 from psycopg.connection import Connection
-from psycopg.rows import dict_row
+from psycopg.rows import DictRow, dict_row
 
 
 class Database():
-    def __init__(self, conninfo: str):
-        self._conn = self.connect_to_db(conninfo)
+    def __init__(self, conn: Connection[DictRow]):
+        self._conn = conn
 
-    def connect_to_db(self, conninfo, attempts=5):
+    @staticmethod
+    def get_connection(conninfo, attempts=5) -> Connection[DictRow]:
         '''Returns a psycopg.Connection instance.'''
         print('Database.connect_to_db: conninfo=', conninfo)
         while attempts:
@@ -26,9 +27,6 @@ class Database():
         raise Exception(
             f'Database.connect_to_db: failed after {attempts} attempts'
         )
-
-    def get_connection(self) -> Connection:
-        return self._conn
 
     def get(self, query: str, params: Optional[Sequence[Any]] = None
             ) -> List[Dict[str, Any]]:
