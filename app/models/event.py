@@ -33,6 +33,7 @@ class Event:
             'location': literal_eval(self.event_location)[0],
             'lat': literal_eval(self.event_location)[1],
             'long': literal_eval(self.event_location)[2],
+            'address': literal_eval(self.event_location)[3],
             'start_time': self.event_start_time,
             'end_time': self.event_end_time,
             'attendee_limit': self.attendee_limit,
