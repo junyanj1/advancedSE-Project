@@ -19,8 +19,10 @@ class UserController():
         Get list of events created by user
         """
         if self.validate_user_id(user_id):
-            rows = self.db.get("SELECT * FROM Events WHERE user_id = %s",
-                               (user_id, ))
+            query = "SELECT * FROM Events WHERE user_id = %s"
+            param = [user_id]
+            rows = self.db.get(query, param)
+
             events = []
             for row in rows:
                 event = Event(row['user_id'], row['event_name'],
@@ -30,84 +32,93 @@ class UserController():
                 events.append(event.to_dict())
             return events
         else:
-            abort(400, 'Invalid parameter value')
+            return abort(400, 'Invalid parameter value')
 
-    def get_user(self, user_id):
+    def get_user(self, user_id) -> dict:
         """
         @param: user_id: str, required
         @return: user data
 
         Get information about user with given user_id
         """
-        if self.validate_user_id(user_id):
-            row = self.db.get_one("SELECT * FROM Users WHERE user_id = %s",
-                                  (user_id, ))
-            if row is not None:
-                user = User(row['user_id'], row['org_id'], row['username'],
-                            row['email'])
-                return user.to_dict()
-        abort(400, 'Invalid parameter value')
+        if not user_id:
+            return abort(400, "Missing user_id..")
 
-    def create_user(self, organization_id, email, username):
+        if self.validate_user_id(user_id):
+            query = "SELECT * FROM Users WHERE user_id = %s"
+            param = [user_id]
+            row = self.db.get_one(query, param)
+
+            if row is not None:
+                user = User(row['user_id'], row['org_name'], row['username'])
+                return user.to_dict()
+        else:
+            return abort(400, 'Invalid parameter value')
+
+    def create_user(self, user_id, org_name, username) -> dict:
         """
-        @param: organization_id: str,
-        @param: email: str,
+        @param: user_id: str,
+        @param: org_name: str,
         @param: username: str,
         @return: created user
 
         Create new user
         """
-        if self.validate_user_input(organization_id, email, username):
-            user = User(organization_id, username, email)
+        if self.validate_user_input(user_id, org_name, username):
+            user = User(user_id, org_name, username)
             try:
-                self.db.set("INSERT INTO Users (user_id, org_id, username, \
-                            email) VALUES (%s, %s, %s, %s)",
-                            (user.user_id, user.org_id,
-                             user.username, user.email))
+                query = "INSERT INTO Users (user_id, org_name, username) \
+                         VALUES (%s, %s, %s)"
+                params = (user.user_id, user.org_name, user.username)
+                self.db.set(query, params)
                 return user.to_dict()
             except (ForeignKeyViolation, UniqueViolation):
                 abort(400, 'Invalid parameter value')
         else:
             abort(400, 'Invalid parameter value')
 
-    def validate_user_id(self, user_id):
+    @staticmethod
+    def validate_user_id(user_id) -> bool:
         """
         @param: user_id: str, required
-        @return: bool, True if user_id matches pattern
+        @return: bool, True if user_id matches pattern (email)
 
         Validate user_id through regex check
         """
         validated = False
         try:
             validated = Schema(And(str, lambda s: bool(re.match(
-                "^[A-Za-z0-9]*$", s)))).validate(user_id)
+                r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', s)))) \
+                .validate(user_id)
         except SchemaError as e:
             print(e)
         return validated
 
-    def validate_user_input(self, organization_id, email, username):
+    @staticmethod
+    def validate_user_input(user_id, org_name, username):
         """
-        @param: organization_id: str,
-        @param: email: str,
+        @param: user_id: str,
+        @param: org_name: str,
         @param: username: str,
         @return: bool, True if all user data matches pattern
 
         Validate user data through regex check
         """
         schema = Schema({
-                'organization_id': And(str, lambda s: bool(re.match(
+                'user_id': And(str, lambda s: bool(re.match(
+                    r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', s))
+                    ),
+                'org_name': And(str, lambda s: bool(re.match(
                     "^[A-Za-z0-9]*$", s))),
-                'email': And(str, lambda s: bool(re.match(
-                 r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', s))),
                 'username': And(str, lambda s: bool(re.match(
-                    "^[a-z0-9]*$", s))),
+                    "^[A-Za-z0-9]*$", s))),
         })
 
         data = {
-                 'organization_id': organization_id,
-                 'email': email,
-                 'username': username,
-        }
+                'user_id': user_id,
+                'org_name': org_name,
+                'username': username,
+               }
 
         validated = False
         try:
