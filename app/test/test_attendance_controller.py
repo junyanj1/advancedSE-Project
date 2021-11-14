@@ -4,10 +4,9 @@ from unittest.mock import Mock
 from controllers.attendance_controller import AttendanceController
 
 
-class Test_AttendanceController(unittest.TestCase):
+class Test_Get_Attendances(unittest.TestCase):
 
     def setUp(self) -> None:
-
         # Mock db and db methods
         db = Mock()
         db.get = Mock(return_value=[
@@ -24,24 +23,11 @@ class Test_AttendanceController(unittest.TestCase):
             }
         ])
 
-        db.get_one = Mock(return_value={
-            'event_id': '1',
-            'user_email': 'email@gmail.com',
-            'user_role': 'attendee',
-            'personal_code': 'random',
-            'is_invited': True,
-            'is_rsvped': False,
-            'is_checked_in': False,
-            'created_at': 'Mon, 08 Nov 2021 16:11:54 GMT',
-            'updated_at': 'Mon, 08 Nov 2021 16:11:54 GMT'
-        })
-        db.set = Mock(return_value=None)
-
         # Create AttendanceController
         self.attendance_controller = AttendanceController(db)
 
     def tearDown(self) -> None:
-        pass
+        self.attendance_controller = None
 
     def test01_get_attendances(self):
         """Happy Path. Checks whether it gets all of the attendances"""
@@ -76,9 +62,44 @@ class Test_AttendanceController(unittest.TestCase):
         self.assertEqual(400, ctx.exception.code)
         self.assertEqual("Missing event_id..", ctx.exception.description)
 
+
+class Test_Check_In(unittest.TestCase):
+
+    def setUp(self) -> None:
+        # Mock db and db methods
+        db = Mock()
+        db.get_one = Mock(return_value={
+                'event_id': '1',
+                'user_email': 'email@gmail.com',
+                'user_role': 'attendee',
+                'personal_code': 'random',
+                'is_invited': True,
+                'is_rsvped': False,
+                'is_checked_in': False,
+                'created_at': 'Mon, 08 Nov 2021 16:11:54 GMT',
+                'updated_at': 'Mon, 08 Nov 2021 16:11:54 GMT'
+            }
+        )
+
+        # Create AttendanceController
+        self.attendance_controller = AttendanceController(db)
+
+    def tearDown(self) -> None:
+        self.attendance_controller = None
+
     def test01_check_in(self):
         """Happy path. Checks for check in"""
-        expected = None
+        expected = {
+                'event_id': '1',
+                'user_email': 'email@gmail.com',
+                'user_role': 'attendee',
+                'personal_code': 'random',
+                'is_invited': True,
+                'is_rsvped': False,
+                'is_checked_in': False,
+                'created_at': 'Mon, 08 Nov 2021 16:11:54 GMT',
+                'updated_at': 'Mon, 08 Nov 2021 16:11:54 GMT'
+            }
         actual = self.attendance_controller.check_in('1', 'random')
 
         self.assertEqual(expected, actual)
@@ -119,6 +140,31 @@ class Test_AttendanceController(unittest.TestCase):
         self.assertEqual("Missing event_id or personal_code..",
                          ctx3.exception.description)
 
+
+class Test_Invite(unittest.TestCase):
+
+    def setUp(self) -> None:
+        # Mock db and db methods
+        db = Mock()
+        db.get_one = Mock(return_value={
+                'event_id': '1',
+                'user_email': 'email@gmail.com',
+                'user_role': 'attendee',
+                'personal_code': 'random',
+                'is_invited': True,
+                'is_rsvped': False,
+                'is_checked_in': False,
+                'created_at': 'Mon, 08 Nov 2021 16:11:54 GMT',
+                'updated_at': 'Mon, 08 Nov 2021 16:11:54 GMT'
+            }
+        )
+
+        # Create AttendanceController
+        self.attendance_controller = AttendanceController(db)
+
+    def tearDown(self) -> None:
+        self.attendance_controller = None
+
     def test01_invite(self):
         """Happy Path"""
         actual = self.attendance_controller.invite("1", ["invite1@gmail.com"])
@@ -133,6 +179,31 @@ class Test_AttendanceController(unittest.TestCase):
         self.assertEqual(400, ctx.exception.code)
         self.assertEqual("Missing event_id..",
                          ctx.exception.description)
+
+
+class Test_RSVP(unittest.TestCase):
+
+    def setUp(self) -> None:
+        # Mock db and db methods
+        db = Mock()
+        db.get_one = Mock(return_value={
+                'event_id': '1',
+                'user_email': 'email@gmail.com',
+                'user_role': 'attendee',
+                'personal_code': 'random',
+                'is_invited': True,
+                'is_rsvped': False,
+                'is_checked_in': False,
+                'created_at': 'Mon, 08 Nov 2021 16:11:54 GMT',
+                'updated_at': 'Mon, 08 Nov 2021 16:11:54 GMT'
+            }
+        )
+
+        # Create AttendanceController
+        self.attendance_controller = AttendanceController(db)
+
+    def tearDown(self) -> None:
+        self.attendance_controller = None
 
     def test01_rsvp(self):
         """Happy Path"""

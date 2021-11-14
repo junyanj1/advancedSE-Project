@@ -58,7 +58,7 @@ class AttendanceController():
                 AND personal_code = %s
                 """
         param = [event_id, personal_code]
-        exist = self.db.get(query, param)
+        exist = self.db.get_one(query, param)
         if not exist:
             return abort(400, "The input event_id-personal_code \
                                combination is invalid..")
@@ -67,9 +67,11 @@ class AttendanceController():
                          SET is_checked_in = True \
                          WHERE event_id = %s \
                          AND personal_code = %s"
+            self.db.set(statement, param)
         except (ForeignKeyViolation, UniqueViolation):
             abort(400, 'Invalid parameter value')
-        return self.db.set(statement, param)
+
+        return self.db.get_one(query, param)
 
     def invite(self, event_id: str, emails: list) -> None:
         '''
@@ -123,9 +125,10 @@ class AttendanceController():
                          SET is_rsvped = True \
                          WHERE event_id = %s \
                         AND personal_code = %s"
+            self.db.set(statement, param)
         except (ForeignKeyViolation, UniqueViolation):
             abort(400, 'Invalid parameter value')
-        return self.db.set(statement, param)
+        return None
 
     def unrsvp(self, event_id: str, personal_code: str) -> None:
         '''
@@ -147,6 +150,7 @@ class AttendanceController():
                          SET is_rsvped = False \
                          WHERE event_id = %s \
                          AND personal_code = %s"
+            self.db.set(statement, param)
         except (ForeignKeyViolation, UniqueViolation):
             abort(400, 'Invalid parameter value')
-        return self.db.set(statement, param)
+        return None
