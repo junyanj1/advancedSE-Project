@@ -146,7 +146,8 @@ class Test_Invite(unittest.TestCase):
     def setUp(self) -> None:
         # Mock db and db methods
         db = Mock()
-        db.get_one = Mock(return_value={
+        db.get = Mock(return_value=[
+            {
                 'event_id': '1',
                 'user_email': 'email@gmail.com',
                 'user_role': 'attendee',
@@ -157,7 +158,22 @@ class Test_Invite(unittest.TestCase):
                 'created_at': 'Mon, 08 Nov 2021 16:11:54 GMT',
                 'updated_at': 'Mon, 08 Nov 2021 16:11:54 GMT'
             }
+        ])
+        db.get_one = Mock(return_value={
+                '1',
+                '2021 career fair',
+                'organizer1@gmail.com',
+                'description',
+                'columbia',
+                40.80778821286171,
+                -73.96345656010647,
+                'address',
+                '2021-11-15 12:10',
+                '2021-11-15 14:00',
+                200
+            }
         )
+        db.set = Mock(return_value=None)
 
         # Create AttendanceController
         self.attendance_controller = AttendanceController(db)
@@ -167,8 +183,21 @@ class Test_Invite(unittest.TestCase):
 
     def test01_invite(self):
         """Happy Path"""
+        expected = [
+            {
+                'event_id': '1',
+                'user_email': 'email@gmail.com',
+                'user_role': 'attendee',
+                'personal_code': 'random',
+                'is_invited': True,
+                'is_rsvped': False,
+                'is_checked_in': False,
+                'created_at': 'Mon, 08 Nov 2021 16:11:54 GMT',
+                'updated_at': 'Mon, 08 Nov 2021 16:11:54 GMT'
+            }
+        ]
         actual = self.attendance_controller.invite("1", ["invite1@gmail.com"])
-        self.assertEqual(None, actual)
+        self.assertEqual(expected, actual)
 
     def test02_invite(self):
         """Bad input test: empty event id"""

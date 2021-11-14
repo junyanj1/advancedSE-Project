@@ -42,7 +42,7 @@ class AttendanceController():
                                    att["updated_at"]).to_dict())
         return resp
 
-    def check_in(self, event_id: str, personal_code: str) -> None:
+    def check_in(self, event_id: str, personal_code: str) -> dict:
         '''
         @param: event_id: str, required,
         @param: personal_code: str, required
@@ -83,7 +83,7 @@ class AttendanceController():
                           updated["is_checked_in"], updated["created_at"],
                           updated["updated_at"]).to_dict()
 
-    def invite(self, event_id: str, emails: list) -> None:
+    def invite(self, event_id: str, emails: list) -> list:
         '''
         @param: event_id: str, required,
         @param: emails: list
@@ -95,14 +95,13 @@ class AttendanceController():
         '''
         if not event_id:
             return abort(400, "Missing event_id..")
-        query = "SELECT * FROM Event WHERE event_id = %s"
-        exist = self.db.get(query, [event_id])
+        query = "SELECT * FROM Events WHERE event_id = %s"
+        exist = self.db.get_one(query, [event_id])
         if not exist:
             return abort(400, "The input event_id is invalid..")
         statement = """
                     INSERT INTO Attendance
-                    (event_id, user_email, personal_code, is_invited)
-                    VALUES (%s, %s, %s, True)
+                    VALUES (%s, %s, 'attendee',%s)
                     """
         failed = []
         for email in emails:
@@ -113,7 +112,9 @@ class AttendanceController():
                 failed.append(email)
         print("failed to invite: ", failed)
 
-    def rsvp(self, event_id: str, personal_code: str) -> None:
+        return self.get_attendances(event_id, invited=True)
+
+    def rsvp(self, event_id: str, personal_code: str) -> dict:
         '''
         @param: event_id: str, required,
         @param: personal_code: str, required
@@ -151,7 +152,7 @@ class AttendanceController():
                           updated["is_checked_in"], updated["created_at"],
                           updated["updated_at"]).to_dict()
 
-    def unrsvp(self, event_id: str, personal_code: str) -> None:
+    def unrsvp(self, event_id: str, personal_code: str) -> dict:
         '''
         @param: event_id: str, required,
         @param: personal_code: str, required

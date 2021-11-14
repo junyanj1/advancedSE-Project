@@ -115,7 +115,7 @@ def get_attendances(event_id):
 @app.route('/events/<event_id>/invite', methods=['POST'])
 def invite(event_id):
     """POST /events/<event_id>/invite"""
-    emails = request.json
+    emails = request.json.get('emails')
     return jsonify(attendance.invite(
         event_id,  # "abcdefghijklmn"
         emails,  # ["abc@abc.com", "def@def.com"]
