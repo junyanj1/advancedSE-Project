@@ -16,9 +16,9 @@ class Test_AttendanceController(unittest.TestCase):
                 'user_email': 'email@gmail.com',
                 'user_role': 'attendee',
                 'personal_code': 'random',
-                'is_invited': 'true',
-                'is_rsvped': 'false',
-                'is_checked_in': 'false',
+                'is_invited': True,
+                'is_rsvped': False,
+                'is_checked_in': False,
                 'created_at': 'Mon, 08 Nov 2021 16:11:54 GMT',
                 'updated_at': 'Mon, 08 Nov 2021 16:11:54 GMT'
             }
@@ -52,9 +52,9 @@ class Test_AttendanceController(unittest.TestCase):
                 'user_email': 'email@gmail.com',
                 'user_role': 'attendee',
                 'personal_code': 'random',
-                'is_invited': 'true',
-                'is_rsvped': 'false',
-                'is_checked_in': 'false',
+                'is_invited': True,
+                'is_rsvped': False,
+                'is_checked_in': False,
                 'created_at': 'Mon, 08 Nov 2021 16:11:54 GMT',
                 'updated_at': 'Mon, 08 Nov 2021 16:11:54 GMT'
             }
@@ -185,3 +185,4 @@ class Test_AttendanceController(unittest.TestCase):
                          ctx.exception.description)
 
     # TODO: testing foreign key violation? unique violation?
+    # make it return a foresign key violation and see if it does what it does
