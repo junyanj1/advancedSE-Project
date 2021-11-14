@@ -52,9 +52,8 @@ def create_user():
     """POST /users"""
     data = request.json
     return jsonify(user.create_user(
+        data.get("user_id"),
         data.get("org_name"),
-        # data.get("user_id"),
-        data.get("email"),
         data.get("username"),
     ))
 
