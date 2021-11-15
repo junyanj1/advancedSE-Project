@@ -69,8 +69,8 @@ class AttendanceController():
                          WHERE event_id = %s \
                          AND personal_code = %s"
             self.db.set(statement, param)
-        except (ForeignKeyViolation, UniqueViolation):
-            abort(400, 'Invalid parameter value')
+        except (ForeignKeyViolation, UniqueViolation) as e:
+            abort(400, e)
 
         updated = self.db.get_one(query, param)
         if not updated:
@@ -138,8 +138,8 @@ class AttendanceController():
                          WHERE event_id = %s \
                         AND personal_code = %s"
             self.db.set(statement, param)
-        except (ForeignKeyViolation, UniqueViolation):
-            abort(400, 'Invalid parameter value')
+        except (ForeignKeyViolation, UniqueViolation) as e:
+            abort(400, e)
 
         updated = self.db.get_one(query, param)
         if not updated:
@@ -174,8 +174,8 @@ class AttendanceController():
                          WHERE event_id = %s \
                          AND personal_code = %s"
             self.db.set(statement, param)
-        except (ForeignKeyViolation, UniqueViolation):
-            abort(400, 'Invalid parameter value')
+        except (ForeignKeyViolation, UniqueViolation) as e:
+            abort(400, e)
 
         updated = self.db.get_one(query, param)
         if not updated:

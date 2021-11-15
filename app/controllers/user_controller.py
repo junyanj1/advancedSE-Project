@@ -89,8 +89,8 @@ class UserController():
                 params = (user.user_id, user.org_name, user.username)
                 self.db.set(query, params)
                 return user.to_dict()
-            except (ForeignKeyViolation, UniqueViolation):
-                abort(400, 'Invalid parameter value')
+            except (ForeignKeyViolation, UniqueViolation) as e:
+                abort(400, e)
         else:
             abort(400, 'Invalid parameter value')
 

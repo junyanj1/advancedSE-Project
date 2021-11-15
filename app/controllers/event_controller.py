@@ -85,8 +85,8 @@ class EventController():
                          event.attendee_limit,)
                 self.db.set(query, param)
                 return self.get_event(event.event_id)
-            except (ForeignKeyViolation, UniqueViolation):
-                abort(400, 'Invalid parameter value')
+            except (ForeignKeyViolation, UniqueViolation) as e:
+                abort(400, e)
         else:
             abort(400, 'Invalid parameter value')
 
