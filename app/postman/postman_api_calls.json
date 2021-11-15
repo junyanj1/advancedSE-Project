@@ -1,0 +1,1038 @@
+{
+	"info": {
+		"_postman_id": "1a89bc21-7183-4fb0-b53b-5e0f38aec636",
+		"name": "Xihao",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "API Tests",
+			"item": [
+				{
+					"name": "Server Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/health",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"health"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Server Status",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/health",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"health"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "42"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.2 Python/3.9.7"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Nov 2021 06:27:57 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"commit_id\": \"unknown_env\",\n    \"status\": \"UP\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create New User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": \"organizer4@gmail.com\",\r\n    \"org_name\": \"org4\",\r\n    \"username\": \"sampleUser4\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/users",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create New User",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user_id\": \"organizer4@gmail.com\",\r\n    \"org_name\": \"org4\",\r\n    \"username\": \"sampleUser4\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3000/users",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "78"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.2 Python/3.9.7"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Nov 2021 06:28:57 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"org_name\": \"org4\",\n    \"user_id\": \"organizer4@gmail.com\",\n    \"username\": \"sampleUser4\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/users/:user_id",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								":user_id"
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "organizer1@gmail.com"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get User",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/users/:user_id",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users",
+										":user_id"
+									],
+									"variable": [
+										{
+											"key": "user_id",
+											"value": "organizer1@gmail.com"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "78"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.2 Python/3.9.7"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Nov 2021 06:28:10 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"org_name\": \"org1\",\n    \"user_id\": \"organizer1@gmail.com\",\n    \"username\": \"sampleUser1\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Attendances by Event",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/events/:event_id/attendances",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"events",
+								":event_id",
+								"attendances"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "event_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Attendances by Event",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/events/:event_id/attendances",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"events",
+										":event_id",
+										"attendances"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "event_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "730"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.2 Python/3.9.7"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Nov 2021 06:22:08 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"created_at\": \"Sun, 14 Nov 2021 06:03:33 GMT\",\n        \"event_id\": \"1\",\n        \"is_checked_in\": true,\n        \"is_invited\": true,\n        \"is_rsvped\": false,\n        \"personal_code\": \"pc1\",\n        \"updated_at\": \"Sun, 14 Nov 2021 06:03:33 GMT\",\n        \"user_email\": \"invite1@gmail.com\",\n        \"user_role\": \"attendee\"\n    },\n    {\n        \"created_at\": \"Sun, 14 Nov 2021 06:03:33 GMT\",\n        \"event_id\": \"1\",\n        \"is_checked_in\": false,\n        \"is_invited\": true,\n        \"is_rsvped\": false,\n        \"personal_code\": \"pc2\",\n        \"updated_at\": \"Sun, 14 Nov 2021 06:03:33 GMT\",\n        \"user_email\": \"invite2@gmail.com\",\n        \"user_role\": \"attendee\"\n    },\n    {\n        \"created_at\": \"Sun, 14 Nov 2021 06:03:33 GMT\",\n        \"event_id\": \"1\",\n        \"is_checked_in\": false,\n        \"is_invited\": true,\n        \"is_rsvped\": false,\n        \"personal_code\": \"pc3\",\n        \"updated_at\": \"Sun, 14 Nov 2021 06:03:33 GMT\",\n        \"user_email\": \"invite3@gmail.com\",\n        \"user_role\": \"attendee\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "RSVP with Personal Code",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/events/:event_id/rsvp/:personal_code",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"events",
+								":event_id",
+								"rsvp",
+								":personal_code"
+							],
+							"variable": [
+								{
+									"key": "event_id",
+									"value": "1"
+								},
+								{
+									"key": "personal_code",
+									"value": "pc1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "RSVP with Personal Code",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/events/:event_id/rsvp/:personal_code",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"events",
+										":event_id",
+										"rsvp",
+										":personal_code"
+									],
+									"variable": [
+										{
+											"key": "event_id",
+											"value": "1"
+										},
+										{
+											"key": "personal_code",
+											"value": "pc1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "241"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.2 Python/3.9.7"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Nov 2021 06:28:33 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"created_at\": \"Sun, 14 Nov 2021 06:03:33 GMT\",\n    \"event_id\": \"1\",\n    \"is_checked_in\": true,\n    \"is_invited\": true,\n    \"is_rsvped\": true,\n    \"personal_code\": \"pc1\",\n    \"updated_at\": \"Sun, 14 Nov 2021 06:03:33 GMT\",\n    \"user_email\": \"invite1@gmail.com\",\n    \"user_role\": \"attendee\"\n}"
+						}
+					]
+				},
+				{
+					"name": "UnRSVP with Personal Code",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/events/:event_id/unrsvp/:personal_code",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"events",
+								":event_id",
+								"unrsvp",
+								":personal_code"
+							],
+							"variable": [
+								{
+									"key": "event_id",
+									"value": "1"
+								},
+								{
+									"key": "personal_code",
+									"value": "pc1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "UnRSVP with Personal Code",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/events/:event_id/unrsvp/:personal_code",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"events",
+										":event_id",
+										"unrsvp",
+										":personal_code"
+									],
+									"variable": [
+										{
+											"key": "event_id",
+											"value": "1"
+										},
+										{
+											"key": "personal_code",
+											"value": "pc1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "242"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.2 Python/3.9.7"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Nov 2021 06:28:40 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"created_at\": \"Sun, 14 Nov 2021 06:03:33 GMT\",\n    \"event_id\": \"1\",\n    \"is_checked_in\": true,\n    \"is_invited\": true,\n    \"is_rsvped\": false,\n    \"personal_code\": \"pc1\",\n    \"updated_at\": \"Sun, 14 Nov 2021 06:03:33 GMT\",\n    \"user_email\": \"invite1@gmail.com\",\n    \"user_role\": \"attendee\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Check in with Personal Code",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/events/:event_id/check_in/:personal_code",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"events",
+								":event_id",
+								"check_in",
+								":personal_code"
+							],
+							"variable": [
+								{
+									"key": "event_id",
+									"value": "1"
+								},
+								{
+									"key": "personal_code",
+									"value": "pc1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Check in with Personal Code",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/events/:event_id/check_in/:personal_code",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"events",
+										":event_id",
+										"check_in",
+										":personal_code"
+									],
+									"variable": [
+										{
+											"key": "event_id",
+											"value": "1"
+										},
+										{
+											"key": "personal_code",
+											"value": "pc1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "242"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.2 Python/3.9.7"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Nov 2021 06:28:45 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"created_at\": \"Sun, 14 Nov 2021 06:03:33 GMT\",\n    \"event_id\": \"1\",\n    \"is_checked_in\": true,\n    \"is_invited\": true,\n    \"is_rsvped\": false,\n    \"personal_code\": \"pc1\",\n    \"updated_at\": \"Sun, 14 Nov 2021 06:03:33 GMT\",\n    \"user_email\": \"invite1@gmail.com\",\n    \"user_role\": \"attendee\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Sending Invites",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"emails\": [\"testinvite1@gmail.com\",\r\n               \"testinvite2@gmail.com\",\r\n               \"testinvite3@gmail.com\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/events/:event_id/invite",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"events",
+								":event_id",
+								"invite"
+							],
+							"variable": [
+								{
+									"key": "event_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Sending Invites",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"emails\": [\"testinvite1@gmail.com\",\r\n               \"testinvite2@gmail.com\",\r\n               \"testinvite3@gmail.com\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3000/events/:event_id/invite",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"events",
+										":event_id",
+										"invite"
+									],
+									"variable": [
+										{
+											"key": "event_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1558"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.2 Python/3.9.7"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Nov 2021 06:55:47 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"created_at\": \"Sun, 14 Nov 2021 06:03:33 GMT\",\n        \"event_id\": \"1\",\n        \"is_checked_in\": true,\n        \"is_invited\": true,\n        \"is_rsvped\": false,\n        \"personal_code\": \"pc1\",\n        \"updated_at\": \"Sun, 14 Nov 2021 06:03:33 GMT\",\n        \"user_email\": \"invite1@gmail.com\",\n        \"user_role\": \"attendee\"\n    },\n    {\n        \"created_at\": \"Sun, 14 Nov 2021 06:03:33 GMT\",\n        \"event_id\": \"1\",\n        \"is_checked_in\": false,\n        \"is_invited\": true,\n        \"is_rsvped\": false,\n        \"personal_code\": \"pc2\",\n        \"updated_at\": \"Sun, 14 Nov 2021 06:03:33 GMT\",\n        \"user_email\": \"invite2@gmail.com\",\n        \"user_role\": \"attendee\"\n    },\n    {\n        \"created_at\": \"Sun, 14 Nov 2021 06:03:33 GMT\",\n        \"event_id\": \"1\",\n        \"is_checked_in\": false,\n        \"is_invited\": true,\n        \"is_rsvped\": false,\n        \"personal_code\": \"pc3\",\n        \"updated_at\": \"Sun, 14 Nov 2021 06:03:33 GMT\",\n        \"user_email\": \"invite3@gmail.com\",\n        \"user_role\": \"attendee\"\n    },\n    {\n        \"created_at\": \"Sun, 14 Nov 2021 06:55:47 GMT\",\n        \"event_id\": \"1\",\n        \"is_checked_in\": false,\n        \"is_invited\": true,\n        \"is_rsvped\": false,\n        \"personal_code\": \"MTp0ZXN0aW52aXRlMUBnbWFpbC5jb20=\",\n        \"updated_at\": \"Sun, 14 Nov 2021 06:55:47 GMT\",\n        \"user_email\": \"testinvite1@gmail.com\",\n        \"user_role\": \"attendee\"\n    },\n    {\n        \"created_at\": \"Sun, 14 Nov 2021 06:55:47 GMT\",\n        \"event_id\": \"1\",\n        \"is_checked_in\": false,\n        \"is_invited\": true,\n        \"is_rsvped\": false,\n        \"personal_code\": \"MTp0ZXN0aW52aXRlMkBnbWFpbC5jb20=\",\n        \"updated_at\": \"Sun, 14 Nov 2021 06:55:47 GMT\",\n        \"user_email\": \"testinvite2@gmail.com\",\n        \"user_role\": \"attendee\"\n    },\n    {\n        \"created_at\": \"Sun, 14 Nov 2021 06:55:47 GMT\",\n        \"event_id\": \"1\",\n        \"is_checked_in\": false,\n        \"is_invited\": true,\n        \"is_rsvped\": false,\n        \"personal_code\": \"MTp0ZXN0aW52aXRlM0BnbWFpbC5jb20=\",\n        \"updated_at\": \"Sun, 14 Nov 2021 06:55:47 GMT\",\n        \"user_email\": \"testinvite3@gmail.com\",\n        \"user_role\": \"attendee\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get Event by Event ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/events/:event_id",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"events",
+								":event_id"
+							],
+							"variable": [
+								{
+									"key": "event_id",
+									"value": "bV28OHwGSVqrMmRKa1zx8A"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Event by Event ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/events/:event_id",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"events",
+										":event_id"
+									],
+									"variable": [
+										{
+											"key": "event_id",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "308"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.2 Python/3.9.7"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 15 Nov 2021 06:27:49 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"address\": \"address\",\n    \"attendee_limit\": 200,\n    \"description\": \"description\",\n    \"end_time\": \"Wed, 17 Nov 2021 14:00:00 GMT\",\n    \"event_id\": \"3\",\n    \"lat\": 40.80778821286171,\n    \"location\": \"columbia\",\n    \"long\": -73.96345656010647,\n    \"start_time\": \"Wed, 17 Nov 2021 12:10:00 GMT\",\n    \"title\": \"2021 research fair\",\n    \"user_id\": \"organizer3@gmail.com\"\n}"
+						},
+						{
+							"name": "Get Event by Event ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/events/:event_id",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"events",
+										":event_id"
+									],
+									"variable": [
+										{
+											"key": "event_id",
+											"value": "bV28OHwGSVqrMmRKa1zx8A"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "339"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.2 Python/3.9.7"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 15 Nov 2021 08:41:38 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"address\": \"address\",\n    \"attendee_limit\": 200,\n    \"end_time\": \"Wed, 16 Nov 2022 14:00:00 GMT\",\n    \"event_description\": \"description\",\n    \"event_id\": \"bV28OHwGSVqrMmRKa1zx8A\",\n    \"event_name\": \"2022 student fair\",\n    \"lat\": 40.80778821286171,\n    \"location\": \"columbia\",\n    \"long\": -73.96345656010647,\n    \"start_time\": \"Wed, 16 Nov 2022 12:10:00 GMT\",\n    \"user_id\": \"organizer2@gmail.com\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Events by User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/users/:user_id/events",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								":user_id",
+								"events"
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "organizer2@gmail.com"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Events by User",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/users/:user_id/events",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users",
+										":user_id",
+										"events"
+									],
+									"variable": [
+										{
+											"key": "user_id",
+											"value": "organizer1@gmail.com"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "920"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.2 Python/3.9.7"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 15 Nov 2021 06:30:40 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"address\": \"address\",\n        \"attendee_limit\": 200,\n        \"description\": \"description\",\n        \"end_time\": \"Mon, 15 Nov 2021 14:00:00 GMT\",\n        \"event_id\": \"1\",\n        \"lat\": 40.80778821286171,\n        \"location\": \"columbia\",\n        \"long\": -73.96345656010647,\n        \"start_time\": \"Mon, 15 Nov 2021 12:10:00 GMT\",\n        \"title\": \"2021 career fair\",\n        \"user_id\": \"organizer1@gmail.com\"\n    },\n    {\n        \"address\": \"address\",\n        \"attendee_limit\": 200,\n        \"description\": \"description\",\n        \"end_time\": \"Sun, 15 Nov 2020 14:00:00 GMT\",\n        \"event_id\": \"4\",\n        \"lat\": 40.80778821286171,\n        \"location\": \"columbia\",\n        \"long\": -73.96345656010647,\n        \"start_time\": \"Sun, 15 Nov 2020 12:10:00 GMT\",\n        \"title\": \"2020 career fair\",\n        \"user_id\": \"organizer1@gmail.com\"\n    },\n    {\n        \"address\": \"address\",\n        \"attendee_limit\": 200,\n        \"description\": \"description\",\n        \"end_time\": \"Tue, 15 Nov 2022 14:00:00 GMT\",\n        \"event_id\": \"5\",\n        \"lat\": 40.80778821286171,\n        \"location\": \"columbia\",\n        \"long\": -73.96345656010647,\n        \"start_time\": \"Tue, 15 Nov 2022 12:10:00 GMT\",\n        \"title\": \"2022 career fair\",\n        \"user_id\": \"organizer1@gmail.com\"\n    }\n]"
+						},
+						{
+							"name": "Get Events by User",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/users/:user_id/events",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users",
+										":user_id",
+										"events"
+									],
+									"variable": [
+										{
+											"key": "user_id",
+											"value": "organizer2@gmail.com"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "643"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.2 Python/3.9.7"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 15 Nov 2021 07:24:20 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"address\": \"address\",\n        \"attendee_limit\": 200,\n        \"description\": \"description\",\n        \"end_time\": \"Tue, 16 Nov 2021 14:00:00 GMT\",\n        \"event_id\": \"2\",\n        \"lat\": 40.80778821286171,\n        \"location\": \"columbia\",\n        \"long\": -73.96345656010647,\n        \"start_time\": \"Tue, 16 Nov 2021 12:10:00 GMT\",\n        \"title\": \"2021 student fair\",\n        \"user_id\": \"organizer2@gmail.com\"\n    },\n    {\n        \"address\": \"\\\" address\\\"\",\n        \"attendee_limit\": 200,\n        \"description\": \"description\",\n        \"end_time\": \"Wed, 16 Nov 2022 14:00:00 GMT\",\n        \"event_id\": \"b57SyW8ZnSVyXqT5uFti9IQ\",\n        \"lat\": 40.80778821286171,\n        \"location\": \"columbia\",\n        \"long\": -73.96345656010647,\n        \"start_time\": \"Wed, 16 Nov 2022 12:10:00 GMT\",\n        \"title\": \"2022 student fair\",\n        \"user_id\": \"organizer2@gmail.com\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Create Event",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"event_name\": \"2023 student fair\",\r\n    \"user_id\": \"organizer2@gmail.com\",\r\n    \"description\": \"description\",\r\n    \"location_name\": \"columbia\",\r\n    \"address\": \"address\",\r\n    \"lat\": 40.80778821286171,\r\n    \"long\": -73.96345656010647,\r\n    \"start_time\": \"2023-11-16 12:10\",\r\n    \"end_time\": \"2023-11-16 14:00\",\r\n    \"attendee_limit\": 300\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/events",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"events"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Event",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"event_name\": \"2023 student fair\",\r\n    \"user_id\": \"organizer2@gmail.com\",\r\n    \"description\": \"description\",\r\n    \"location_name\": \"columbia\",\r\n    \"address\": \"address\",\r\n    \"lat\": 40.80778821286171,\r\n    \"long\": -73.96345656010647,\r\n    \"start_time\": \"2023-11-16 12:10\",\r\n    \"end_time\": \"2023-11-16 14:00\",\r\n    \"attendee_limit\": 300\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3000/events",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"events"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "337"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.2 Python/3.9.7"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 15 Nov 2021 08:42:14 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"address\": \"address\",\n    \"attendee_limit\": 300,\n    \"end_time\": \"Thu, 16 Nov 2023 14:00:00 GMT\",\n    \"event_description\": \"description\",\n    \"event_id\": \"bGjiNNfZTm2f4uz88wgw\",\n    \"event_name\": \"2023 student fair\",\n    \"lat\": 40.80778821286171,\n    \"location\": \"columbia\",\n    \"long\": -73.96345656010647,\n    \"start_time\": \"Thu, 16 Nov 2023 12:10:00 GMT\",\n    \"user_id\": \"organizer2@gmail.com\"\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseurl",
+			"value": "18.218.235.18"
+		}
+	]
+}
