@@ -22,9 +22,25 @@ class EventController():
         if self.validate_event_id(event_id):
             row = self.db.get_one("SELECT * FROM Events WHERE event_id = %s",
                                   (event_id, ))
+            # 'event_location' returns in format:
+            # '(columbia,12.2,23.4,address)' - Need to fix it before insert
+
+            # Removes parentheses
+            loc_str = re.sub("[()]", "", row['event_location'])
+
+            # Make it a list of strings
+            loc_str_list = list(map(str, loc_str.split(',')))
+
+            # Get each field
+            loc_name = loc_str_list[0]
+            lat = float(loc_str_list[1])
+            long = float(loc_str_list[2])
+            address = loc_str_list[3]
+
+            event_location = f'(\'{loc_name}\', {lat}, {long}, \'{address}\')'
             if row is not None:
                 event = Event(row['user_id'], row['event_name'],
-                              row['event_description'], row['event_location'],
+                              row['event_description'], event_location,
                               row['event_start_time'], row['event_end_time'],
                               row['attendee_limit'], row['event_id'])
                 return event.to_dict()
@@ -33,11 +49,11 @@ class EventController():
         else:
             abort(400, "The input event_id is invalid")
 
-    def create_event(self, organizer_id, title, description, location_name,
+    def create_event(self, event_name, user_id, description, location_name,
                      address, lat, long, start_time, end_time, attendee_limit):
         """
-        @param: organizer_id: str, required
-        @param: title: str, required
+        @param: event_name: str, required
+        @param: user_id: str, required
         @param: description: str,
         @param: location_name: str,
         @param: address: str,
@@ -50,23 +66,25 @@ class EventController():
 
         Create new event
         """
-        if self.validate_event_input(organizer_id, title, description,
+        if self.validate_event_input(event_name, user_id, description,
                                      location_name, address, lat, long,
                                      start_time, end_time, attendee_limit):
-            location_str = f'(\'{location_name}\', {lat}, \
-                           {long}, \'{address}\')'
-            event = Event(organizer_id, title, description, location_str,
+            loc_str = f'({location_name}, {lat}, {long}, {address})'
+            event = Event(user_id, event_name, description, loc_str,
                           start_time, end_time, attendee_limit)
             try:
-                self.db.set("INSERT INTO Events (event_id, event_name, user_id, \
-                            event_description, event_location, \
-                            event_start_time, event_end_time, attendee_limit) \
-                            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-                            (event.event_id, event.event_name, event.user_id,
-                             event.event_description, event.event_location,
-                             event.event_start_time, event.event_end_time,
-                             str(event.attendee_limit)))
-                return event.to_dict()
+                query = """
+                        INSERT INTO Events
+                        VALUES (%s, %s, %s, %s,
+                        ROW(%s, %s, %s, %s),
+                        %s, %s, %s)
+                        """
+                param = (event.event_id, event.event_name, event.user_id,
+                         event.event_description, location_name, lat, long,
+                         address, event.event_start_time, event.event_end_time,
+                         event.attendee_limit,)
+                self.db.set(query, param)
+                return self.get_event(event.event_id)
             except (ForeignKeyViolation, UniqueViolation):
                 abort(400, 'Invalid parameter value')
         else:
@@ -90,12 +108,12 @@ class EventController():
             print(e)
         return validated
 
-    def validate_event_input(self, organizer_id, title, description,
-                             location_name, address, lat, long, start_time,
-                             end_time, attendee_limit):
+    def validate_event_input(self, event_name, user_id, description,
+                             location_name, address, lat, long,
+                             start_time, end_time, attendee_limit):
         """
-        @param: organizer_id: str,
-        @param: title: str,
+        @param: event_name: str,
+        @param: user_id: str,
         @param: description: str,
         @param: location_name: str,
         @param: address: str,
@@ -108,37 +126,37 @@ class EventController():
 
         Validate event data through regex validate
         """
-        schema = Schema({
-                          'organizer_id': And(str, lambda s: bool(
-                              re.match("^[A-Za-z0-9]*$", s))),
-                          'title': And(str, lambda s: bool(
-                              re.match("^[A-Za-z0-9\s]*$", s))),
-                          'description': And(str, lambda s: bool(
-                              re.match("^[A-Za-z0-9.,\s]*$", s))),
-                          'location_name': And(str, lambda s: bool(
-                              re.match("^[A-Za-z0-9.,\s]*$", s))),
-                          'address': And(str, lambda s: bool(
-                              re.match("^[A-Za-z0-9.,\s]*$", s))),
-                          'lat': float,
-                          'long': float,
-                          'start_time': And(str, lambda s: bool(
-                              re.match(
-                                       "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]"
-                                       "|[1-2][0-9]|3[0-1]) (0[0-9]|1[0-9]"
-                                       "|2[0-3]):([0-5][0-9])$", s))),
-                          'end_time': And(str, lambda s: bool(
-                              re.match(
-                                       "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]"
-                                       "|[1-2][0-9]|3[0-1]) (0[0-9]|1[0-9]"
-                                       "|2[0-3]):([0-5][0-9])$", s))),
-                          'attendee_limit': And(int,
-                                                lambda n:
-                                                n > 0 and n < 100000),
-        })
+        schema = Schema(
+            {
+                'event_name': And(str, lambda s: bool(
+                    re.match(r"^[A-Za-z0-9\s]*$", s))),
+                'user_id': And(str, lambda s: bool(re.match(
+                    r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', s))
+                    ),
+                'description': And(str, lambda s: bool(
+                    re.match(r"^[A-Za-z0-9.,\s]*$", s))),
+                'location_name': And(str, lambda s: bool(
+                    re.match(r"^[A-Za-z0-9.,\s]*$", s))),
+                'address': And(str, lambda s: bool(
+                    re.match(r"^[A-Za-z0-9.,\s]*$", s))),
+                'lat': float,
+                'long': float,
+                'start_time': And(str, lambda s: bool(
+                    re.match(
+                            "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]"
+                            "|[1-2][0-9]|3[0-1]) (0[0-9]|1[0-9]"
+                            "|2[0-3]):([0-5][0-9])$", s))),
+                'end_time': And(str, lambda s: bool(
+                    re.match(
+                            "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]"
+                            "|[1-2][0-9]|3[0-1]) (0[0-9]|1[0-9]"
+                            "|2[0-3]):([0-5][0-9])$", s))),
+                'attendee_limit': And(int, lambda n: n > 0 and n < 100000),
+            })
 
         data = {
-                 'organizer_id': organizer_id,
-                 'title': title,
+                 'event_name': event_name,
+                 'user_id': user_id,
                  'description': description,
                  'location_name': location_name,
                  'address': address,

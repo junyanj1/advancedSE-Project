@@ -25,8 +25,25 @@ class UserController():
 
             events = []
             for row in rows:
+                # 'event_location' returns in format:
+                # '(columbia,12.2,23.4,address)' - Need to fix it before insert
+
+                # Removes parentheses
+                loc_str = re.sub("[()]", "", row['event_location'])
+
+                # Make it a list of strings
+                loc_str_list = list(map(str, loc_str.split(',')))
+
+                # Get each field
+                location_name = loc_str_list[0]
+                lat = float(loc_str_list[1])
+                long = float(loc_str_list[2])
+                address = loc_str_list[3]
+
+                event_location = f'(\'{location_name}\', {lat}, \
+                    {long}, \'{address}\')'
                 event = Event(row['user_id'], row['event_name'],
-                              row['event_description'], row['event_location'],
+                              row['event_description'], event_location,
                               row['event_start_time'], row['event_end_time'],
                               row['attendee_limit'], row['event_id'])
                 events.append(event.to_dict())

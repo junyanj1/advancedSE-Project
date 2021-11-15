@@ -76,15 +76,15 @@ def create_event():
     data = request.json
     try:
         return jsonify(event.create_event(
-            data.get("organizer_id"),  # "abcdefghijklmn"
-            data.get("title"),  # "Winter Career Fair"
+            data.get("event_name"),  # "Winter Career Fair"
+            data.get("user_id"),  # "asdasdas@asdasd.com"
             data.get("description"),  # "This is a winter career fair"
             data.get("location_name"),  # "Columbia University"
             data.get("address"),  # "2960 Broadway..."
             data.get("lat", None),  # 12.34  !NULLABLE
             data.get("long", None),  # 12.34  !NULLABLE
-            data.get("start_time"),  # "2021-03-22T18:34:00Z"
-            data.get("end_time"),  # "2021-03-22T20:34:00Z"
+            data.get("start_time"),  # "2021-03-22 18:34"
+            data.get("end_time"),  # "2021-03-22 20:34"
             data.get("attendee_limit"),  # 500
         ))
     except AttributeError as e:
