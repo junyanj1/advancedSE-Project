@@ -22,6 +22,10 @@ $ curl 18.218.235.18/health
 {"commit_id":"xxxxxxx","status":"UP"}
 ```
 
+## Style Check and Test Coverage
+
+- Style errors: `app/bug.txt`
+- Test coverage report: `app/coverage.txt`
 
 ## Install and Run Locally
 

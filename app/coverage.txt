@@ -1,0 +1,12 @@
+Name                                   Stmts   Miss  Cover
+----------------------------------------------------------
+controllers/attendance_controller.py      94     19    80%
+controllers/event_controller.py           57      3    95%
+controllers/sample_controller.py          13      0   100%
+controllers/user_controller.py            69     23    67%
+db/database.py                            39      9    77%
+models/attendance.py                      17      0   100%
+models/event.py                           20      0   100%
+models/user.py                             7      0   100%
+----------------------------------------------------------
+TOTAL                                    316     54    83%
