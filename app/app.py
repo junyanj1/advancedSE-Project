@@ -28,7 +28,7 @@ def handle_exception(e):
             "name": e.name,
             "description": e.description,
         })
-    except:
+    except Exception:
         json_data = json.dumps({
             "code": e.code,
             "name": e.name,
