@@ -15,7 +15,6 @@ info:
 # RSVP
 # Check-in
 
-
 servers:
   - url: http://18.218.235.18
 
@@ -32,48 +31,6 @@ tags:
   - name: Sample
     description: (Deprecated) Sample Proof-of-Concept APIs
 paths:
-  # /organization:
-  #   post:
-  #     tags:
-  #       - User
-  #     summary: Create a new Organization
-  #     description: You can get the API Key from this
-  #     requestBody:
-  #       content:
-  #         application/json:
-  #           schema:
-  #             type: object
-  #             properties:
-  #               organization_name:
-  #                 type: string
-  #                 example: Columbia University
-  #     responses:
-  #       "200":
-  #         description: OK
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: "#/components/schemas/OrganizationWithKey"
-  # /organization/{organization_id}:
-  #   get:
-  #     tags:
-  #       - User
-  #     summary: Get Organization detail
-  #     parameters:
-  #       - name: organization_id
-  #         in: path
-  #         required: true
-  #         schema:
-  #           type: string
-  #     responses:
-  #       "200":
-  #         description: OK
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: "#/components/schemas/Organization"
-  #     security:
-  #       - ApiKeyAuth: []
   /users:
     post:
       tags:
@@ -91,8 +48,22 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
-      security:
-        - ApiKeyAuth: []
+        "400":
+          description: Bad request. Triggered when input is invalid or user_id already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 400
+                  name:
+                    type: string
+                    example: Bad Request
+                  description:
+                    type: string
+                    example: Invalid parameter value
   /users/{user_id}:
     get:
       tags:
@@ -111,6 +82,22 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
+        "403":
+          description: "Forbidden, when user does not exist or permission error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 403
+                  name:
+                    type: string
+                    example: "Forbidden"
+                  description:
+                    type: string
+                    example: "User information not available"
       security:
         - ApiKeyAuth: []
   /users/{user_id}/events:
@@ -153,6 +140,22 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Event"
+        "400":
+          description: "Bad request, when user id does not exists"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 400
+                  name:
+                    type: string
+                    example: "Bad request"
+                  description:
+                    type: string
+                    example: ""
       security:
         - ApiKeyAuth: []
   /events/{event_id}:
@@ -228,13 +231,16 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              description: list of emails
-              items:
-                type: string
-              example:
-                - abc@abc.com
-                - def@def.com
+              type: object
+              properties:
+                emails:
+                  type: array
+                  description: list of emails
+                  items:
+                    type: string
+                  example:
+                    - abc@abc.com
+                    - def@def.com
       responses:
         "200":
           description: OK
@@ -384,18 +390,13 @@ components:
     User:
       type: object
       properties:
-        organization_id:
+        org_name:
           type: string
-          example: abcdefghijklmn
+          example: Columbia University
           nullable: true
         user_id:
           type: string
-          example: abcdefghijklmn
-          description: Randomly generated unique id
-        email:
-          type: string
           example: abc@abc.com
-          description: Does not need to be unique
         username:
           type: string
           example: Pikachu
@@ -404,18 +405,21 @@ components:
     EventPostBody:
       type: object
       properties:
-        organizer_id:
+        user_id:
           type: string
-          example: abcdefghijklmn
-        title:
+          example: abc@abc.com
+        event_name:
           type: string
           example: Winter Career Fair
         description:
           type: string
           example: "This is a winter career fair"
-        location:
+        address:
           type: string
-          example: "Columbia University, 2960 Broadway, New York, NY 10027"
+          example: "2960 Broadway, New York, NY 10027"
+        location_name:
+          type: string
+          example: "Columbia University"
         lat:
           type: number
           example: 12.34
@@ -424,13 +428,15 @@ components:
           type: number
           example: 12.34
           nullable: true
-        time:
+        start_time:
           type: string
-          example: "2021-03-22T18:34:00Z"
-          description: "iso 8601 time format"
-        duration:
+          example: "2023-11-16 12:10"
+        end_time:
           type: string
-          example: "1h 30min"
+          example: "2023-11-16 12:10"
+        attendee_limit:
+          type: number
+          example: 30
     Event:
       allOf:  # Combines the EventPostBody and the inline model
         - type: object
@@ -449,12 +455,12 @@ components:
         email:
           type: string
           example: abc@abc.com
-        invited:
+        is_invited:
           type: boolean
           example: true
-        rsvped:
+        is_rsvped:
           type: boolean
           example: true
-        checked_in:
+        is_checked_in:
           type: boolean
           example: true

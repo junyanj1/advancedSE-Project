@@ -555,6 +555,9 @@
     color: #fff;
   }
   
+  
+  00427D
+  
   .sidenav > .active > a {
     position: relative;
     z-index: 2;
@@ -697,15 +700,15 @@
       "type" : "string",
       "example" : "abc@abc.com"
     },
-    "invited" : {
+    "is_invited" : {
       "type" : "boolean",
       "example" : true
     },
-    "rsvped" : {
+    "is_rsvped" : {
       "type" : "boolean",
       "example" : true
     },
-    "checked_in" : {
+    "is_checked_in" : {
       "type" : "boolean",
       "example" : true
     }
@@ -728,11 +731,11 @@
             defs["EventPostBody"] = {
   "type" : "object",
   "properties" : {
-    "organizer_id" : {
+    "user_id" : {
       "type" : "string",
-      "example" : "abcdefghijklmn"
+      "example" : "abc@abc.com"
     },
-    "title" : {
+    "event_name" : {
       "type" : "string",
       "example" : "Winter Career Fair"
     },
@@ -740,9 +743,13 @@
       "type" : "string",
       "example" : "This is a winter career fair"
     },
-    "location" : {
+    "address" : {
       "type" : "string",
-      "example" : "Columbia University, 2960 Broadway, New York, NY 10027"
+      "example" : "2960 Broadway, New York, NY 10027"
+    },
+    "location_name" : {
+      "type" : "string",
+      "example" : "Columbia University"
     },
     "lat" : {
       "type" : "number",
@@ -754,14 +761,30 @@
       "nullable" : true,
       "example" : 12.34
     },
-    "time" : {
+    "start_time" : {
       "type" : "string",
-      "description" : "iso 8601 time format",
-      "example" : "2021-03-22T18:34:00Z"
+      "example" : "2023-11-16 12:10"
     },
-    "duration" : {
+    "end_time" : {
       "type" : "string",
-      "example" : "1h 30min"
+      "example" : "2023-11-16 12:10"
+    },
+    "attendee_limit" : {
+      "type" : "number",
+      "example" : 30
+    }
+  }
+};
+            defs["event_id_invite_body"] = {
+  "type" : "object",
+  "properties" : {
+    "emails" : {
+      "type" : "array",
+      "description" : "list of emails",
+      "example" : [ "abc@abc.com", "def@def.com" ],
+      "items" : {
+        "type" : "string"
+      }
     }
   }
 };
@@ -785,6 +808,57 @@
     }
   }
 };
+            defs["inline_response_400"] = {
+  "type" : "object",
+  "properties" : {
+    "code" : {
+      "type" : "number",
+      "example" : 400
+    },
+    "name" : {
+      "type" : "string",
+      "example" : "Bad Request"
+    },
+    "description" : {
+      "type" : "string",
+      "example" : "Invalid parameter value"
+    }
+  }
+};
+            defs["inline_response_400_1"] = {
+  "type" : "object",
+  "properties" : {
+    "code" : {
+      "type" : "number",
+      "example" : 400
+    },
+    "name" : {
+      "type" : "string",
+      "example" : "Bad request"
+    },
+    "description" : {
+      "type" : "string",
+      "example" : ""
+    }
+  }
+};
+            defs["inline_response_403"] = {
+  "type" : "object",
+  "properties" : {
+    "code" : {
+      "type" : "number",
+      "example" : 403
+    },
+    "name" : {
+      "type" : "string",
+      "example" : "Forbidden"
+    },
+    "description" : {
+      "type" : "string",
+      "example" : "User information not available"
+    }
+  }
+};
             defs["sample_users_body"] = {
   "type" : "object",
   "properties" : {
@@ -803,19 +877,13 @@
             defs["User"] = {
   "type" : "object",
   "properties" : {
-    "organization_id" : {
+    "org_name" : {
       "type" : "string",
       "nullable" : true,
-      "example" : "abcdefghijklmn"
+      "example" : "Columbia University"
     },
     "user_id" : {
       "type" : "string",
-      "description" : "Randomly generated unique id",
-      "example" : "abcdefghijklmn"
-    },
-    "email" : {
-      "type" : "string",
-      "description" : "Does not need to be unique",
       "example" : "abc@abc.com"
     },
     "username" : {
@@ -1656,7 +1724,7 @@ public class AttendanceApiExample {
 
         AttendanceApi apiInstance = new AttendanceApi();
         String eventId = eventId_example; // String | 
-        array[String] body = ; // array[String] | 
+        Event_id_invite_body body = ; // Event_id_invite_body | 
         try {
             apiInstance.eventsEventIdInvitePost(eventId, body);
         } catch (ApiException e) {
@@ -1675,7 +1743,7 @@ public class AttendanceApiExample {
     public static void main(String[] args) {
         AttendanceApi apiInstance = new AttendanceApi();
         String eventId = eventId_example; // String | 
-        array[String] body = ; // array[String] | 
+        Event_id_invite_body body = ; // Event_id_invite_body | 
         try {
             apiInstance.eventsEventIdInvitePost(eventId, body);
         } catch (ApiException e) {
@@ -1696,7 +1764,7 @@ public class AttendanceApiExample {
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"X-API-Key"];
 String *eventId = eventId_example; // 
-array[String] *body = ; //  (optional)
+Event_id_invite_body *body = ; //  (optional)
 
 AttendanceApi *apiInstance = [[AttendanceApi alloc] init];
 
@@ -1724,7 +1792,7 @@ ApiKeyAuth.apiKey = "YOUR API KEY"
 var api = new AdvancedSeProject.AttendanceApi()
 var eventId = eventId_example; // {{String}} 
 var opts = { 
-  'body':  // {{array[String]}} 
+  'body':  // {{Event_id_invite_body}} 
 };
 var callback = function(error, data, response) {
   if (error) {
@@ -1761,7 +1829,7 @@ namespace Example
 
             var apiInstance = new AttendanceApi();
             var eventId = eventId_example;  // String | 
-            var body = new array[String](); // array[String] |  (optional) 
+            var body = new Event_id_invite_body(); // Event_id_invite_body |  (optional) 
 
             try
             {
@@ -1789,7 +1857,7 @@ Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('X-API-Key', 
 
 $api_instance = new Swagger\Client\ApiAttendanceApi();
 $eventId = eventId_example; // String | 
-$body = ; // array[String] | 
+$body = ; // Event_id_invite_body | 
 
 try {
     $api_instance->eventsEventIdInvitePost($eventId, $body);
@@ -1811,7 +1879,7 @@ $WWW::SwaggerClient::Configuration::api_key->{'X-API-Key'} = 'YOUR_API_KEY';
 
 my $api_instance = WWW::SwaggerClient::AttendanceApi->new();
 my $eventId = eventId_example; # String | 
-my $body = [WWW::SwaggerClient::Object::array[String]->new()]; # array[String] | 
+my $body = WWW::SwaggerClient::Object::Event_id_invite_body->new(); # Event_id_invite_body | 
 
 eval { 
     $api_instance->eventsEventIdInvitePost(eventId => $eventId, body => $body);
@@ -1836,7 +1904,7 @@ swagger_client.configuration.api_key['X-API-Key'] = 'YOUR_API_KEY'
 # create an instance of the API class
 api_instance = swagger_client.AttendanceApi()
 eventId = eventId_example # String | 
-body =  # array[String] |  (optional)
+body =  # Event_id_invite_body |  (optional)
 
 try: 
     # Request invites
@@ -1892,12 +1960,7 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "type" : "array",
-        "description" : "list of emails",
-        "example" : [ "abc@abc.com", "def@def.com" ],
-        "items" : {
-          "type" : "string"
-        }
+        "$ref" : "#/components/schemas/event_id_invite_body"
       }
     }
   }
@@ -2899,6 +2962,54 @@ except ApiException as e:
                                 </div>
                             </div>
 
+                            <h3> Status: 400 - Bad request, when user id does not exists </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-eventsPost-400-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-eventsPost-400-schema">
+                                  <div id='responses-eventsPost-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Bad request, when user id does not exists",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/inline_response_400_1"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-eventsPost-400-schema-data').val(stringify(schema));
+                                        var result = $('#responses-eventsPost-400-schema-400');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-eventsPost-400-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
                         </article>
                       </div>
                       <hr>
@@ -3514,7 +3625,6 @@ except ApiException as e:
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-usersPost-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X POST\
--H "X-API-Key: [[apiKey]]"\
 -H "Accept: application/json"\
 -H "Content-Type: application/json"\
 "http://18.218.235.18/users"</code></pre>
@@ -3531,14 +3641,7 @@ import java.util.*;
 public class UserApiExample {
 
     public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
-
-        // Configure API key authorization: ApiKeyAuth
-        ApiKeyAuth ApiKeyAuth = (ApiKeyAuth) defaultClient.getAuthentication("ApiKeyAuth");
-        ApiKeyAuth.setApiKey("YOUR API KEY");
-        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-        //ApiKeyAuth.setApiKeyPrefix("Token");
-
+        
         UserApi apiInstance = new UserApi();
         User body = ; // User | 
         try {
@@ -3575,12 +3678,7 @@ public class UserApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-usersPost-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
-// Configure API key authorization: (authentication scheme: ApiKeyAuth)
-[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"X-API-Key"];
-// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"X-API-Key"];
-User *body = ; //  (optional)
+                              <pre class="prettyprint"><code class="language-cpp">User *body = ; //  (optional)
 
 UserApi *apiInstance = [[UserApi alloc] init];
 
@@ -3599,13 +3697,6 @@ UserApi *apiInstance = [[UserApi alloc] init];
 
                             <div class="tab-pane" id="examples-User-usersPost-0-javascript">
                               <pre class="prettyprint"><code class="language-js">var AdvancedSeProject = require('advanced_se_project');
-var defaultClient = AdvancedSeProject.ApiClient.instance;
-
-// Configure API key authorization: ApiKeyAuth
-var ApiKeyAuth = defaultClient.authentications['ApiKeyAuth'];
-ApiKeyAuth.apiKey = "YOUR API KEY"
-// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//ApiKeyAuth.apiKeyPrefix['X-API-Key'] = "Token"
 
 var api = new AdvancedSeProject.UserApi()
 var opts = { 
@@ -3639,11 +3730,6 @@ namespace Example
         public void main()
         {
 
-            // Configure API key authorization: ApiKeyAuth
-            Configuration.Default.ApiKey.Add("X-API-Key", "YOUR_API_KEY");
-            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add("X-API-Key", "Bearer");
-
             var apiInstance = new UserApi();
             var body = new User(); // User |  (optional) 
 
@@ -3667,11 +3753,6 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure API key authorization: ApiKeyAuth
-Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('X-API-Key', 'YOUR_API_KEY');
-// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('X-API-Key', 'Bearer');
-
 $api_instance = new Swagger\Client\ApiUserApi();
 $body = ; // User | 
 
@@ -3688,11 +3769,6 @@ try {
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
 use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::UserApi;
-
-# Configure API key authorization: ApiKeyAuth
-$WWW::SwaggerClient::Configuration::api_key->{'X-API-Key'} = 'YOUR_API_KEY';
-# uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$WWW::SwaggerClient::Configuration::api_key_prefix->{'X-API-Key'} = "Bearer";
 
 my $api_instance = WWW::SwaggerClient::UserApi->new();
 my $body = WWW::SwaggerClient::Object::User->new(); # User | 
@@ -3712,11 +3788,6 @@ import time
 import swagger_client
 from swagger_client.rest import ApiException
 from pprint import pprint
-
-# Configure API key authorization: ApiKeyAuth
-swagger_client.configuration.api_key['X-API-Key'] = 'YOUR_API_KEY'
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# swagger_client.configuration.api_key_prefix['X-API-Key'] = 'Bearer'
 
 # create an instance of the API class
 api_instance = swagger_client.UserApi()
@@ -3826,6 +3897,54 @@ except ApiException as e:
                                     </script>
                                   </div>
                                   <input id='responses-usersPost-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 400 - Bad request. Triggered when input is invalid or user_id already exists </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-usersPost-400-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-usersPost-400-schema">
+                                  <div id='responses-usersPost-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Bad request. Triggered when input is invalid or user_id already exists",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/inline_response_400"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-usersPost-400-schema-data').val(stringify(schema));
+                                        var result = $('#responses-usersPost-400-schema-400');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-usersPost-400-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
@@ -4499,6 +4618,54 @@ except ApiException as e:
                                 </div>
                             </div>
 
+                            <h3> Status: 403 - Forbidden, when user does not exist or permission error </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-usersUserIdGet-403-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-usersUserIdGet-403-schema">
+                                  <div id='responses-usersUserIdGet-403-schema-403' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Forbidden, when user does not exist or permission error",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/inline_response_403"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-usersUserIdGet-403-schema-data').val(stringify(schema));
+                                        var result = $('#responses-usersUserIdGet-403-schema-403');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-usersUserIdGet-403-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
                         </article>
                       </div>
                       <hr>
@@ -4508,7 +4675,10 @@ except ApiException as e:
             <div id="api-_footer">
               <p>Suggestions, contact, support and error reporting;
                   <div class="app-desc">Information URL: <a href="https://github.com/junyanj1/advancedSE-Project">https://github.com/junyanj1/advancedSE-Project</a></div>
+                  <div class="app-desc">Contact Info: <a href="hello@helloreverb.com">hello@helloreverb.com</a></div>
               </p>
+                <div class="license-info">All rights reserved</div>
+                <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
             </div>
           </div>
       </div>
