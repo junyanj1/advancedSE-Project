@@ -66,7 +66,9 @@ class UserController():
             param = [user_id]
             row = self.db.get_one(query, param)
 
-            if row is not None:
+            if row is None:
+                return abort(403, 'User information not available')
+            else:
                 user = User(row['user_id'], row['org_name'], row['username'])
                 return user.to_dict()
         else:
@@ -125,10 +127,8 @@ class UserController():
                 'user_id': And(str, lambda s: bool(re.match(
                     r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', s))
                     ),
-                'org_name': And(str, lambda s: bool(re.match(
-                    "^[A-Za-z0-9]*$", s))),
-                'username': And(str, lambda s: bool(re.match(
-                    "^[A-Za-z0-9]*$", s))),
+                'org_name': str,
+                'username': str,
         })
 
         data = {

@@ -22,11 +22,19 @@ CORS(app)
 def handle_exception(e):
     """Return JSON instead of HTML for HTTP errors."""
     response = e.get_response()
-    response.data = json.dumps({
-        "code": e.code,
-        "name": e.name,
-        "description": e.description,
-    })
+    try:
+        json_data = json.dumps({
+            "code": e.code,
+            "name": e.name,
+            "description": e.description,
+        })
+    except:
+        json_data = json.dumps({
+            "code": e.code,
+            "name": e.name,
+            "description": str(e.description),
+        })
+    response.data = json_data
     response.content_type = "application/json"
     return response
 
@@ -102,13 +110,11 @@ def get_event(event_id):
 @app.route('/events/<event_id>/attendances')
 def get_attendances(event_id):
     """GET /events/<event_id>/attendances"""
-    request.args.get('invited')  # True
-
     return jsonify(attendance.get_attendances(
         event_id,  # "abcdefghijklmn"
-        request.args.get('invited'),
-        request.args.get('rsvped'),
-        request.args.get('checked_in'),
+        request.args.get('is_invited'),
+        request.args.get('is_rsvped'),
+        request.args.get('is_checked_in'),
     ))
 
 
