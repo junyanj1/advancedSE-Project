@@ -190,17 +190,17 @@ paths:
           required: true
           schema:
             type: string
-        - name: invited
+        - name: is_invited
           in: query
           schema:
             type: boolean
           example: true
-        - name: rsvped
+        - name: is_rsvped
           in: query
           schema:
             type: boolean
           example: true
-        - name: checked_in
+        - name: is_checked_in
           in: query
           schema:
             type: boolean
