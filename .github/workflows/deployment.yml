@@ -72,6 +72,7 @@ jobs:
         with:
           command: |
             cd ~/advancedSE-Project
+            echo $PWD
             COMMIT_ID=$(git rev-parse --short HEAD) docker-compose -f docker-compose.prod.yml up -d --no-deps --build
           host: ${{ secrets.HOST }}
           username: ec2-user
