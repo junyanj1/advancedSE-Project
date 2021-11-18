@@ -72,7 +72,7 @@ jobs:
         with:
           command: |
             cd ~/advancedSE-Project
-            COMMIT_ID=$(git rev-parse --short HEAD) docker-compose -f docker-compose.prod.yml up -d --no-deps --build app
+            COMMIT_ID=$(git rev-parse --short HEAD) docker-compose -f docker-compose.prod.yml up -d --no-deps --build
           host: ${{ secrets.HOST }}
           username: ec2-user
           privateKey: ${{ secrets.PRIVATE_KEY}}

@@ -1003,7 +1003,7 @@
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "X-API-Key: [[apiKey]]"\
 -H "Accept: application/json"\
-"http://18.218.235.18/events/{event_id}/attendances?invited=&rsvped=&checked_in="</code></pre>
+"http://18.218.235.18/events/{event_id}/attendances?is_invited=&is_rsvped=&is_checked_in="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Attendance-eventsEventIdAttendancesGet-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -1027,11 +1027,11 @@ public class AttendanceApiExample {
 
         AttendanceApi apiInstance = new AttendanceApi();
         String eventId = eventId_example; // String | 
-        Boolean invited = true; // Boolean | 
-        Boolean rsvped = true; // Boolean | 
-        Boolean checkedIn = true; // Boolean | 
+        Boolean isInvited = true; // Boolean | 
+        Boolean isRsvped = true; // Boolean | 
+        Boolean isCheckedIn = true; // Boolean | 
         try {
-            array[Attendance] result = apiInstance.eventsEventIdAttendancesGet(eventId, invited, rsvped, checkedIn);
+            array[Attendance] result = apiInstance.eventsEventIdAttendancesGet(eventId, isInvited, isRsvped, isCheckedIn);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling AttendanceApi#eventsEventIdAttendancesGet");
@@ -1049,11 +1049,11 @@ public class AttendanceApiExample {
     public static void main(String[] args) {
         AttendanceApi apiInstance = new AttendanceApi();
         String eventId = eventId_example; // String | 
-        Boolean invited = true; // Boolean | 
-        Boolean rsvped = true; // Boolean | 
-        Boolean checkedIn = true; // Boolean | 
+        Boolean isInvited = true; // Boolean | 
+        Boolean isRsvped = true; // Boolean | 
+        Boolean isCheckedIn = true; // Boolean | 
         try {
-            array[Attendance] result = apiInstance.eventsEventIdAttendancesGet(eventId, invited, rsvped, checkedIn);
+            array[Attendance] result = apiInstance.eventsEventIdAttendancesGet(eventId, isInvited, isRsvped, isCheckedIn);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling AttendanceApi#eventsEventIdAttendancesGet");
@@ -1073,17 +1073,17 @@ public class AttendanceApiExample {
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"X-API-Key"];
 String *eventId = eventId_example; // 
-Boolean *invited = true; //  (optional)
-Boolean *rsvped = true; //  (optional)
-Boolean *checkedIn = true; //  (optional)
+Boolean *isInvited = true; //  (optional)
+Boolean *isRsvped = true; //  (optional)
+Boolean *isCheckedIn = true; //  (optional)
 
 AttendanceApi *apiInstance = [[AttendanceApi alloc] init];
 
 // Get list of attendees/rsvp/invited people of an event
 [apiInstance eventsEventIdAttendancesGetWith:eventId
-    invited:invited
-    rsvped:rsvped
-    checkedIn:checkedIn
+    isInvited:isInvited
+    isRsvped:isRsvped
+    isCheckedIn:isCheckedIn
               completionHandler: ^(array[Attendance] output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
@@ -1108,9 +1108,9 @@ ApiKeyAuth.apiKey = "YOUR API KEY"
 var api = new AdvancedSeProject.AttendanceApi()
 var eventId = eventId_example; // {{String}} 
 var opts = { 
-  'invited': true, // {{Boolean}} 
-  'rsvped': true, // {{Boolean}} 
-  'checkedIn': true // {{Boolean}} 
+  'isInvited': true, // {{Boolean}} 
+  'isRsvped': true, // {{Boolean}} 
+  'isCheckedIn': true // {{Boolean}} 
 };
 var callback = function(error, data, response) {
   if (error) {
@@ -1147,14 +1147,14 @@ namespace Example
 
             var apiInstance = new AttendanceApi();
             var eventId = eventId_example;  // String | 
-            var invited = true;  // Boolean |  (optional) 
-            var rsvped = true;  // Boolean |  (optional) 
-            var checkedIn = true;  // Boolean |  (optional) 
+            var isInvited = true;  // Boolean |  (optional) 
+            var isRsvped = true;  // Boolean |  (optional) 
+            var isCheckedIn = true;  // Boolean |  (optional) 
 
             try
             {
                 // Get list of attendees/rsvp/invited people of an event
-                array[Attendance] result = apiInstance.eventsEventIdAttendancesGet(eventId, invited, rsvped, checkedIn);
+                array[Attendance] result = apiInstance.eventsEventIdAttendancesGet(eventId, isInvited, isRsvped, isCheckedIn);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -1178,12 +1178,12 @@ Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('X-API-Key', 
 
 $api_instance = new Swagger\Client\ApiAttendanceApi();
 $eventId = eventId_example; // String | 
-$invited = true; // Boolean | 
-$rsvped = true; // Boolean | 
-$checkedIn = true; // Boolean | 
+$isInvited = true; // Boolean | 
+$isRsvped = true; // Boolean | 
+$isCheckedIn = true; // Boolean | 
 
 try {
-    $result = $api_instance->eventsEventIdAttendancesGet($eventId, $invited, $rsvped, $checkedIn);
+    $result = $api_instance->eventsEventIdAttendancesGet($eventId, $isInvited, $isRsvped, $isCheckedIn);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling AttendanceApi->eventsEventIdAttendancesGet: ', $e->getMessage(), PHP_EOL;
@@ -1203,12 +1203,12 @@ $WWW::SwaggerClient::Configuration::api_key->{'X-API-Key'} = 'YOUR_API_KEY';
 
 my $api_instance = WWW::SwaggerClient::AttendanceApi->new();
 my $eventId = eventId_example; # String | 
-my $invited = true; # Boolean | 
-my $rsvped = true; # Boolean | 
-my $checkedIn = true; # Boolean | 
+my $isInvited = true; # Boolean | 
+my $isRsvped = true; # Boolean | 
+my $isCheckedIn = true; # Boolean | 
 
 eval { 
-    my $result = $api_instance->eventsEventIdAttendancesGet(eventId => $eventId, invited => $invited, rsvped => $rsvped, checkedIn => $checkedIn);
+    my $result = $api_instance->eventsEventIdAttendancesGet(eventId => $eventId, isInvited => $isInvited, isRsvped => $isRsvped, isCheckedIn => $isCheckedIn);
     print Dumper($result);
 };
 if ($@) {
@@ -1231,13 +1231,13 @@ swagger_client.configuration.api_key['X-API-Key'] = 'YOUR_API_KEY'
 # create an instance of the API class
 api_instance = swagger_client.AttendanceApi()
 eventId = eventId_example # String | 
-invited = true # Boolean |  (optional)
-rsvped = true # Boolean |  (optional)
-checkedIn = true # Boolean |  (optional)
+isInvited = true # Boolean |  (optional)
+isRsvped = true # Boolean |  (optional)
+isCheckedIn = true # Boolean |  (optional)
 
 try: 
     # Get list of attendees/rsvp/invited people of an event
-    api_response = api_instance.events_event_id_attendances_get(eventId, invited=invited, rsvped=rsvped, checkedIn=checkedIn)
+    api_response = api_instance.events_event_id_attendances_get(eventId, isInvited=isInvited, isRsvped=isRsvped, isCheckedIn=isCheckedIn)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling AttendanceApi->eventsEventIdAttendancesGet: %s\n" % e)</code></pre>
@@ -1282,11 +1282,11 @@ except ApiException as e:
                                 <th width="150px">Name</th>
                                 <th>Description</th>
                               </tr>
-                                <tr><td style="width:150px;">invited</td>
+                                <tr><td style="width:150px;">is_invited</td>
                                 <td>
                                 
                                 
-                                    <div id="d2e199_eventsEventIdAttendancesGet_invited">
+                                    <div id="d2e199_eventsEventIdAttendancesGet_isInvited">
                                         <div class="json-schema-view">
                                             <div class="primitive">
                                                 <span class="type">
@@ -1298,11 +1298,11 @@ except ApiException as e:
                                     </div>
                                 </td>
                                 </tr>
-                                <tr><td style="width:150px;">rsvped</td>
+                                <tr><td style="width:150px;">is_rsvped</td>
                                 <td>
                                 
                                 
-                                    <div id="d2e199_eventsEventIdAttendancesGet_rsvped">
+                                    <div id="d2e199_eventsEventIdAttendancesGet_isRsvped">
                                         <div class="json-schema-view">
                                             <div class="primitive">
                                                 <span class="type">
@@ -1314,11 +1314,11 @@ except ApiException as e:
                                     </div>
                                 </td>
                                 </tr>
-                                <tr><td style="width:150px;">checked_in</td>
+                                <tr><td style="width:150px;">is_checked_in</td>
                                 <td>
                                 
                                 
-                                    <div id="d2e199_eventsEventIdAttendancesGet_checkedIn">
+                                    <div id="d2e199_eventsEventIdAttendancesGet_isCheckedIn">
                                         <div class="json-schema-view">
                                             <div class="primitive">
                                                 <span class="type">
