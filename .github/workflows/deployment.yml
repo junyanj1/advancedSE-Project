@@ -37,7 +37,7 @@ jobs:
         run: |
           coverage run -m unittest discover test
           coverage report --omit "test*"
-          coverage xml --omit "test*" -o ../test-coverage.xml
+          coverage xml --omit "test*" -o test-coverage.xml
           PERCENTAGE=$(coverage report --omit "test*" | tail -c 5 | head -c -2 | xargs)
           echo "coverage = $PERCENTAGE%"
           echo "::set-output name=RATE::$PERCENTAGE"
