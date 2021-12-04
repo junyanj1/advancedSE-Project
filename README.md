@@ -2,6 +2,8 @@
 
 ![Commit](http://18.218.235.18/static/badges/commit-badge.svg)
 ![Coverage](http://18.218.235.18/static/badges/coverage-badge.svg)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=junyanj1_advancedSE-Project&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=junyanj1_advancedSE-Project)
+
 
 Group project for Professor Kaiser's advanced software engineering course.
 
