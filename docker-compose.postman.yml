@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+  app-dev:
+    build:
+      context: ./app
+      dockerfile: Dockerfile  # DEV file
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    environment:
+      COMMIT_ID: ${COMMIT_ID:-unknown_env}
+
+  db:
+    image: postgres:alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - ./db/dev/:/docker-entrypoint-initdb.d/
+    environment:
+      POSTGRES_DB: aapi
+      POSTGRES_HOST_AUTH_METHOD: trust
+  
+  postman_collection:
+    container_name: postman_docker_container
+    image: postman/newman:alpine
+    build: .
+    depends_on:
+    - app-dev
+    network_mode: host
+    command: 
+      run advancedSE-Project.postman_collection.json
+      --environment="development_env.postman_environment.json" 
+    volumes:
+      - ./app/postman:/etc/newman
+
