@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Advanced API</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Materialize css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+  <!-- JQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+  <!-- Advanced API -->
+  <link rel="stylesheet" href="styles.css">
+  <script src="scripts/common.js"></script>
+  <script src="scripts/event.js"></script>
+</head>
+
+<body>
+<div class="container mb5">
+  <h1 id="event_name"></h1>
+
+  <div id="event-detail" class="row">
+    <!-- event-detail-key-value is populated here -->
+  </div>
+
+  <table class="table mt3">
+    <thead>
+      <tr>
+        <th>Attendee</th>
+        <th>Invited</th>
+        <th>RSVP</th>
+        <th>Checked In</th>
+      </tr>
+    </thead>
+
+    <tbody id="attendee-table">
+      <!-- attendee-item is populated here -->
+    </tbody>
+  </table>
+
+  <form id="invitation-form" class="mt3">
+    <div class="input-field">
+      <textarea id="invite-field" class="materialize-textarea" placeholder="abc@abc.com; xyz@xyz.com"></textarea>
+      <label for="invite-field">Send invitations to</label>
+    </div>
+    <button type="submit" class="waves-effect waves-light btn" value="Create">Send</button>
+  </form>
+</div>
+
+<!-- Templates -->
+<template id="event-detail-key-value">
+  <div class="col s4">
+    <h5 id="key"></h5>
+    <p id="value"></p>
+  </div>
+</template>
+
+<template id="attendee-item">
+  <tr>
+    <td id="user_email"></td>
+    <td id="is_invited"></td>
+    <td id="is_rsvped"></td>
+    <td id="is_checked_in"></td>
+  </tr>
+</template>
+</body>
+</html>
