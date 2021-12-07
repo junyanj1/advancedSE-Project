@@ -49,6 +49,10 @@ class EventController():
         else:
             abort(400, "The input event_id is invalid")
 
+    def get_organizer_id(self, event_id) -> str:
+        event = self.get_event(event_id)
+        return event['user_id']
+
     def create_event(self, event_name, user_id, description, location_name,
                      address, lat, long, start_time, end_time, attendee_limit):
         """

@@ -1,14 +1,24 @@
-from db.database import Database
-from schema import Schema, And, SchemaError
 import re
-from models.user import User
-from models.event import Event
+from typing import Optional
+
+import requests
 from flask import abort
 from psycopg.errors import ForeignKeyViolation, UniqueViolation
+from schema import Schema, And, SchemaError
+
+from db.database import Database
+from models.user import User
+from models.event import Event
+from services.auth import Auth
 
 
 class UserController():
-    def __init__(self, db: Database):
+
+    jwt_pattern = re.compile(
+            r"^[A-Za-z0-9-_]*\.[A-Za-z0-9-_]*\.[A-Za-z0-9-_]*$")
+
+    def __init__(self, db: Database, auth: Auth):
+        self.auth = auth
         self.db = db
 
     def get_user_events(self, user_id):
@@ -51,6 +61,47 @@ class UserController():
         else:
             return abort(400, 'Invalid parameter value')
 
+    def get_user_by_token(self, token: str) -> dict:
+        if self.auth.is_test_token(token):
+            return self.__get_user(self.auth.get_test_id(token))
+        if not self.jwt_pattern.match(token):
+            abort(401, f'Wrong token format: {token}')
+        else:
+            r = requests.get('https://oauth2.googleapis.com/' +
+                             f'tokeninfo?id_token={token}')
+            data = r.json()
+            print(data)
+
+            if 'error' in data:
+                abort(401, f'Invalid user token: {token}')
+
+            print(data['email'])
+            print(data['name'])
+            print(data['hd'])
+
+            u = self.__get_user(data['email'])
+            if u is None:
+                u = self.create_user(
+                    data['email'],
+                    data['name'],
+                    data['hd'],
+                )
+            return u
+
+    def __get_user(self, user_id) -> Optional[dict]:
+        print('__get_user', user_id)
+        query = "SELECT * FROM Users WHERE user_id = %s"
+        param = [user_id]
+        row = self.db.get_one(query, param)
+
+        if row is None:
+            return None
+        else:
+            user = User(row['user_id'], row['org_name'],
+                        row['username']).to_dict()
+            user['aapi-key'] = self.auth.sign(row['user_id'])
+            return user
+
     def get_user(self, user_id) -> dict:
         """
         @param: user_id: str, required
@@ -62,15 +113,10 @@ class UserController():
             return abort(400, "Missing user_id..")
 
         if self.validate_user_id(user_id):
-            query = "SELECT * FROM Users WHERE user_id = %s"
-            param = [user_id]
-            row = self.db.get_one(query, param)
-
-            if row is None:
-                return abort(403, 'User information not available')
-            else:
-                user = User(row['user_id'], row['org_name'], row['username'])
-                return user.to_dict()
+            u = self.__get_user(user_id)
+            if u is None:
+                abort(403, 'User information not available')
+            return u
         else:
             return abort(400, 'Invalid parameter value')
 
@@ -90,7 +136,9 @@ class UserController():
                          VALUES (%s, %s, %s)"
                 params = (user.user_id, user.org_name, user.username)
                 self.db.set(query, params)
-                return user.to_dict()
+                user = user.to_dict()
+                user['aapi-key'] = self.auth.sign(user['user_id'])
+                return user
             except (ForeignKeyViolation, UniqueViolation) as e:
                 abort(400, e)
         else:
