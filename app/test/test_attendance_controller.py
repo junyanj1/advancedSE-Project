@@ -1,6 +1,7 @@
 import unittest
 from unittest.mock import Mock
-
+from datetime import datetime
+import requests
 from controllers.attendance_controller import AttendanceController
 
 
@@ -160,17 +161,20 @@ class Test_Invite(unittest.TestCase):
             }
         ])
         db.get_one = Mock(return_value={
-                '1',
-                '2021 career fair',
-                'organizer1@gmail.com',
-                'description',
-                'columbia',
-                40.80778821286171,
-                -73.96345656010647,
-                'address',
-                '2021-11-15 12:10',
-                '2021-11-15 14:00',
-                200
+                "event_id": '1',
+                "event_name": '2021 career fair',
+                "user_id": 'organizer1@gmail.com',
+                "event_description": 'description',
+                "event_location": 'columbia',
+                "event_lat": 40.80778821286171,
+                "event_long": -73.96345656010647,
+                "event_address": 'address',
+                "event_start_time": datetime.strptime('11/15/2021, 12:10:00',
+                                                      '%m/%d/%Y, %H:%M:%S'),
+                "event_end_time": datetime.strptime('11/15/2021, 14:00:00',
+                                                    '%m/%d/%Y, %H:%M:%S'),
+                "attendee_limit": 200,
+                "username": 'sampleUser1'
             }
         )
         db.set = Mock(return_value=None)
@@ -208,6 +212,55 @@ class Test_Invite(unittest.TestCase):
         self.assertEqual(400, ctx.exception.code)
         self.assertEqual("Missing event_id..",
                          ctx.exception.description)
+
+    @unittest.mock.patch("controllers.attendance_controller.requests.post")
+    def test03_send_email(self, mock_post):
+        mock_response = Mock(status_code=200)
+        mock_post.return_value = mock_response
+        response = self.attendance_controller.send_email(
+            "sampleUser1", "invite1@gmail.com", "random_pc", "event_name",
+            "event_description", "event_location", "event_start_time",
+            "event_end_time")
+        self.assertEqual(response.status_code, 200)
+
+    @unittest.mock.patch("controllers.attendance_controller.requests.post")
+    def test04_send_email(self, mock_post):
+        mock_response = Mock(status_code=404)
+        mock_post.return_value = mock_response
+        response = self.attendance_controller.send_email(
+            "sampleUser1", "invite1@gmail.com", "random_pc", "event_name",
+            "event_description", "event_location", "event_start_time",
+            "event_end_time")
+        self.assertEqual(response.status_code, 404)
+
+    @unittest.mock.patch("controllers.attendance_controller.requests.post")
+    def test05_invite(self, mock_post):
+        """failed to invite"""
+        mock_response = Mock(status_code=404)
+        mock_post.return_value = mock_response
+        mock_post.side_effect = requests.exceptions.ConnectionError()
+
+        with self.assertRaises(requests.exceptions.RequestException):
+            # This should cause error
+            self.attendance_controller.send_email(
+                "sampleUser1", "invite1@gmail.com", "random_pc", "event_name",
+                "event_description", "event_location", "event_start_time",
+                "event_end_time")
+
+        expected = [{
+                'event_id': '1',
+                'user_email': 'email@gmail.com',
+                'user_role': 'attendee',
+                'personal_code': 'random',
+                'is_invited': True,
+                'is_rsvped': False,
+                'is_checked_in': False,
+                'created_at': 'Mon, 08 Nov 2021 16:11:54 GMT',
+                'updated_at': 'Mon, 08 Nov 2021 16:11:54 GMT'
+            }
+        ]
+        actual = self.attendance_controller.invite("1", ["invite1@gmail.com"])
+        self.assertEqual(expected, actual)
 
 
 class Test_RSVP(unittest.TestCase):
