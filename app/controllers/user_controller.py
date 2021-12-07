@@ -1,4 +1,5 @@
 import re
+from typing import Optional
 
 import requests
 from flask import abort
@@ -87,7 +88,7 @@ class UserController():
                 )
             return u
 
-    def __get_user(self, user_id) -> dict:
+    def __get_user(self, user_id) -> Optional[dict]:
         print('__get_user', user_id)
         query = "SELECT * FROM Users WHERE user_id = %s"
         param = [user_id]
