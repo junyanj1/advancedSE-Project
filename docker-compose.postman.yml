@@ -34,7 +34,7 @@ services:
     container_name: postman_docker_container
     image: postman/newman:alpine
     depends_on:
-      app-po:
+      app-dev:
         condition: service_started
     network_mode: host
     command: 
@@ -43,4 +43,3 @@ services:
       - --environment=development_env.postman_environment.json
     volumes:
       - ./app/postman:/etc/newman
-      
