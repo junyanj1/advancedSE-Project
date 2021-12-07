@@ -17,7 +17,6 @@ $(document).ready(() => {
                 (a[b["name"]] = b["value"], a), {});
 
         // TODO: do something with these values
-        data["user_id"] = "organizer2@gmail.com";
         data["lat"] = 1.1;
         data["long"] = 1.1;
         data["start_time"] = data["start_date"] + ' ' + data["start_time"];

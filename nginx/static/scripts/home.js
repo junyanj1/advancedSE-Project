@@ -11,7 +11,7 @@ $(document).ready(() => {
     console.log("Document loaded");
 
     // Get list of events
-    apiGetEvents("organizer2@gmail.com", data => {
+    apiGetEvents(data => {
         // Append each event to the event table
         data.forEach(event => {
             $("#event-table").append(createEventListItem(event));

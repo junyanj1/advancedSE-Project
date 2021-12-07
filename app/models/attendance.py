@@ -19,8 +19,7 @@ class Attendance:
     @staticmethod
     def generate_personal_code(event_id, user_email) -> str:
         # Generate personal_code with simple base64 encoding on utf-8
-        return b64encode(bytes(f'{event_id}:{user_email}',
-                               'utf-8')).decode('utf-8')
+        return bytes(f'{event_id}:{user_email}', 'utf-8').hex()
 
     def to_dict(self) -> dict:
         return {

@@ -19,36 +19,16 @@
   <!-- Advanced API -->
   <link rel="stylesheet" href="styles.css">
   <script src="scripts/common.js"></script>
-  <script src="scripts/home.js"></script>
+  <script src="scripts/welcome.js"></script>
 </head>
 
 <body>
 <div class="container">
-  <h1>Events</h1>
-  <table class="table highlight">
-    <thead>
-      <tr>
-        <th>Event Name</th>
-        <th>Location</th>
-        <th>Start Time</th>
-      </tr>
-    </thead>
-
-    <tbody id="event-table">
-      <!-- event-list-item is populated here -->
-    </tbody>
-  </table>
-
-  <a href="new-event.html" class="waves-effect waves-light btn mt1">New Event</a>
+  <h1>Team AAPI</h1>
+  <div class="g-signin2" data-onsuccess="onSignIn">Sign in with Google</div>
+  <a class="waves-effect waves-light btn mt1" href="index.html">Home</a>
+  <button id="signout-btn" class="waves-effect waves-light btn mt1">Sign Out</button>
 </div>
-
-<!-- Templates -->
-<template id="event-list-item">
-  <tr id="event-list-row" class="clickable-event-row">
-    <td id="event_name"></td>
-    <td id="location"></td>
-    <td id="start_time"></td>
-  </tr>
-</template>
+<!-- <script>startApp();</script> -->
 </body>
 </html>
