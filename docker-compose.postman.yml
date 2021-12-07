@@ -8,7 +8,8 @@ services:
     ports:
       - 3000:3000
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       COMMIT_ID: ${COMMIT_ID:-unknown_env}
       MAILGUN_API: ${MAILGUN_API}
@@ -22,17 +23,23 @@ services:
     environment:
       POSTGRES_DB: aapi
       POSTGRES_HOST_AUTH_METHOD: trust
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
   
   postman_collection:
-    container_name: postman_docker_container
+    container_name: postman_docker_container_for_test
     image: postman/newman:alpine
-    build: .
     depends_on:
-    - app-dev
+      app-po:
+        condition: service_started
     network_mode: host
     command: 
-      run advancedSE-Project.postman_collection.json
-      --environment="development_env.postman_environment.json" 
+      - run
+      - advancedSE-Project.postman_collection.json
+      - --environment=development_env.postman_environment.json
     volumes:
       - ./app/postman:/etc/newman
-
