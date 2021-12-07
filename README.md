@@ -16,11 +16,14 @@ Collaborators:
 
 ## API Specification
 
-http://18.218.235.18/static/index.html
+http://team-aapi.me/static/index.html
+
+## Welcome Page
+http://team-aapi.me/static/welcome.html
 
 ## Server
 ```sh
-$ curl 18.218.235.18/health
+$ curl team-aapi.me/health
 {"commit_id":"xxxxxxx","status":"UP"}
 ```
 
