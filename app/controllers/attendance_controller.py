@@ -1,5 +1,8 @@
 from db.database import Database
 from flask import abort
+import requests
+import json
+import os
 from psycopg.errors import ForeignKeyViolation, UniqueViolation
 from models.attendance import Attendance
 
@@ -95,10 +98,24 @@ class AttendanceController():
         '''
         if not event_id:
             return abort(400, "Missing event_id..")
-        query = "SELECT * FROM Events WHERE event_id = %s"
+        query = """SELECT *
+                   FROM Events
+                   JOIN Users ON Users.user_id = Events.user_id
+                   WHERE event_id = %s
+                """
         exist = self.db.get_one(query, [event_id])
         if not exist:
             return abort(400, "The input event_id is invalid..")
+
+        organizer_name = exist["username"]
+        event_name = exist["event_name"]
+        event_description = exist["event_description"]
+        event_location = exist["event_location"]
+        event_start_time = exist["event_start_time"].strftime(
+            "%m/%d/%Y, %H:%M:%S")
+        event_end_time = exist["event_end_time"].strftime(
+            "%m/%d/%Y, %H:%M:%S")
+
         statement = """
                     INSERT INTO Attendance
                     VALUES (%s, %s, 'attendee',%s)
@@ -110,8 +127,15 @@ class AttendanceController():
                 self.db.set(statement, [event_id, email, personal_code])
             except (ForeignKeyViolation, UniqueViolation):
                 failed.append(email)
-        print("failed to invite: ", failed)
 
+            try:
+                self.send_email(organizer_name, email, personal_code,
+                                event_name, event_description, event_location,
+                                event_start_time, event_end_time)
+            except requests.exceptions.RequestException:
+                failed.append(email)
+
+        print("failed to invite: ", failed)
         return self.get_attendances(event_id, invited=True)
 
     def rsvp(self, event_id: str, personal_code: str) -> dict:
@@ -187,3 +211,32 @@ class AttendanceController():
                           updated["is_invited"], updated["is_rsvped"],
                           updated["is_checked_in"], updated["created_at"],
                           updated["updated_at"]).to_dict()
+
+    @staticmethod
+    def send_email(organizer_name: str, invitee_email: str,
+                   personal_code: str, event_name: str,
+                   event_description: str, event_location: str,
+                   event_start_time: str, event_end_time):
+        apikey = os.getenv("MAILGUN_API", default="")
+        domain = "mg.team-aapi.me"
+        url = f"https://api.mailgun.net/v3/{domain}/messages"
+
+        return requests.post(
+            url,
+            auth=("api", apikey),
+            data={"from": f"{organizer_name} <mailgun@mg.team-aapi.me>",
+                  "to": f"{organizer_name} <mailgun@mg.team-aapi.me>",
+                  "bcc": [invitee_email],
+                  "subject": "You're invited!",
+                  "template": "invite",
+                  "h:X-Mailgun-Variables":
+                      json.dumps(
+                          {"invite_msg_body": "invite message body",
+                           "organizer_name": organizer_name,
+                           "invite_link": personal_code,
+                           "event_name": event_name,
+                           "event_description": event_description,
+                           "event_location": event_location,
+                           "event_start_time": event_start_time,
+                           "event_end_time": event_end_time})}
+        )
