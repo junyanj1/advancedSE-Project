@@ -16,8 +16,11 @@ class Test_Get_User(unittest.TestCase):
             'username': 'sampleUser1',
         })
 
+        auth = Mock()
+        auth.sign = Mock(return_value='ABCD')
+
         # Create User Controller
-        self.user_controller = UserController(db)
+        self.user_controller = UserController(db, auth)
 
     def tearDown(self) -> None:
         pass
@@ -28,6 +31,7 @@ class Test_Get_User(unittest.TestCase):
             'user_id': 'organizer1@gmail.com',
             'org_name': 'org1',
             'username': 'sampleUser1',
+            'aapi-key': 'ABCD',
         }
         actual = self.user_controller.get_user('organizer1@gmail.com')
         self.assertEqual(expected, actual)
@@ -61,10 +65,14 @@ class Test_Create_User(unittest.TestCase):
             'user_id': 'organizer4@gmail.com',
             'org_name': 'org4',
             'username': 'sampleUser4',
+            'aapi-key': 'ABCD',
         })
 
+        auth = Mock()
+        auth.sign = Mock(return_value='ABCD')
+
         # Create User Controller
-        self.user_controller = UserController(db)
+        self.user_controller = UserController(db, auth)
 
     def tearDown(self) -> None:
         pass
@@ -75,6 +83,7 @@ class Test_Create_User(unittest.TestCase):
             'user_id': 'organizer4@gmail.com',
             'org_name': 'org4',
             'username': 'sampleUser4',
+            'aapi-key': 'ABCD',
         }
         actual = self.user_controller.create_user('organizer4@gmail.com',
                                                   'org4',
@@ -87,6 +96,7 @@ class Test_Create_User(unittest.TestCase):
             'user_id': 'organizer4@gmail.com',
             'org_name': 'org4',
             'username': 'sampleUser4',
+            'aapi-key': 'ABCD',
         }
         actual = self.user_controller.create_user('organizer4@gmail.com',
                                                   'org4',

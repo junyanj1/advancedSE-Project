@@ -1,6 +1,3 @@
-from base64 import b64encode
-
-
 class Attendance:
     def __init__(self, event_id, user_email,
                  user_role, personal_code,

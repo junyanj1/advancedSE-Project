@@ -5,6 +5,7 @@ from typing import Optional, Tuple
 from flask import abort
 from werkzeug.datastructures import Headers
 
+
 class Whitelist():
     test_users = [
         ('organizer1@gmail.com', 'test-token1'),
@@ -48,7 +49,7 @@ class Auth():
             abort(403, 'aapi-key does not match')
 
     def is_test_token(self, token: str) -> bool:
-        return self.get_test_id(token) != None
+        return self.get_test_id(token) is not None
 
     def get_test_id(self, token: str) -> Optional[str]:
         u = Whitelist.find_by_token(token)

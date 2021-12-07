@@ -10,9 +10,11 @@ from models.user import User
 from models.event import Event
 from services.auth import Auth
 
+
 class UserController():
 
-    jwt_pattern = re.compile(r"^[A-Za-z0-9-_]*\.[A-Za-z0-9-_]*\.[A-Za-z0-9-_]*$")
+    jwt_pattern = re.compile(
+            r"^[A-Za-z0-9-_]*\.[A-Za-z0-9-_]*\.[A-Za-z0-9-_]*$")
 
     def __init__(self, db: Database, auth: Auth):
         self.auth = auth
@@ -64,12 +66,13 @@ class UserController():
         if not self.jwt_pattern.match(token):
             abort(401, f'Wrong token format: {token}')
         else:
-            r = requests.get(f'https://oauth2.googleapis.com/tokeninfo?id_token={token}')
+            r = requests.get('https://oauth2.googleapis.com/' +
+                             f'tokeninfo?id_token={token}')
             data = r.json()
             print(data)
 
             if 'error' in data:
-                abort(401, f'Invalid user token')
+                abort(401, f'Invalid user token: {token}')
 
             print(data['email'])
             print(data['name'])
@@ -93,7 +96,8 @@ class UserController():
         if row is None:
             return None
         else:
-            user = User(row['user_id'], row['org_name'], row['username']).to_dict()
+            user = User(row['user_id'], row['org_name'],
+                        row['username']).to_dict()
             user['aapi-key'] = self.auth.sign(row['user_id'])
             return user
 
@@ -132,7 +136,7 @@ class UserController():
                 params = (user.user_id, user.org_name, user.username)
                 self.db.set(query, params)
                 user = user.to_dict()
-                user['aapi-key'] = self.auth.sign(user.user_id)
+                user['aapi-key'] = self.auth.sign(user['user_id'])
                 return user
             except (ForeignKeyViolation, UniqueViolation) as e:
                 abort(400, e)
