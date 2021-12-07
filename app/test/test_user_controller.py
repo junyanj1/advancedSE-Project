@@ -122,8 +122,11 @@ class Test_Get_User_Events(unittest.TestCase):
             }
         ])
 
+        auth = Mock()
+        auth.sign = Mock(return_value='ABCD')
+
         # Create User Controller
-        self.user_controller = UserController(db)
+        self.user_controller = UserController(db, auth)
 
     def tearDown(self) -> None:
         pass
