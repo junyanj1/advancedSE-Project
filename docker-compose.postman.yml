@@ -31,7 +31,7 @@ services:
       start_period: 10s
   
   postman_collection:
-    container_name: postman_docker_container_for_test
+    container_name: postman_docker_container
     image: postman/newman:alpine
     depends_on:
       app-po:
@@ -43,3 +43,4 @@ services:
       - --environment=development_env.postman_environment.json
     volumes:
       - ./app/postman:/etc/newman
+      
