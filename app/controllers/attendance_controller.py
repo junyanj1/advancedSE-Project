@@ -125,11 +125,16 @@ class AttendanceController():
             personal_code = Attendance.generate_personal_code(event_id, email)
             try:
                 self.db.set(statement, [event_id, email, personal_code])
+            except (ForeignKeyViolation, UniqueViolation):
+                failed.append(email)
+
+            try:
                 self.send_email(organizer_name, email, personal_code,
                                 event_name, event_description, event_location,
                                 event_start_time, event_end_time)
-            except (ForeignKeyViolation, UniqueViolation):
+            except requests.exceptions.RequestException:
                 failed.append(email)
+
         print("failed to invite: ", failed)
         return self.get_attendances(event_id, invited=True)
 
