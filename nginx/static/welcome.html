@@ -5,15 +5,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Materialize css -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
   <!-- JQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
+  <!-- Materialize css -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
   <!-- Google Auth -->
-  <script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" async defer></script>
+  <script src="https://apis.google.com/js/platform.js?onload=onGapiLoadCallback" async defer></script>
   <meta name="google-signin-client_id" content="228008718004-efglglqlouvggbkurnct52mh07kdufpl.apps.googleusercontent.com">
 
   <!-- Advanced API -->
@@ -23,12 +24,25 @@
 </head>
 
 <body>
+<!-- Navbar (See scripts/common.js) -->
+<div id="nav-placeholder"></div>
+
 <div class="container">
-  <h1>Team AAPI</h1>
-  <div class="g-signin2" data-onsuccess="onSignIn">Sign in with Google</div>
-  <a class="waves-effect waves-light btn mt1" href="index.html">Home</a>
-  <button id="signout-btn" class="waves-effect waves-light btn mt1">Sign Out</button>
+  <h1>Account</h1>
+  <div class="g-signin2" data-onsuccess="onSignIn">! Google sign-in does not work with local files</div>
+
+  <div id="account-section" class="mt3">
+    <h5>Account</h5>
+    <blockquote id="user-id-text"></blockquote>
+    <button class="signout-btn waves-effect waves-light btn">Sign Out</button>
+    <h5 class="mt3">API Key</h5>
+    <blockquote id="api-key-text"></blockquote>
+  </div>
+
+  <h5 class="mt3">Debug</h5>
+  <button id="test-signin-btn" class="waves-effect waves-light btn">Sign in with test account</button>
+  <button class="signout-btn waves-effect waves-light btn">Force Sign Out</button>
+
 </div>
-<!-- <script>startApp();</script> -->
 </body>
 </html>

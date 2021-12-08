@@ -128,9 +128,9 @@ const getTimeString = (date) => {
 }
 
 // Authentication
-const getEmail = () => {
+const getEmail = (redirectOnNull=true) => {
     email = window.localStorage.getItem("email");
-    if (email === null) {
+    if (redirectOnNull && email === null) {
         window.location.href = "welcome.html";
         throw 'No email!'
     }
@@ -138,9 +138,9 @@ const getEmail = () => {
     // return window.localStorage.getItem("email");
 }
 
-const getKey = () => {
+const getKey = (redirectOnNull=true) => {
     key = window.localStorage.getItem("key");
-    if (key === null) {
+    if (redirectOnNull && key === null) {
         window.location.href = "welcome.html";
         throw 'No key!'
     }
@@ -158,12 +158,29 @@ const removeAuthInfo = () => {
     window.localStorage.removeItem("key");
 }
 
-// $(document).ready(() => {
-//     if (window.location.href.includes("welcome")) {
-//         console.log("welcome page");
-//     } else if (window.location.href.includes("attendee")) {
-//         console.log("attendee page");
-//     } else if (getKey() === null) {
-//         window.location.href = "welcome.html";
-//     };
-// });
+$(document).ready(() => {
+    console.log('Loading navbar');
+
+    // From: https://materializecss.com/navbar.html
+    const navbar = `
+        <nav>
+            <div class="nav-wrapper white">
+            <a href="index.html" class="brand-logo ml1 black-text">Advanced API</a>
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger black-text"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="welcome.html" class="black-text">Account</a></li>
+                    <li><a href="api.html" class="black-text">API</a></li>
+                    <li><a href="https://github.com/junyanj1/advancedSE-Project" class="mr1 black-text">GitHub</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <ul class="sidenav" id="mobile-demo">
+            <li><a href="welcome.html">Account</a></li>
+            <li><a href="api.html">API</a></li>
+            <li><a href="https://github.com/junyanj1/advancedSE-Project">GitHub</a></li>
+        </ul>
+    `;
+    $("#nav-placeholder").html(navbar);
+    $('.sidenav').sidenav();
+});
