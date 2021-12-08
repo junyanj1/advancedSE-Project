@@ -41,7 +41,7 @@ jobs:
           PERCENTAGE=$(coverage report --omit "test*" | tail -c 5 | head -c -2 | xargs)
           echo "coverage = $PERCENTAGE%"
           echo "::set-output name=RATE::$PERCENTAGE"
-          echo "::set-output name=COLOR::$([ $PERCENTAGE -lt 90 ] && echo orange || echo green)"
+          echo "::set-output name=COLOR::$([ $PERCENTAGE -lt 85 ] && echo important || echo success)"
           echo "::set-output name=HASH_SHORT::$(git rev-parse --short HEAD)"
 
       - name: Override Coverage Source Path for Sonar
