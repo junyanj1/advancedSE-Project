@@ -8,6 +8,7 @@ from controllers.attendance_controller import AttendanceController
 from controllers.event_controller import EventController
 from controllers.sample_controller import SampleController
 from controllers.user_controller import UserController
+from uwsgidecorators import postfork
 
 from db.database import Database
 from services.auth import Auth
@@ -40,14 +41,19 @@ def handle_exception(e):
     return response
 
 
-# Connect to DB
-db = Database(Database.get_connection('postgresql://postgres@db:5432/aapi'))
+class Context:
+    def __init__(self):
+        self.db = Database(pool=Database.get_connection('postgresql://postgres@db:5432/aapi'))
+        self.auth = Auth()
+        self.attendance = AttendanceController(self.db)
+        self.event = EventController(self.db)
+        self.user = UserController(self.db, self.auth)
+        self.sample = SampleController(self.db)
 
-auth = Auth()
-attendance = AttendanceController(db)
-event = EventController(db)
-user = UserController(db, auth)
-sample = SampleController(db)
+
+@postfork
+def init():
+    app.ctx = Context()
 
 
 @app.route('/health')
@@ -61,14 +67,14 @@ def health():
 def signin():
     """POST /signin"""
     token = request.headers.get('aapi-token')
-    return jsonify(user.get_user_by_token(token))
+    return jsonify(app.ctx.user.get_user_by_token(token))
 
 
 @app.route('/users', methods=['POST'])
 def create_user():
     """POST /users"""
     data = request.json
-    return jsonify(user.create_user(
+    return jsonify(app.ctx.user.create_user(
         data.get("user_id"),
         data.get("org_name"),
         data.get("username"),
@@ -78,24 +84,24 @@ def create_user():
 @app.route('/users/<user_id>')
 def get_user(user_id):
     """GET /users/<user_id>"""
-    auth.verify_request(request.headers, user_id)
-    return jsonify(user.get_user(user_id))
+    app.ctx.auth.verify_request(request.headers, user_id)
+    return jsonify(app.ctx.user.get_user(user_id))
 
 
 @app.route('/users/<user_id>/events')
 def get_user_events(user_id):
     """GET /users/<user_id>/events"""
-    auth.verify_request(request.headers, user_id)
-    return jsonify(user.get_user_events(user_id))
+    app.ctx.auth.verify_request(request.headers, user_id)
+    return jsonify(app.ctx.user.get_user_events(user_id))
 
 
 @app.route('/events', methods=['POST'])
 def create_event():
     """POST /events"""
     data = request.json
-    auth.verify_request(request.headers, data.get("user_id"))
+    app.ctx.auth.verify_request(request.headers, data.get("user_id"))
     try:
-        return jsonify(event.create_event(
+        return jsonify(app.ctx.event.create_event(
             data.get("event_name"),  # "Winter Career Fair"
             data.get("user_id"),  # "asdasdas@asdasd.com"
             data.get("description"),  # "This is a winter career fair"
@@ -114,8 +120,9 @@ def create_event():
 @app.route('/events/<event_id>')
 def get_event(event_id):
     """GET /events/<event_id>"""
-    auth.verify_request(request.headers, event.get_organizer_id(event_id))
-    return jsonify(event.get_event(
+    app.ctx.auth.verify_request(request.headers, app.ctx.event.get_organizer_id(event_id))
+    print('  get_eventapi')
+    return jsonify(app.ctx.event.get_event(
         event_id,  # "abcdefghijklmn"
     ))
 
@@ -123,8 +130,8 @@ def get_event(event_id):
 @app.route('/events/<event_id>/attendances')
 def get_attendances(event_id):
     """GET /events/<event_id>/attendances"""
-    auth.verify_request(request.headers, event.get_organizer_id(event_id))
-    return jsonify(attendance.get_attendances(
+    app.ctx.auth.verify_request(request.headers, app.ctx.event.get_organizer_id(event_id))
+    return jsonify(app.ctx.attendance.get_attendances(
         event_id,  # "abcdefghijklmn"
         request.args.get('is_invited'),
         request.args.get('is_rsvped'),
@@ -135,9 +142,9 @@ def get_attendances(event_id):
 @app.route('/events/<event_id>/invite', methods=['POST'])
 def invite(event_id):
     """POST /events/<event_id>/invite"""
-    auth.verify_request(request.headers, event.get_organizer_id(event_id))
+    app.ctx.auth.verify_request(request.headers, app.ctx.event.get_organizer_id(event_id))
     emails = request.json.get('emails')
-    return jsonify(attendance.invite(
+    return jsonify(app.ctx.attendance.invite(
         event_id,  # "abcdefghijklmn"
         emails,  # ["abc@abc.com", "def@def.com"]
     ))
@@ -146,7 +153,7 @@ def invite(event_id):
 @app.route('/events/<event_id>/rsvp/<personal_code>')
 def rsvp(event_id, personal_code):
     """GET /events/<event_id>/rsvp/<personal_code>"""
-    return jsonify(attendance.rsvp(
+    return jsonify(app.ctx.attendance.rsvp(
         event_id,  # "abcdefghijklmn"
         personal_code,  # "abcdefghijklmn"
     ))
@@ -155,7 +162,7 @@ def rsvp(event_id, personal_code):
 @app.route('/events/<event_id>/unrsvp/<personal_code>')
 def unrsvp(event_id, personal_code):
     """GET /events/<event_id>/unrsvp/<personal_code>"""
-    return jsonify(attendance.unrsvp(
+    return jsonify(app.ctx.attendance.unrsvp(
         event_id,  # "abcdefghijklmn"
         personal_code,  # "abcdefghijklmn"
     ))
@@ -164,7 +171,7 @@ def unrsvp(event_id, personal_code):
 @app.route('/events/<event_id>/check_in/<personal_code>')
 def check_in(event_id, personal_code):
     """GET /events/<event_id>/check_in/<personal_code>"""
-    return jsonify(attendance.check_in(
+    return jsonify(app.ctx.attendance.check_in(
         event_id,  # "abcdefghijklmn"
         personal_code,  # "abcdefghijklmn"
     ))
@@ -172,13 +179,13 @@ def check_in(event_id, personal_code):
 
 @app.route('/sample/users')
 def get_sample_users():
-    return jsonify(sample.get_sample_users())
+    return jsonify(app.ctx.sample.get_sample_users())
 
 
 @app.route('/sample/users', methods=['POST'])
 def create_sample_user():
     data = request.json
-    return jsonify(sample.create_sample_user(
+    return jsonify(app.ctx.sample.create_sample_user(
         data.get('email'),  # "abc@abc.com"
         data.get('username'),  # "Pikachu"
     ))

@@ -1,5 +1,6 @@
 Flask
 flask-cors
-psycopg
+psycopg[pool]
 requests
 schema
+uwsgi

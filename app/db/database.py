@@ -3,30 +3,22 @@ from typing import Any, List, Dict, Optional, Sequence
 
 import psycopg
 from psycopg.connection import Connection
+from psycopg.errors import CaseNotFound
 from psycopg.rows import DictRow, dict_row
+from psycopg_pool import ConnectionPool
 
 
 class Database():
-    def __init__(self, conn: Connection[DictRow]):
-        self._conn = conn
+    def __init__(self, pool=None):
+        self._pool = pool
 
     @staticmethod
-    def get_connection(conninfo, attempts=5) -> Connection[DictRow]:
+    def get_connection(conninfo) -> ConnectionPool:
         '''Returns a psycopg.Connection instance.'''
         print('Database.connect_to_db: conninfo=', conninfo)
-        while attempts:
-            try:
-                return psycopg.connect(conninfo, row_factory=dict_row)
-            except psycopg.errors.OperationalError:
-                attempts -= 1
-                print(
-                    f'DB connection failed, remaining attempts: {attempts}, ' +
-                    f'reconnect in {(wait_time := 10 / attempts)} seconds'
-                )
-                time.sleep(wait_time)
-        raise Exception(
-            f'Database.connect_to_db: failed after {attempts} attempts'
-        )
+        conn_pool = ConnectionPool(conninfo, min_size=1, max_size=2, kwargs={"row_factory": dict_row})
+        conn_pool.wait()
+        return conn_pool
 
     def get(self, query: str, params: Optional[Sequence[Any]] = None
             ) -> List[Dict[str, Any]]:
@@ -36,10 +28,12 @@ class Database():
             db.fetch_all("SELECT * FROM Users WHERE user_id = (%s)",
                     ("user1234",))
         """
-        print(f'Database.get: query={query}')
-        with self._conn.cursor() as cur:
-            cur.execute(query=query, params=params)
-            return cur.fetchall()
+        print(f'Database.get: query={query}', params)
+        with self._pool.connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(query=query, params=params)
+                data = cur.fetchall()
+        return data
 
     def get_one(self, query: str, params: Optional[Sequence[Any]] = None
                 ) -> Optional[Dict[str, Any]]:
@@ -48,10 +42,12 @@ class Database():
             db.fetch_one("SELECT * FROM Users WHERE user_id = (%s)",
                 ("user1234",))
         """
-        print(f'Database.get_one: query={query}')
-        with self._conn.cursor() as cur:
-            cur.execute(query=query, params=params)
-            return cur.fetchone()
+        print(f'Database.get_one: query={query}', params)
+        with self._pool.connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(query=query, params=params)
+                data = cur.fetchone()
+        return data
 
     def set(self, query: str, params: Optional[Sequence[Any]] = None) -> None:
         """
@@ -61,13 +57,14 @@ class Database():
             db.set("UPDATE Users SET username = (%s) WHERE user_id = (%s)",
                     ("John Doe", "user1234"))
         """
-        print(f'Database.set: query={query}')
-        with self._conn.cursor() as cur:
-            try:
-                cur.execute(query=query, params=params)
-            except Exception as ex:
-                print('DB update failed:', ex)
-                self._conn.rollback()
-                raise ex
-            else:
-                self._conn.commit()
+        print(f'Database.set: query={query}', params)
+        with self._pool.connection() as conn:
+            with conn.cursor() as cur:
+                try:
+                    cur.execute(query=query, params=params)
+                except Exception as ex:
+                    print('DB update failed:', ex)
+                    conn.rollback()
+                    raise ex
+                else:
+                    conn.commit()
