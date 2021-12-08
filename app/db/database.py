@@ -1,10 +1,6 @@
-import time
 from typing import Any, List, Dict, Optional, Sequence
 
-import psycopg
-from psycopg.connection import Connection
-from psycopg.errors import CaseNotFound
-from psycopg.rows import DictRow, dict_row
+from psycopg.rows import dict_row
 from psycopg_pool import ConnectionPool
 
 
@@ -16,7 +12,8 @@ class Database():
     def get_connection(conninfo) -> ConnectionPool:
         '''Returns a psycopg.Connection instance.'''
         print('Database.connect_to_db: conninfo=', conninfo)
-        conn_pool = ConnectionPool(conninfo, min_size=1, max_size=2, kwargs={"row_factory": dict_row})
+        conn_pool = ConnectionPool(conninfo, min_size=1, max_size=2,
+                                   kwargs={"row_factory": dict_row})
         conn_pool.wait()
         return conn_pool
 

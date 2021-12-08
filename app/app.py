@@ -43,7 +43,8 @@ def handle_exception(e):
 
 class Context:
     def __init__(self):
-        self.db = Database(pool=Database.get_connection('postgresql://postgres@db:5432/aapi'))
+        pool = Database.get_connection('postgresql://postgres@db:5432/aapi')
+        self.db = Database(pool)
         self.auth = Auth()
         self.attendance = AttendanceController(self.db)
         self.event = EventController(self.db)
@@ -120,7 +121,8 @@ def create_event():
 @app.route('/events/<event_id>')
 def get_event(event_id):
     """GET /events/<event_id>"""
-    app.ctx.auth.verify_request(request.headers, app.ctx.event.get_organizer_id(event_id))
+    app.ctx.auth.verify_request(request.headers,
+                                app.ctx.event.get_organizer_id(event_id))
     print('  get_eventapi')
     return jsonify(app.ctx.event.get_event(
         event_id,  # "abcdefghijklmn"
@@ -130,7 +132,8 @@ def get_event(event_id):
 @app.route('/events/<event_id>/attendances')
 def get_attendances(event_id):
     """GET /events/<event_id>/attendances"""
-    app.ctx.auth.verify_request(request.headers, app.ctx.event.get_organizer_id(event_id))
+    app.ctx.auth.verify_request(request.headers,
+                                app.ctx.event.get_organizer_id(event_id))
     return jsonify(app.ctx.attendance.get_attendances(
         event_id,  # "abcdefghijklmn"
         request.args.get('is_invited'),
@@ -142,7 +145,8 @@ def get_attendances(event_id):
 @app.route('/events/<event_id>/invite', methods=['POST'])
 def invite(event_id):
     """POST /events/<event_id>/invite"""
-    app.ctx.auth.verify_request(request.headers, app.ctx.event.get_organizer_id(event_id))
+    app.ctx.auth.verify_request(request.headers,
+                                app.ctx.event.get_organizer_id(event_id))
     emails = request.json.get('emails')
     return jsonify(app.ctx.attendance.invite(
         event_id,  # "abcdefghijklmn"
