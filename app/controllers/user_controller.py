@@ -1,7 +1,6 @@
 import re
 from typing import Optional
 
-import requests
 from flask import abort
 from psycopg.errors import ForeignKeyViolation, UniqueViolation
 from schema import Schema, And, SchemaError
@@ -9,7 +8,8 @@ from schema import Schema, And, SchemaError
 from db.database import Database
 from models.user import User
 from models.event import Event
-from services.auth import Auth
+from services.auth import AuthService
+from services.network_service import NetworkService
 
 
 class UserController():
@@ -17,9 +17,10 @@ class UserController():
     jwt_pattern = re.compile(
             r"^[A-Za-z0-9-_]*\.[A-Za-z0-9-_]*\.[A-Za-z0-9-_]*$")
 
-    def __init__(self, db: Database, auth: Auth):
+    def __init__(self, db: Database, auth: AuthService, req: NetworkService):
         self.auth = auth
         self.db = db
+        self.requests = req
 
     def get_user_events(self, user_id):
         """
@@ -67,9 +68,8 @@ class UserController():
         if not self.jwt_pattern.match(token):
             abort(401, f'Wrong token format: {token}')
         else:
-            r = requests.get('https://oauth2.googleapis.com/' +
-                             f'tokeninfo?id_token={token}')
-            data = r.json()
+            url = f'https://oauth2.googleapis.com/tokeninfo?id_token={token}'
+            data = self.requests.get(url)
             print(data)
 
             if 'error' in data:
