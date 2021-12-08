@@ -34,6 +34,8 @@ class AuthService():
         self.signkey = signkey
 
     def sign(self, s: str) -> str:
+        if not s:
+            raise ValueError('Invalid sign input')
         b = f'{self.signkey}:{s}'.encode('ascii')
         hx = hashlib.sha256(b).digest()  # bytes
         return base64.b64encode(hx).decode('UTF-8')
