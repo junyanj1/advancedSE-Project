@@ -128,9 +128,9 @@ const getTimeString = (date) => {
 }
 
 // Authentication
-const getEmail = () => {
+const getEmail = (redirectOnNull=true) => {
     email = window.localStorage.getItem("email");
-    if (email === null) {
+    if (redirectOnNull && email === null) {
         window.location.href = "welcome.html";
         throw 'No email!'
     }
@@ -138,9 +138,9 @@ const getEmail = () => {
     // return window.localStorage.getItem("email");
 }
 
-const getKey = () => {
+const getKey = (redirectOnNull=true) => {
     key = window.localStorage.getItem("key");
-    if (key === null) {
+    if (redirectOnNull && key === null) {
         window.location.href = "welcome.html";
         throw 'No key!'
     }

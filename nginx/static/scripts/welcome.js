@@ -11,18 +11,26 @@ const userChanged = (user) => {
             token,
             data => {
                 saveAuthInfo(data["user_id"], data["aapi-key"]);
+                $("#user-id-text").html(data["user_id"]);
+                $("#api-key-text").html(data["aapi-key"]);
+                $("#account-section").show();
             },
-            error => alert(error),
+            error => {
+                removeAuthInfo();
+                $("#account-section").hide();
+                alert(error);
+            }
         );
     }
 };
 
 const revokeAllScopes = () => {
     removeAuthInfo();
+    $("#account-section").hide();
     gapi.auth2.getAuthInstance().disconnect();
 }
 
-window.onLoadCallback = () => {
+window.onGapiLoadCallback = () => {
     gapi.load("auth2", () => {
         gapi.auth2.init({
             client_id: "228008718004-efglglqlouvggbkurnct52mh07kdufpl.apps.googleusercontent.com"
@@ -39,10 +47,41 @@ window.onLoadCallback = () => {
             }
 
             // Set signout button
-            $("#signout-btn").click(event => {
+            $(".signout-btn").click(event => {
+                console.log("SignOut");
                 event.preventDefault();
                 revokeAllScopes();
             });
+        }, error => {
+            console.log('Init error', error);
         });
     });
 };
+
+$(document).ready(() => {
+    let key = getKey(redirectOnNull=false);
+    if (key === null) {
+        console.log('Hide API Key section');
+        $("#account-section").hide();
+    } else {
+        console.log('Show API Key section');
+        $("#user-id-text").html(getEmail(redirectOnNull=false));
+        $("#api-key-text").html(key);
+        $("#account-section").show();
+    }
+
+    $("#test-signin-btn").click(event => {
+        event.preventDefault();
+        console.log("Test SignIn");
+        saveAuthInfo("organizer1@gmail.com", "AJK/zfuuYiXAA5oq7GGKNzanxrQhPrpN69vNnHc0M9w=");
+        $("#user-id-text").html("organizer1@gmail.com");
+        $("#api-key-text").html("AJK/zfuuYiXAA5oq7GGKNzanxrQhPrpN69vNnHc0M9w=");
+        $("#account-section").show();
+    });
+
+    $(".signout-btn").click(event => {
+        console.log("SignOut");
+        event.preventDefault();
+        revokeAllScopes();
+    });
+});

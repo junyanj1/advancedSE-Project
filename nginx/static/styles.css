@@ -49,3 +49,5 @@
 .p5 { padding: 5em; }
 
 .p6 { padding: 6em; }
+
+blockquote { border-color: #009688 }  /* teal */
