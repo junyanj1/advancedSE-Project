@@ -9,7 +9,7 @@ from schema import Schema, And, SchemaError
 from db.database import Database
 from models.user import User
 from models.event import Event
-from services.auth import Auth
+from services.auth import AuthService
 
 
 class UserController():
@@ -17,7 +17,7 @@ class UserController():
     jwt_pattern = re.compile(
             r"^[A-Za-z0-9-_]*\.[A-Za-z0-9-_]*\.[A-Za-z0-9-_]*$")
 
-    def __init__(self, db: Database, auth: Auth):
+    def __init__(self, db: Database, auth: AuthService):
         self.auth = auth
         self.db = db
 

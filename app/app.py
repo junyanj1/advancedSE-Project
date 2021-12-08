@@ -11,7 +11,7 @@ from controllers.user_controller import UserController
 from uwsgidecorators import postfork
 
 from db.database import Database
-from services.auth import Auth
+from services.auth import AuthService
 
 
 # Init app
@@ -45,7 +45,7 @@ class Context:
     def __init__(self):
         pool = Database.get_connection('postgresql://postgres@db:5432/aapi')
         self.db = Database(pool)
-        self.auth = Auth()
+        self.auth = AuthService()
         self.attendance = AttendanceController(self.db)
         self.event = EventController(self.db)
         self.user = UserController(self.db, self.auth)

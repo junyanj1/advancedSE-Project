@@ -29,7 +29,7 @@ class Whitelist():
         return Whitelist.find(1, token)
 
 
-class Auth():
+class AuthService():
     def __init__(self, signkey='team-aapi'):
         self.signkey = signkey
 
