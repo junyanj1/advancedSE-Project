@@ -1,5 +1,5 @@
 // Environment
-const BASE_ENDPOINT = "http://localhost:3000"
+const BASE_ENDPOINT = "http://team-aapi.me"
 
 // APIS
 const commonHeaders = () => {
