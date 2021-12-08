@@ -8,6 +8,7 @@ from controllers.attendance_controller import AttendanceController
 from controllers.event_controller import EventController
 from controllers.sample_controller import SampleController
 from controllers.user_controller import UserController
+from services.network_service import NetworkService
 from uwsgidecorators import postfork
 
 from db.database import Database
@@ -44,11 +45,12 @@ def handle_exception(e):
 class Context:
     def __init__(self):
         pool = Database.get_connection('postgresql://postgres@db:5432/aapi')
+        requests = NetworkService()
         self.db = Database(pool)
         self.auth = AuthService()
         self.attendance = AttendanceController(self.db)
         self.event = EventController(self.db)
-        self.user = UserController(self.db, self.auth)
+        self.user = UserController(self.db, self.auth, requests)
         self.sample = SampleController(self.db)
 
 
