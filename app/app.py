@@ -9,7 +9,6 @@ from controllers.event_controller import EventController
 from controllers.sample_controller import SampleController
 from controllers.user_controller import UserController
 from services.network_service import NetworkService
-from uwsgidecorators import postfork
 
 from db.database import Database
 from services.auth import AuthService
@@ -40,23 +39,6 @@ def handle_exception(e):
     response.data = json_data
     response.content_type = "application/json"
     return response
-
-
-class Context:
-    def __init__(self):
-        pool = Database.get_connection('postgresql://postgres@db:5432/aapi')
-        requests = NetworkService()
-        self.db = Database(pool)
-        self.auth = AuthService()
-        self.attendance = AttendanceController(self.db)
-        self.event = EventController(self.db)
-        self.user = UserController(self.db, self.auth, requests)
-        self.sample = SampleController(self.db)
-
-
-@postfork
-def init():
-    app.ctx = Context()
 
 
 @app.route('/health')
@@ -197,6 +179,23 @@ def create_sample_user():
     ))
 
 
+class Context:
+    def __init__(self):
+        pool = Database.get_connection('postgresql://postgres@db:5432/aapi')
+        requests = NetworkService()
+        self.db = Database(pool)
+        self.auth = AuthService()
+        self.attendance = AttendanceController(self.db)
+        self.event = EventController(self.db)
+        self.user = UserController(self.db, self.auth, requests)
+        self.sample = SampleController(self.db)
+
+
+def init(app):
+    app.ctx = Context()
+
+
 if __name__ == '__main__':
     # Only for dev
+    init(app)
     app.run(host='0.0.0.0', port=3000)

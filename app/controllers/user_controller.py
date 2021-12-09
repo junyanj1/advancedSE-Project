@@ -76,15 +76,15 @@ class UserController():
                 abort(401, f'Invalid user token: {token}')
 
             print(data['email'])
-            print(data['name'])
-            print(data['hd'])
+            print(data.get('name', 'name_unknown'))
+            print(data.get('hd', 'organization_unknown'))
 
             u = self.__get_user(data['email'])
             if u is None:
                 u = self.create_user(
                     data['email'],
-                    data['name'],
-                    data['hd'],
+                    data.get('name', 'name_unknown'),
+                    data.get('hd', 'organization_unknown'),
                 )
             return u
 
