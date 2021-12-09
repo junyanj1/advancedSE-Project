@@ -1,7 +1,7 @@
 # advancedSE-Project
 
-![Commit](http://18.218.235.18/static/badges/commit-badge.svg)
-![Coverage](http://18.218.235.18/static/badges/coverage-badge.svg)
+![Commit](http://team-aapi.me/static/badges/commit-badge.svg)
+![Coverage](http://team-aapi.me/static/badges/coverage-badge.svg)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=junyanj1_advancedSE-Project&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=junyanj1_advancedSE-Project)
 
 
@@ -15,23 +15,22 @@ Collaborators:
 
 
 ## API Specification
-
 http://team-aapi.me/static/api.html
 
-## Welcome Page
-http://team-aapi.me/static/welcome.html
+## Home Page
+http://team-aapi.me/static/index.html
 
-## Server
+## Server Status Check
 ```sh
 $ curl team-aapi.me/health
 {"commit_id":"xxxxxxx","status":"UP"}
 ```
 
 ## Style Check, Test Coverage and API Tests
-
 - Style errors: `app/bug.txt`
 - Test coverage report: `app/coverage.txt`
 - API test report: `app/postman.txt`
+- SonarCloud Quality status: [link](https://sonarcloud.io/summary/new_code?id=junyanj1_advancedSE-Project)
 
 ## Install and Run Locally
 
@@ -122,4 +121,5 @@ $ docker system prune
 ## References
 
 - PEP 8 Style guide: https://www.python.org/dev/peps/pep-0008/
+- Materialize css: https://materializecss.com/
 - gitmoji: https://gitmoji.dev/
