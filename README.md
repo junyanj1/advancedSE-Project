@@ -16,7 +16,7 @@ Collaborators:
 
 ## API Specification
 
-http://team-aapi.me/static/index.html
+http://team-aapi.me/static/api.html
 
 ## Welcome Page
 http://team-aapi.me/static/welcome.html
