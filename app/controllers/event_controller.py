@@ -143,8 +143,8 @@ class EventController():
                     re.match(r"^[A-Za-z0-9.,\s]*$", s))),
                 'address': And(str, lambda s: bool(
                     re.match(r"^[A-Za-z0-9.,\s]*$", s))),
-                'lat': float,
-                'long': float,
+                'lat': And(float, lambda n: n > -90 and n < 90),
+                'long': And(float, lambda n: n > -180 and n < 180),
                 'start_time': And(str, lambda s: bool(
                     re.match(
                             "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]"
