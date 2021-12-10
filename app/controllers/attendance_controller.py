@@ -242,7 +242,11 @@ class AttendanceController():
                            "event_location": location,
                            "event_start_time": event_start_time,
                            "event_end_time": event_end_time,
-                           "embed_link": "https://www.google.com/maps/embed/" +
-                           f"v1/place?key={maps_key}&q={location_query_string}"
+                           "embed_link": "https://maps.googleapis.com/" +
+                           "maps/api/staticmap?" +
+                           "zoom=13&size=600x300&maptype=roadmap&" +
+                           "markers=color:blue%7C" +
+                           f"label:Event%7C{location_query_string}" +
+                           f"&key={maps_key}"
                            })}
         )
