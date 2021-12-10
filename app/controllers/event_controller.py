@@ -201,9 +201,11 @@ class EventController():
         resp_json = resp.json()
         if resp.status_code != 200 or len(resp_json['results']) < 1:
             print("Cannot get formatted address from google maps API")
-            return {"address": address, "lat": lat, "long": long}
+            return {"address": address.replace(",", "").strip('"'),
+                    "lat": lat, "long": long}
         place = resp_json["results"][0]
-        formatted_address = place["formatted_address"]
+        formatted_address = place["formatted_address"].replace(",", "")\
+            .strip('"')
         geometry = place["geometry"]["location"]
         if not lat or abs(lat - geometry["lat"]) >= 0.25:
             lat = geometry["lat"]

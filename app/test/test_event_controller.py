@@ -266,8 +266,8 @@ class Test_EventController(unittest.TestCase):
         expected = {
             'lat': 40.807001,
             'long': -73.9640299,
-            'address': 'Alfred Lerner Hall, 2920 Broadway, ' +
-                       'New York, NY 10027, USA',
+            'address': 'Alfred Lerner Hall 2920 Broadway ' +
+                       'New York NY 10027 USA',
         }
         actual = self.event_controller.\
             get_formatted_address_with_lgt_ltt_from_gmaps(
