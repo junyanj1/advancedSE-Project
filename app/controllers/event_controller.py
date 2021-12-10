@@ -4,6 +4,8 @@ from schema import Schema, And, SchemaError
 import re
 from flask import abort
 from psycopg.errors import ForeignKeyViolation, UniqueViolation
+import requests
+import os
 
 
 class EventController():
@@ -178,3 +180,34 @@ class EventController():
         except SchemaError as e:
             print(e)
         return validated
+
+    def get_formatted_address_with_lgt_ltt_from_gmaps(self, address, lat,
+                                                      long):
+        """
+        @param: address: str, user input address
+        @param: lat: float, can be None
+        @param: long: float, can be None
+        @return: dict of length = 3, containing [formatted address from
+                 google maps, lat, long according to the address]
+
+        Render formatted address and validate input latitude/ longitude from
+        google maps api
+        """
+        payloads = {"address": address, "key": os.environ["MAPS_API"]}
+        resp = requests.get(
+                        "https://maps.googleapis.com/maps/api/geocode/json",
+                        params=payloads
+                        )
+        resp_json = resp.json()
+        if resp.status_code != 200 or len(resp_json['results']) < 1:
+            print("Cannot get formatted address from google maps API")
+            return {"address": address, "lat": lat, "long": long}
+        place = resp_json["results"][0]
+        formatted_address = place["formatted_address"]
+        geometry = place["geometry"]["location"]
+        if not lat or abs(lat - geometry["lat"]) >= 0.25:
+            lat = geometry["lat"]
+        if not long or abs(long - geometry["lng"]) >= 0.5:
+            long = geometry["lng"]
+
+        return {"address": formatted_address, "lat": lat, "long": long}
