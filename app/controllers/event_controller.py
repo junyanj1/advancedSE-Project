@@ -193,7 +193,8 @@ class EventController():
         Render formatted address and validate input latitude/ longitude from
         google maps api
         """
-        payloads = {"address": address, "key": os.environ["MAPS_API"]}
+        payloads = {"address": address, "key": os.getenv("MAPS_API",
+                    default="")}
         resp = requests.get(
                         "https://maps.googleapis.com/maps/api/geocode/json",
                         params=payloads
