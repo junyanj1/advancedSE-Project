@@ -86,14 +86,19 @@ def create_event():
     data = request.json
     app.ctx.auth.verify_request(request.headers, data.get("user_id"))
     try:
+        addr = app.ctx.event.get_formatted_address_with_lgt_ltt_from_gmaps(
+            data.get("address"),
+            data.get("lat", None),
+            data.get("long", None)
+        )  # Get formatted nice address from google maps API
         return jsonify(app.ctx.event.create_event(
             data.get("event_name"),  # "Winter Career Fair"
             data.get("user_id"),  # "asdasdas@asdasd.com"
             data.get("description"),  # "This is a winter career fair"
             data.get("location_name"),  # "Columbia University"
-            data.get("address"),  # "2960 Broadway..."
-            data.get("lat", None),  # 12.34  !NULLABLE
-            data.get("long", None),  # 12.34  !NULLABLE
+            addr.get("address"),  # "2960 Broadway..."
+            addr.get("lat", None),  # 12.34  !NULLABLE
+            addr.get("long", None),  # 12.34  !NULLABLE
             data.get("start_time"),  # "2021-03-22 18:34"
             data.get("end_time"),  # "2021-03-22 20:34"
             data.get("attendee_limit"),  # 500
