@@ -13,6 +13,7 @@ services:
     environment:
       COMMIT_ID: ${COMMIT_ID:-unknown_env}
       MAILGUN_API: ${MAILGUN_API}
+      MAPS_API: ${MAPS_API}
 
   db:
     image: postgres:alpine
