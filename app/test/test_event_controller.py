@@ -17,7 +17,7 @@ class Test_EventController(unittest.TestCase):
                 'event_name': 'Career Fair',
                 'event_description': 'Example Description',
                 'event_location': "(Columbia University',\
-                                    -12.12,21.21,2920 Broadway)",
+                                    -12.12,21.21,2920 Broadway New York)",
                 'event_start_time': '2021-03-22 18:34',
                 'event_end_time': '2021-03-22 18:34',
                 'attendee_limit': 500,
@@ -32,7 +32,7 @@ class Test_EventController(unittest.TestCase):
             'event_name': 'Career Fair',
             'event_description': 'Example Description',
             'event_location': "(Columbia University,\
-                                -12.12,21.21,2920 Broadway)",
+                                -12.12,21.21,2920 Broadway New York)",
             'event_start_time': '2021-03-22 18:34',
             'event_end_time': '2021-03-22 18:34',
             'attendee_limit': 500,
@@ -57,7 +57,7 @@ class Test_EventController(unittest.TestCase):
             'location': 'Columbia University',
             'lat': -12.12,
             'long': 21.21,
-            'address': '2920 Broadway',
+            'address': '2920 Broadway New York',
             'start_time': '2021-03-22 18:34',
             'end_time': '2021-03-22 18:34',
             'attendee_limit': 500,
@@ -99,7 +99,7 @@ class Test_EventController(unittest.TestCase):
             'location': 'Columbia University',
             'lat': -12.12,
             'long': 21.21,
-            'address': '2920 Broadway',
+            'address': '2920 Broadway New York',
             'start_time': '2021-03-22 18:34',
             'end_time': '2021-03-22 18:34',
             'attendee_limit': 500,
@@ -111,7 +111,7 @@ class Test_EventController(unittest.TestCase):
                                                     'test@gmail.com',
                                                     'Example Description',
                                                     'Columbia University',
-                                                    '2920 Broadway',
+                                                    '2920 Broadway New York',
                                                     -12.12, 21.21,
                                                     '2021-03-22 18:34',
                                                     '2021-03-22 18:34', 500)
@@ -130,7 +130,7 @@ class Test_EventController(unittest.TestCase):
                                                'asdasdasd@gmailcom',
                                                'Example Description',
                                                'Columbia University',
-                                               '2920 Broadway',
+                                               '2920 Broadway New York',
                                                -12.12, 21.21,
                                                '2021-03-22 18:34',
                                                '2021-03-22 18:34', 500)
@@ -150,7 +150,8 @@ class Test_EventController(unittest.TestCase):
                                         'Career Fair',
                                         'test@gmail.com',
                                         'Example Description',
-                                        'Columbia University', '2920 Broadway',
+                                        'Columbia University', 
+                                        '2920 Broadway New York',
                                         -12.12, 21.21, '2021-03-22 18:34',
                                         '2021-03-22 18:34', 500)
         self.assertEqual(expected, actual)
@@ -162,7 +163,8 @@ class Test_EventController(unittest.TestCase):
                                         'Career Fair',
                                         'test@gmailcom',
                                         'Example Description',
-                                        'Columbia University', '2920 Broadway',
+                                        'Columbia University', 
+                                        '2920 Broadway New York',
                                         -12.12, 21.21, '2021-03-22 18:34',
                                         '2021-03-22 18:34', 500)
         self.assertEqual(expected, actual)
@@ -174,7 +176,8 @@ class Test_EventController(unittest.TestCase):
                                         'Career Fair.',
                                         'test@gmail.com',
                                         'Example Description',
-                                        'Columbia University', '2920 Broadway',
+                                        'Columbia University', 
+                                        '2920 Broadway New York',
                                         -12.12, 21.21, '2021-03-22 18:34',
                                         '2021-03-22 18:34', 500)
         self.assertEqual(expected, actual)
@@ -186,7 +189,8 @@ class Test_EventController(unittest.TestCase):
                                         'Career Fair',
                                         'test@gmail.com',
                                         'Example Description<',
-                                        'Columbia University', '2920 Broadway',
+                                        'Columbia University', 
+                                        '2920 Broadway New York',
                                         -12.12, 21.21, '2021-03-22 18:34',
                                         '2021-03-22 18:34', 500)
         self.assertEqual(expected, actual)
@@ -199,7 +203,8 @@ class Test_EventController(unittest.TestCase):
                                         'test@gmail.com',
                                         'Example Description',
                                         'Columbia University?',
-                                        '2920 Broadway', -12.12, 21.21,
+                                        '2920 Broadway New York', 
+                                        -12.12, 21.21,
                                         '2021-03-22 18:34',
                                         '2021-03-22 18:34', 500)
         self.assertEqual(expected, actual)
@@ -212,7 +217,7 @@ class Test_EventController(unittest.TestCase):
                                         'test@gmail.com',
                                         'Example Description',
                                         'Columbia University',
-                                        '2920 Broadway?',
+                                        '2920 Broadway New York?',
                                         -12.12, 21.21, '2021-03-22 18:34',
                                         '2021-03-22 18:34', 500)
         self.assertEqual(expected, actual)
@@ -224,7 +229,8 @@ class Test_EventController(unittest.TestCase):
                                         'Career Fair',
                                         'test@gmail.com',
                                         'Example Description',
-                                        'Columbia University', '2920 Broadway',
+                                        'Columbia University', 
+                                        '2920 Broadway New York',
                                         '-12.12', 21.21, '2021-03-22 18:34',
                                         '2021-03-22 18:34', 500)
         self.assertEqual(expected, actual)
@@ -236,7 +242,8 @@ class Test_EventController(unittest.TestCase):
                                         'Career Fair',
                                         'test@gmail.com',
                                         'Example Description',
-                                        'Columbia University', '2920 Broadway',
+                                        'Columbia University', 
+                                        '2920 Broadway New York',
                                         -12.12, 21.21, '2021-45-22 18:34',
                                         '2021-03-22 18:34', 500)
         self.assertEqual(expected, actual)
@@ -248,7 +255,33 @@ class Test_EventController(unittest.TestCase):
                                         'Career Fair',
                                         'test@gmail.com',
                                         'Example Description',
-                                        'Columbia University', '2920 Broadway',
+                                        'Columbia University', 
+                                        '2920 Broadway New York',
                                         -12.12, 21.21, '2021-45-22 18:34',
                                         '2021-03-22 18:34', -34)
         self.assertEqual(expected, actual)
+
+    def test01_formatted_event_address(self):
+        """Happy Path: We get the right formatted address"""
+        expected = {
+            'lat': 40.807001,
+            'long': -73.9640299,
+            'address': 'Alfred Lerner Hall, 2920 Broadway, ' +
+                       'New York, NY 10027, USA',
+        }
+        actual = self.event_controller.\
+            get_formatted_address_with_lgt_ltt_from_gmaps(
+                "2920 Broadway, New York", -12.12, 21.21
+                )
+        self.assertDictEqual(expected, actual)
+
+    def test02_formatted_event_address(self):
+        """Bad input: Cannot get input from Google Maps API"""
+        expected = {
+            'lat': -12.12,
+            'long': 21.21,
+            'address': '',
+        }
+        actual = self.event_controller.\
+            get_formatted_address_with_lgt_ltt_from_gmaps("", -12.12, 21.21)
+        self.assertDictEqual(expected, actual)
