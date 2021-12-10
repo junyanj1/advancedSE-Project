@@ -45,7 +45,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-    - uses: actions/checkout@v2
     - name: Run postman tests in Docker
       run: docker-compose -f docker-compose.postman.yml up --abort-on-container-exit 
     - name: Clean up 
