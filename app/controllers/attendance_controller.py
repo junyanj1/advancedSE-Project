@@ -236,7 +236,8 @@ class AttendanceController():
                            "invite_link": personal_code,
                            "event_name": event_name,
                            "event_description": event_description,
-                           "event_location": event_location,
+                           "event_location": str(event_location)[1:-1].
+                           split(',')[-1],
                            "event_start_time": event_start_time,
                            "event_end_time": event_end_time})}
         )
