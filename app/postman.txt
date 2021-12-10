@@ -1,0 +1,80 @@
+newman
+
+advancedSE-Project
+
+❏ users / {user id}
+↳ Get User detail
+  GET localhost:3000/users/organizer1@gmail.com [200 OK, 314B, 135ms]
+  ✓  Status code is 200
+  ✓  All user details match
+
+↳ Get a list of events created by this user
+  GET localhost:3000/users/organizer2@gmail.com/events [200 OK, 498B, 11ms]
+  ✓  Status code is 200
+  ✓  Event details match
+
+❏ users
+↳ Create a new User
+  POST localhost:3000/users [200 OK, 314B, 9ms]
+
+❏ events / {event id}
+↳ Get Event detail
+  GET localhost:3000/events/2 [200 OK, 496B, 8ms]
+  ✓  Status code is 200
+  ✓  Event_id and details match
+
+↳ Get list of attendees/rsvp/invited people of an event
+  GET localhost:3000/events/1/attendances?is_invited=true&is_rsvped=false&is_checked_in=false [200 OK, 909B, 9ms]
+  ✓  Status code is 200
+  ✓  Is_invited, is_rsvped, is_checked_in, and event_id fields match the query
+
+↳ Request invites
+  POST localhost:3000/events/2/invite [200 OK, 1.48kB, 930ms]
+  ✓  Status code is 200
+  ✓  Event_id matches the parameter
+
+↳ RSVP (see description)
+  GET localhost:3000/events/1/rsvp/pc1 [200 OK, 420B, 14ms]
+  ✓  Status code is 200
+  ✓  Event_id and personal_code match and is_rsvped set to True
+
+↳ Check In (see description)
+  GET localhost:3000/events/1/check_in/pc1 [200 OK, 419B, 9ms]
+  ✓  Status code is 200
+  ✓  Event_id and personal_code match and is_checked_in & is_rsvped set to True
+
+❏ events
+↳ Create a new Event
+  POST localhost:3000/events [200 OK, 514B, 10ms]
+  ✓  Status code is 200
+  ✓  Fields are correct
+
+↳ UnRSVP
+  GET localhost:3000/events/1/unrsvp/pc1 [200 OK, 420B, 10ms]
+  ✓  Status code is 200
+  ✓  Event_id and personal_code match and is_rsvped set to False
+
+→ Server Status
+  GET localhost:3000/health [200 OK, 219B, 5ms]
+  ✓  Status test
+  ✓  Server Status
+
+┌─────────────────────────┬────────────────────┬───────────────────┐
+│                         │           executed │            failed │
+├─────────────────────────┼────────────────────┼───────────────────┤
+│              iterations │                  1 │                 0 │
+├─────────────────────────┼────────────────────┼───────────────────┤
+│                requests │                 11 │                 0 │
+├─────────────────────────┼────────────────────┼───────────────────┤
+│            test-scripts │                 10 │                 0 │
+├─────────────────────────┼────────────────────┼───────────────────┤
+│      prerequest-scripts │                  0 │                 0 │
+├─────────────────────────┼────────────────────┼───────────────────┤
+│              assertions │                 20 │                 0 │
+├─────────────────────────┴────────────────────┴───────────────────┤
+│ total run duration: 1306ms                                       │
+├──────────────────────────────────────────────────────────────────┤
+│ total data received: 4.04kB (approx)                             │
+├──────────────────────────────────────────────────────────────────┤
+│ average response time: 104ms [min: 5ms, max: 930ms, s.d.: 263ms] │
+└──────────────────────────────────────────────────────────────────┘

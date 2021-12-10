@@ -27,10 +27,11 @@ $ curl team-aapi.me/health
 {"commit_id":"xxxxxxx","status":"UP"}
 ```
 
-## Style Check and Test Coverage
+## Style Check, Test Coverage and API Tests
 
 - Style errors: `app/bug.txt`
 - Test coverage report: `app/coverage.txt`
+- API test report: `app/postman.txt`
 
 ## Install and Run Locally
 
