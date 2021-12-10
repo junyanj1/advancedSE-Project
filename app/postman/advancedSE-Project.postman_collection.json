@@ -58,7 +58,13 @@
 									]
 								},
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "aapi-key",
+										"value": "AJK/zfuuYiXAA5oq7GGKNzanxrQhPrpN69vNnHc0M9w=",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{baseUrl}}:{{hostPort}}/users/:user_id",
 									"host": [
@@ -77,63 +83,7 @@
 									]
 								}
 							},
-							"response": [
-								{
-									"name": "Get User detail",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{baseUrl}}:{{hostPort}}/users/:user_id",
-											"host": [
-												"{{baseUrl}}:{{hostPort}}"
-											],
-											"path": [
-												"users",
-												":user_id"
-											],
-											"variable": [
-												{
-													"key": "user_id",
-													"value": "organizer1@gmail.com",
-													"description": "(Required) "
-												}
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Server",
-											"value": "nginx/1.21.3"
-										},
-										{
-											"key": "Date",
-											"value": "Tue, 16 Nov 2021 03:29:47 GMT"
-										},
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										},
-										{
-											"key": "Content-Length",
-											"value": "78"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										},
-										{
-											"key": "Access-Control-Allow-Origin",
-											"value": "*"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"org_name\": \"org1\",\n    \"user_id\": \"organizer1@gmail.com\",\n    \"username\": \"sampleUser1\"\n}"
-								}
-							]
+							"response": []
 						},
 						{
 							"name": "Get a list of events created by this user",
@@ -189,7 +139,13 @@
 									]
 								},
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "aapi-key",
+										"value": "MkPBcZHiUg3Vic1sggepLTWOh+z745ZCIRGuKnIHHGQ=",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{baseUrl}}:{{hostPort}}/users/:user_id/events",
 									"host": [
@@ -209,64 +165,7 @@
 									]
 								}
 							},
-							"response": [
-								{
-									"name": "Get a list of events created by this user",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{baseUrl}}:{{hostPort}}/users/:user_id/events",
-											"host": [
-												"{{baseUrl}}:{{hostPort}}"
-											],
-											"path": [
-												"users",
-												":user_id",
-												"events"
-											],
-											"variable": [
-												{
-													"key": "user_id",
-													"value": "organizer1@gmail.com",
-													"description": "(Required) "
-												}
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Server",
-											"value": "nginx/1.21.3"
-										},
-										{
-											"key": "Date",
-											"value": "Tue, 16 Nov 2021 03:30:07 GMT"
-										},
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										},
-										{
-											"key": "Content-Length",
-											"value": "953"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										},
-										{
-											"key": "Access-Control-Allow-Origin",
-											"value": "*"
-										}
-									],
-									"cookie": [],
-									"body": "[\n    {\n        \"address\": \"address\",\n        \"attendee_limit\": 200,\n        \"end_time\": \"Mon, 15 Nov 2021 14:00:00 GMT\",\n        \"event_description\": \"description\",\n        \"event_id\": \"1\",\n        \"event_name\": \"2021 career fair\",\n        \"lat\": 40.80778821286171,\n        \"location\": \"columbia\",\n        \"long\": -73.96345656010647,\n        \"start_time\": \"Mon, 15 Nov 2021 12:10:00 GMT\",\n        \"user_id\": \"organizer1@gmail.com\"\n    },\n    {\n        \"address\": \"address\",\n        \"attendee_limit\": 200,\n        \"end_time\": \"Sun, 15 Nov 2020 14:00:00 GMT\",\n        \"event_description\": \"description\",\n        \"event_id\": \"4\",\n        \"event_name\": \"2020 career fair\",\n        \"lat\": 40.80778821286171,\n        \"location\": \"columbia\",\n        \"long\": -73.96345656010647,\n        \"start_time\": \"Sun, 15 Nov 2020 12:10:00 GMT\",\n        \"user_id\": \"organizer1@gmail.com\"\n    },\n    {\n        \"address\": \"address\",\n        \"attendee_limit\": 200,\n        \"end_time\": \"Tue, 15 Nov 2022 14:00:00 GMT\",\n        \"event_description\": \"description\",\n        \"event_id\": \"5\",\n        \"event_name\": \"2022 career fair\",\n        \"lat\": 40.80778821286171,\n        \"location\": \"columbia\",\n        \"long\": -73.96345656010647,\n        \"start_time\": \"Tue, 15 Nov 2022 12:10:00 GMT\",\n        \"user_id\": \"organizer1@gmail.com\"\n    }\n]"
-								}
-							]
+							"response": []
 						}
 					]
 				},
@@ -319,69 +218,7 @@
 							]
 						}
 					},
-					"response": [
-						{
-							"name": "Create a new User",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"user_id\": \"organizer4@gmail.com\",\n    \"org_name\": \"org4\",\n    \"username\": \"sampleUser4\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}:{{hostPort}}/users",
-									"host": [
-										"{{baseUrl}}:{{hostPort}}"
-									],
-									"path": [
-										"users"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Server",
-									"value": "nginx/1.21.3"
-								},
-								{
-									"key": "Date",
-									"value": "Tue, 16 Nov 2021 03:29:37 GMT"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Content-Length",
-									"value": "78"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"org_name\": \"org4\",\n    \"user_id\": \"organizer4@gmail.com\",\n    \"username\": \"sampleUser4\"\n}"
-						}
-					]
+					"response": []
 				}
 			]
 		},
@@ -444,7 +281,13 @@
 									]
 								},
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "aapi-key",
+										"value": "MkPBcZHiUg3Vic1sggepLTWOh+z745ZCIRGuKnIHHGQ=",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{baseUrl}}:{{hostPort}}/events/:event_id",
 									"host": [
@@ -463,63 +306,7 @@
 									]
 								}
 							},
-							"response": [
-								{
-									"name": "Get Event detail",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{baseUrl}}:{{hostPort}}/events/:event_id",
-											"host": [
-												"{{baseUrl}}:{{hostPort}}"
-											],
-											"path": [
-												"events",
-												":event_id"
-											],
-											"variable": [
-												{
-													"key": "event_id",
-													"value": "2",
-													"description": "(Required) "
-												}
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Server",
-											"value": "nginx/1.21.3"
-										},
-										{
-											"key": "Date",
-											"value": "Tue, 16 Nov 2021 03:25:41 GMT"
-										},
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										},
-										{
-											"key": "Content-Length",
-											"value": "318"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										},
-										{
-											"key": "Access-Control-Allow-Origin",
-											"value": "*"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"address\": \"address\",\n    \"attendee_limit\": 200,\n    \"end_time\": \"Tue, 16 Nov 2021 14:00:00 GMT\",\n    \"event_description\": \"description\",\n    \"event_id\": \"2\",\n    \"event_name\": \"2021 student fair\",\n    \"lat\": 40.80778821286171,\n    \"location\": \"columbia\",\n    \"long\": -73.96345656010647,\n    \"start_time\": \"Tue, 16 Nov 2021 12:10:00 GMT\",\n    \"user_id\": \"organizer2@gmail.com\"\n}"
-								}
-							]
+							"response": []
 						},
 						{
 							"name": "Get list of attendees/rsvp/invited people of an event",
@@ -572,7 +359,13 @@
 									]
 								},
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "aapi-key",
+										"value": "AJK/zfuuYiXAA5oq7GGKNzanxrQhPrpN69vNnHc0M9w=",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{baseUrl}}:{{hostPort}}/events/:event_id/attendances?is_invited=true&is_rsvped=false&is_checked_in=false",
 									"host": [
@@ -606,78 +399,7 @@
 									]
 								}
 							},
-							"response": [
-								{
-									"name": "Get list of attendees/rsvp/invited people of an event",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{baseUrl}}:{{hostPort}}/events/:event_id/attendances?invited=true&rsvped=false&checked_in=false",
-											"host": [
-												"{{baseUrl}}:{{hostPort}}"
-											],
-											"path": [
-												"events",
-												":event_id",
-												"attendances"
-											],
-											"query": [
-												{
-													"key": "invited",
-													"value": "true"
-												},
-												{
-													"key": "rsvped",
-													"value": "false"
-												},
-												{
-													"key": "checked_in",
-													"value": "false"
-												}
-											],
-											"variable": [
-												{
-													"key": "event_id",
-													"value": "1",
-													"description": "(Required) "
-												}
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Server",
-											"value": "nginx/1.21.3"
-										},
-										{
-											"key": "Date",
-											"value": "Tue, 16 Nov 2021 03:26:56 GMT"
-										},
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										},
-										{
-											"key": "Content-Length",
-											"value": "731"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										},
-										{
-											"key": "Access-Control-Allow-Origin",
-											"value": "*"
-										}
-									],
-									"cookie": [],
-									"body": "[\n    {\n        \"created_at\": \"Tue, 16 Nov 2021 02:30:07 GMT\",\n        \"event_id\": \"1\",\n        \"is_checked_in\": false,\n        \"is_invited\": true,\n        \"is_rsvped\": false,\n        \"personal_code\": \"pc1\",\n        \"updated_at\": \"Tue, 16 Nov 2021 02:30:07 GMT\",\n        \"user_email\": \"invite1@gmail.com\",\n        \"user_role\": \"attendee\"\n    },\n    {\n        \"created_at\": \"Tue, 16 Nov 2021 02:30:07 GMT\",\n        \"event_id\": \"1\",\n        \"is_checked_in\": false,\n        \"is_invited\": true,\n        \"is_rsvped\": false,\n        \"personal_code\": \"pc2\",\n        \"updated_at\": \"Tue, 16 Nov 2021 02:30:07 GMT\",\n        \"user_email\": \"invite2@gmail.com\",\n        \"user_role\": \"attendee\"\n    },\n    {\n        \"created_at\": \"Tue, 16 Nov 2021 02:30:07 GMT\",\n        \"event_id\": \"1\",\n        \"is_checked_in\": false,\n        \"is_invited\": true,\n        \"is_rsvped\": false,\n        \"personal_code\": \"pc3\",\n        \"updated_at\": \"Tue, 16 Nov 2021 02:30:07 GMT\",\n        \"user_email\": \"invite3@gmail.com\",\n        \"user_role\": \"attendee\"\n    }\n]"
-								}
-							]
+							"response": []
 						},
 						{
 							"name": "Request invites",
@@ -730,11 +452,16 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json"
+									},
+									{
+										"key": "aapi-key",
+										"value": "MkPBcZHiUg3Vic1sggepLTWOh+z745ZCIRGuKnIHHGQ=",
+										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"emails\": [\"testinvite1@gmail.com\",\n               \"testinvite2@gmail.com\",\n               \"testinvite3@gmail.com\"]\n}",
+									"raw": "{\n    \"emails\": [\"xl3082@columbia.edu\",\n               \"xihaoluo@gmail.com\"]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -760,78 +487,7 @@
 									]
 								}
 							},
-							"response": [
-								{
-									"name": "Request invites",
-									"originalRequest": {
-										"method": "POST",
-										"header": [
-											{
-												"key": "Content-Type",
-												"value": "application/json"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n    \"emails\": [\"testinvite1@gmail.com\",\n               \"testinvite2@gmail.com\",\n               \"testinvite3@gmail.com\"]\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{baseUrl}}:{{hostPort}}/events/:event_id/invite",
-											"host": [
-												"{{baseUrl}}:{{hostPort}}"
-											],
-											"path": [
-												"events",
-												":event_id",
-												"invite"
-											],
-											"variable": [
-												{
-													"key": "event_id",
-													"value": "2",
-													"description": "(Required) "
-												}
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Server",
-											"value": "nginx/1.21.3"
-										},
-										{
-											"key": "Date",
-											"value": "Tue, 16 Nov 2021 03:31:14 GMT"
-										},
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										},
-										{
-											"key": "Content-Length",
-											"value": "1559"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										},
-										{
-											"key": "Access-Control-Allow-Origin",
-											"value": "*"
-										}
-									],
-									"cookie": [],
-									"body": "[\n    {\n        \"created_at\": \"Tue, 16 Nov 2021 02:30:07 GMT\",\n        \"event_id\": \"2\",\n        \"is_checked_in\": false,\n        \"is_invited\": true,\n        \"is_rsvped\": false,\n        \"personal_code\": \"pc1\",\n        \"updated_at\": \"Tue, 16 Nov 2021 02:30:07 GMT\",\n        \"user_email\": \"invite1@gmail.com\",\n        \"user_role\": \"attendee\"\n    },\n    {\n        \"created_at\": \"Tue, 16 Nov 2021 02:30:07 GMT\",\n        \"event_id\": \"2\",\n        \"is_checked_in\": false,\n        \"is_invited\": true,\n        \"is_rsvped\": false,\n        \"personal_code\": \"pc2\",\n        \"updated_at\": \"Tue, 16 Nov 2021 02:30:07 GMT\",\n        \"user_email\": \"invite2@gmail.com\",\n        \"user_role\": \"attendee\"\n    },\n    {\n        \"created_at\": \"Tue, 16 Nov 2021 02:30:07 GMT\",\n        \"event_id\": \"2\",\n        \"is_checked_in\": false,\n        \"is_invited\": true,\n        \"is_rsvped\": false,\n        \"personal_code\": \"pc3\",\n        \"updated_at\": \"Tue, 16 Nov 2021 02:30:07 GMT\",\n        \"user_email\": \"invite3@gmail.com\",\n        \"user_role\": \"attendee\"\n    },\n    {\n        \"created_at\": \"Tue, 16 Nov 2021 03:30:55 GMT\",\n        \"event_id\": \"2\",\n        \"is_checked_in\": false,\n        \"is_invited\": true,\n        \"is_rsvped\": false,\n        \"personal_code\": \"Mjp0ZXN0aW52aXRlMUBnbWFpbC5jb20=\",\n        \"updated_at\": \"Tue, 16 Nov 2021 03:30:55 GMT\",\n        \"user_email\": \"testinvite1@gmail.com\",\n        \"user_role\": \"attendee\"\n    },\n    {\n        \"created_at\": \"Tue, 16 Nov 2021 03:31:14 GMT\",\n        \"event_id\": \"2\",\n        \"is_checked_in\": false,\n        \"is_invited\": true,\n        \"is_rsvped\": false,\n        \"personal_code\": \"Mjp0ZXN0aW52aXRlMkBnbWFpbC5jb20=\",\n        \"updated_at\": \"Tue, 16 Nov 2021 03:31:14 GMT\",\n        \"user_email\": \"testinvite2@gmail.com\",\n        \"user_role\": \"attendee\"\n    },\n    {\n        \"created_at\": \"Tue, 16 Nov 2021 03:31:14 GMT\",\n        \"event_id\": \"2\",\n        \"is_checked_in\": false,\n        \"is_invited\": true,\n        \"is_rsvped\": false,\n        \"personal_code\": \"Mjp0ZXN0aW52aXRlM0BnbWFpbC5jb20=\",\n        \"updated_at\": \"Tue, 16 Nov 2021 03:31:14 GMT\",\n        \"user_email\": \"testinvite3@gmail.com\",\n        \"user_role\": \"attendee\"\n    }\n]"
-								}
-							]
+							"response": []
 						},
 						{
 							"name": "RSVP (see description)",
@@ -886,70 +542,7 @@
 								},
 								"description": "This API is intended to be used by the invitee. This link should be\nsent to the user. When the user invokes this link, the server finds\nthe user based on the personalized code and marks this invitee as rsvped.\n"
 							},
-							"response": [
-								{
-									"name": "RSVP",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{baseUrl}}:{{hostPort}}/events/:event_id/rsvp/:personal_code",
-											"host": [
-												"{{baseUrl}}:{{hostPort}}"
-											],
-											"path": [
-												"events",
-												":event_id",
-												"rsvp",
-												":personal_code"
-											],
-											"variable": [
-												{
-													"key": "event_id",
-													"value": "1",
-													"description": "(Required) "
-												},
-												{
-													"key": "personal_code",
-													"value": "pc1",
-													"description": "(Required) A unique code"
-												}
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Server",
-											"value": "nginx/1.21.3"
-										},
-										{
-											"key": "Date",
-											"value": "Tue, 16 Nov 2021 03:27:21 GMT"
-										},
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										},
-										{
-											"key": "Content-Length",
-											"value": "242"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										},
-										{
-											"key": "Access-Control-Allow-Origin",
-											"value": "*"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"created_at\": \"Tue, 16 Nov 2021 02:30:07 GMT\",\n    \"event_id\": \"1\",\n    \"is_checked_in\": false,\n    \"is_invited\": true,\n    \"is_rsvped\": true,\n    \"personal_code\": \"pc1\",\n    \"updated_at\": \"Tue, 16 Nov 2021 02:30:07 GMT\",\n    \"user_email\": \"invite1@gmail.com\",\n    \"user_role\": \"attendee\"\n}"
-								}
-							]
+							"response": []
 						},
 						{
 							"name": "Check In (see description)",
@@ -1005,70 +598,7 @@
 								},
 								"description": "This API is intended to be used by the attendee. When the user invokes\nthis link, the server finds the user based on the personalized code and\ncheck this person in.\n"
 							},
-							"response": [
-								{
-									"name": "Check In (see description)",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{baseUrl}}:{{hostPort}}/events/:event_id/check_in/:personal_code",
-											"host": [
-												"{{baseUrl}}:{{hostPort}}"
-											],
-											"path": [
-												"events",
-												":event_id",
-												"check_in",
-												":personal_code"
-											],
-											"variable": [
-												{
-													"key": "event_id",
-													"value": "1",
-													"description": "(Required) "
-												},
-												{
-													"key": "personal_code",
-													"value": "pc1",
-													"description": "(Required) A unique code"
-												}
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Server",
-											"value": "nginx/1.21.3"
-										},
-										{
-											"key": "Date",
-											"value": "Tue, 16 Nov 2021 03:28:29 GMT"
-										},
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										},
-										{
-											"key": "Content-Length",
-											"value": "241"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										},
-										{
-											"key": "Access-Control-Allow-Origin",
-											"value": "*"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"created_at\": \"Tue, 16 Nov 2021 02:30:07 GMT\",\n    \"event_id\": \"1\",\n    \"is_checked_in\": true,\n    \"is_invited\": true,\n    \"is_rsvped\": true,\n    \"personal_code\": \"pc1\",\n    \"updated_at\": \"Tue, 16 Nov 2021 02:30:07 GMT\",\n    \"user_email\": \"invite1@gmail.com\",\n    \"user_role\": \"attendee\"\n}"
-								}
-							]
+							"response": []
 						}
 					]
 				},
@@ -1129,6 +659,11 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
+							},
+							{
+								"key": "aapi-key",
+								"value": "MkPBcZHiUg3Vic1sggepLTWOh+z745ZCIRGuKnIHHGQ=",
+								"type": "text"
 							}
 						],
 						"body": {
@@ -1150,69 +685,7 @@
 							]
 						}
 					},
-					"response": [
-						{
-							"name": "Create a new Event",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"event_name\": \"2023 student fair\",\n    \"user_id\": \"organizer2@gmail.com\",\n    \"description\": \"description\",\n    \"location_name\": \"columbia\",\n    \"address\": \"address\",\n    \"lat\": 40.80778821286171,\n    \"long\": -73.96345656010647,\n    \"start_time\": \"2023-11-16 12:10\",\n    \"end_time\": \"2023-11-16 14:00\",\n    \"attendee_limit\": 300\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}:{{hostPort}}/events",
-									"host": [
-										"{{baseUrl}}:{{hostPort}}"
-									],
-									"path": [
-										"events"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Server",
-									"value": "nginx/1.21.3"
-								},
-								{
-									"key": "Date",
-									"value": "Tue, 16 Nov 2021 03:28:53 GMT"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Content-Length",
-									"value": "338"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"address\": \"address\",\n    \"attendee_limit\": 300,\n    \"end_time\": \"Thu, 16 Nov 2023 14:00:00 GMT\",\n    \"event_description\": \"description\",\n    \"event_id\": \"b1QCuIIOTW4NPZv7EXhnQ\",\n    \"event_name\": \"2023 student fair\",\n    \"lat\": 40.80778821286171,\n    \"location\": \"columbia\",\n    \"long\": -73.96345656010647,\n    \"start_time\": \"Thu, 16 Nov 2023 12:10:00 GMT\",\n    \"user_id\": \"organizer2@gmail.com\"\n}"
-						}
-					]
+					"response": []
 				},
 				{
 					"name": "UnRSVP",
@@ -1264,68 +737,7 @@
 							]
 						}
 					},
-					"response": [
-						{
-							"name": "UnRSVP",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}:{{hostPort}}/events/:event_id/unrsvp/:personal_code",
-									"host": [
-										"{{baseUrl}}:{{hostPort}}"
-									],
-									"path": [
-										"events",
-										":event_id",
-										"unrsvp",
-										":personal_code"
-									],
-									"variable": [
-										{
-											"key": "event_id",
-											"value": "1"
-										},
-										{
-											"key": "personal_code",
-											"value": "pc1"
-										}
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Server",
-									"value": "nginx/1.21.3"
-								},
-								{
-									"key": "Date",
-									"value": "Thu, 18 Nov 2021 00:47:06 GMT"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Content-Length",
-									"value": "242"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"created_at\": \"Tue, 16 Nov 2021 02:30:07 GMT\",\n    \"event_id\": \"1\",\n    \"is_checked_in\": true,\n    \"is_invited\": true,\n    \"is_rsvped\": false,\n    \"personal_code\": \"pc1\",\n    \"updated_at\": \"Tue, 16 Nov 2021 02:30:07 GMT\",\n    \"user_email\": \"invite1@gmail.com\",\n    \"user_role\": \"attendee\"\n}"
-						}
-					]
+					"response": []
 				}
 			]
 		},
@@ -1364,55 +776,7 @@
 					]
 				}
 			},
-			"response": [
-				{
-					"name": "Server Status",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}:{{hostPort}}/health",
-							"host": [
-								"{{baseUrl}}:{{hostPort}}"
-							],
-							"path": [
-								"health"
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Server",
-							"value": "nginx/1.21.3"
-						},
-						{
-							"key": "Date",
-							"value": "Tue, 16 Nov 2021 03:29:17 GMT"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						},
-						{
-							"key": "Content-Length",
-							"value": "38"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						},
-						{
-							"key": "Access-Control-Allow-Origin",
-							"value": "*"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"commit_id\": \"0e0a692\",\n    \"status\": \"UP\"\n}"
-				}
-			]
+			"response": []
 		}
 	]
 }
