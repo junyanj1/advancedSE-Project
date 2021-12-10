@@ -218,8 +218,11 @@ class AttendanceController():
                    event_description: str, event_location: str,
                    event_start_time: str, event_end_time):
         apikey = os.getenv("MAILGUN_API", default="")
+        maps_key = os.getenv("MAPS_API", default="")
         domain = "mg.team-aapi.me"
         url = f"https://api.mailgun.net/v3/{domain}/messages"
+        location = str(event_location)[1:-1].split(',')[-1]
+        location_query_string = location.replace(" ", "+")
 
         return requests.post(
             url,
@@ -236,8 +239,10 @@ class AttendanceController():
                            "invite_link": personal_code,
                            "event_name": event_name,
                            "event_description": event_description,
-                           "event_location": str(event_location)[1:-1].
-                           split(',')[-1],
+                           "event_location": location,
                            "event_start_time": event_start_time,
-                           "event_end_time": event_end_time})}
+                           "event_end_time": event_end_time,
+                           "embed_link": "https://www.google.com/maps/embed/" +
+                           f"v1/place?key={maps_key}&q={location_query_string}"
+                           })}
         )
