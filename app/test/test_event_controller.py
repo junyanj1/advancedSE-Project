@@ -270,7 +270,7 @@ class Test_EventController(unittest.TestCase):
         }
         actual = self.event_controller.\
             get_formatted_address_with_lgt_ltt_from_gmaps(
-                "2920 Broadway, New York", -12.12, 21.21
+                "2920 Broadway New York", -12.12, 21.21
                 )
         self.assertDictEqual(expected, actual)
 
