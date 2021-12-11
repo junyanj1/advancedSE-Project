@@ -105,7 +105,7 @@
 											"    pm.expect(responseJson.end_time).to.eql(\"Wed, 16 Nov 2022 14:00:00 GMT\");",
 											"    pm.expect(responseJson.event_description).to.eql(\"description\");",
 											"    pm.expect(responseJson.event_id).to.eql(\"2\");",
-											"    pm.expect(responseJson.event_name).to.eql(\"2021 student fair\");",
+											"    pm.expect(responseJson.event_name).to.eql(\"2022 student fair\");",
 											"    pm.expect(responseJson.lat).to.eql(40.80778821286171);",
 											"    pm.expect(responseJson.location).to.eql(\"columbia\");",
 											"    pm.expect(responseJson.long).to.eql(-73.96345656010647);",
