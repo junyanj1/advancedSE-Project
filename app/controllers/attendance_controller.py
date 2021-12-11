@@ -67,8 +67,7 @@ class AttendanceController():
         param = [event_id, personal_code]
         exist = self.db.get_one(query, param)
         if not exist:
-            return abort(400, "The input event_id-personal_code \
-                               combination is invalid..")
+            return abort(400, self.unmatch_error_msg)
         try:
             statement = "UPDATE Attendance \
                          SET is_checked_in = True \
@@ -80,8 +79,7 @@ class AttendanceController():
 
         updated = self.db.get_one(query, param)
         if not updated:
-            return abort(400, "The input event_id-personal_code \
-                               combination is invalid..")
+            return abort(400, self.unmatch_error_msg)
 
         return Attendance(updated["event_id"], updated["user_email"],
                           updated["user_role"], updated["personal_code"],
@@ -157,8 +155,7 @@ class AttendanceController():
         param = [event_id, personal_code]
         exist = self.db.get_one(query, param)
         if not exist:
-            return abort(400, "The input event_id-personal_code \
-                               combination is invalid..")
+            return abort(400, self.unmatch_error_msg)
         try:
             statement = "UPDATE Attendance \
                          SET is_rsvped = True \
@@ -170,8 +167,7 @@ class AttendanceController():
 
         updated = self.db.get_one(query, param)
         if not updated:
-            return abort(400, "The input event_id-personal_code \
-                               combination is invalid..")
+            return abort(400, self.unmatch_error_msg)
 
         return Attendance(updated["event_id"], updated["user_email"],
                           updated["user_role"], updated["personal_code"],
@@ -193,8 +189,7 @@ class AttendanceController():
         param = [event_id, personal_code]
         exist = self.db.get_one(query, param)
         if not exist:
-            return abort(400, "The input event_id-personal_code \
-                               combination is invalid..")
+            return abort(400, self.unmatch_error_msg)
         try:
             statement = "UPDATE Attendance \
                          SET is_rsvped = False \
@@ -206,8 +201,7 @@ class AttendanceController():
 
         updated = self.db.get_one(query, param)
         if not updated:
-            return abort(400, "The input event_id-personal_code \
-                               combination is invalid..")
+            return abort(400, self.unmatch_error_msg)
 
         return Attendance(updated["event_id"], updated["user_email"],
                           updated["user_role"], updated["personal_code"],
