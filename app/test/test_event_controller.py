@@ -127,11 +127,26 @@ class Test_EventController(unittest.TestCase):
         with self.assertRaises(Exception) as ctx:
             # This should cause error
             self.event_controller.create_event('Career Fair',
-                                               'asdasdasd@gmailcom',
+                                               'testemail',
                                                'Example Description',
                                                'Columbia University',
                                                '2920 Broadway New York',
                                                -12.12, 21.21,
+                                               '2021-03-22 18:34',
+                                               '2021-03-22 18:34', 500)
+        self.assertEqual(400, ctx.exception.code)
+        self.assertEqual("Invalid parameter value", ctx.exception.description)
+
+    def test04_create_event(self):
+        """Bad input test: invalid parameter value"""
+        with self.assertRaises(Exception) as ctx:
+            # This should cause error
+            self.event_controller.create_event('Career Fair',
+                                               'asdasdasd@gmailcom',
+                                               'Example Description',
+                                               'Columbia University',
+                                               '2920 Broadway New York!',
+                                               70, 80,
                                                '2021-03-22 18:34',
                                                '2021-03-22 18:34', 500)
         self.assertEqual(400, ctx.exception.code)
@@ -173,7 +188,7 @@ class Test_EventController(unittest.TestCase):
         """Bad input test: invalid event_name"""
         expected = False
         actual = self.event_controller.validate_event_input(
-                                        'Career Fair.',
+                                        'Career Fair<',
                                         'test@gmail.com',
                                         'Example Description',
                                         'Columbia University',
@@ -183,19 +198,6 @@ class Test_EventController(unittest.TestCase):
         self.assertEqual(expected, actual)
 
     def test04_validate_event_input(self):
-        """Bad input test: invalid description"""
-        expected = False
-        actual = self.event_controller.validate_event_input(
-                                        'Career Fair',
-                                        'test@gmail.com',
-                                        'Example Description<',
-                                        'Columbia University',
-                                        '2920 Broadway New York',
-                                        -12.12, 21.21, '2021-03-22 18:34',
-                                        '2021-03-22 18:34', 500)
-        self.assertEqual(expected, actual)
-
-    def test05_validate_event_input(self):
         """Bad input test: invalid location name"""
         expected = False
         actual = self.event_controller.validate_event_input(
@@ -209,7 +211,7 @@ class Test_EventController(unittest.TestCase):
                                         '2021-03-22 18:34', 500)
         self.assertEqual(expected, actual)
 
-    def test06_validate_event_input(self):
+    def test05_validate_event_input(self):
         """Bad input test: invalid address"""
         expected = False
         actual = self.event_controller.validate_event_input(
@@ -222,7 +224,7 @@ class Test_EventController(unittest.TestCase):
                                         '2021-03-22 18:34', 500)
         self.assertEqual(expected, actual)
 
-    def test07_validate_event_input(self):
+    def test06_validate_event_input(self):
         """Bad input test: invalid lat"""
         expected = False
         actual = self.event_controller.validate_event_input(
@@ -235,7 +237,7 @@ class Test_EventController(unittest.TestCase):
                                         '2021-03-22 18:34', 500)
         self.assertEqual(expected, actual)
 
-    def test08_validate_event_input(self):
+    def test07_validate_event_input(self):
         """Bad input test: invalid start time"""
         expected = False
         actual = self.event_controller.validate_event_input(
@@ -248,7 +250,7 @@ class Test_EventController(unittest.TestCase):
                                         '2021-03-22 18:34', 500)
         self.assertEqual(expected, actual)
 
-    def test09_validate_event_input(self):
+    def test08_validate_event_input(self):
         """Bad input test: invalid attendee limit"""
         expected = False
         actual = self.event_controller.validate_event_input(
