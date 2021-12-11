@@ -42,7 +42,7 @@ CREATE TABLE Events (
     PRIMARY KEY (event_id),
     FOREIGN KEY (user_id) REFERENCES Users(user_id),
     CONSTRAINT attendee_limit_check CHECK(attendee_limit >= 0),
-    CONSTRAINT time_validity CHECK(event_end_time >= event_start_time)
+    CONSTRAINT time_validity CHECK(event_end_time >= event_start_time AND event_start_time >= CURRENT_TIMESTAMP)
 );
 
 -- Attendence Table
