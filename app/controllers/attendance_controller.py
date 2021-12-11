@@ -220,8 +220,8 @@ class AttendanceController():
                    event_id: str):
         apikey = os.getenv("MAILGUN_API", default="")
         maps_key = os.getenv("MAPS_API", default="")
-        domain = "mg.team-aapi.me"
-        url = f"https://api.mailgun.net/v3/{domain}/messages"
+        domain = "team-aapi.me"
+        url = f"https://api.mailgun.net/v3/mg.{domain}/messages"
         location = str(event_location)[1:-1].split(',')[-1]
         location_query_string = location.replace(" ", "+")
         invite_link = (f"http://{domain}/static/attendee.html?"
