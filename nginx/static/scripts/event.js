@@ -31,6 +31,7 @@ $(document).ready(() => {
         for (const [ key, value ] of Object.entries(eventDetail)) {
             container.append(createEventDetailItem(key, value));
         }
+        $('#Map').attr('src', "https://www.google.com/maps/embed/v1/view?key=AIzaSyAavntvfgcU9xJ8yWGGOYxSGd9sHJ30QAk&zoom=18" + "&center=" + eventDetail.lat + "," + eventDetail.long);
     });
 
     // Get attendees
