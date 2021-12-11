@@ -5,52 +5,52 @@ Insert INTO Users VALUES
 
 INSERT INTO Events VALUES
     ('1', 
-     '2021 career fair', 
-     'organizer1@gmail.com', 
-     'description', 
-     ROW('columbia', 40.80778821286171, -73.96345656010647, 'address'),
-     '2021-11-15 12:10', 
-     '2021-11-15 14:00',
-     200
-    ), 
-
-    ('2', 
-     '2021 student fair', 
-     'organizer2@gmail.com', 
-     'description', 
-     ROW('columbia', 40.80778821286171, -73.96345656010647, 'address'),
-     '2021-11-16 12:10', 
-     '2021-11-16 14:00',
-     200
-    ), 
-
-    ('3', 
-     '2021 research fair', 
-     'organizer3@gmail.com', 
-     'description', 
-     ROW('columbia', 40.80778821286171, -73.96345656010647, 'address'),
-     '2021-11-17 12:10', 
-     '2021-11-17 14:00',
-     200
-    ),
-
-    ('4', 
-     '2020 career fair', 
-     'organizer1@gmail.com', 
-     'description', 
-     ROW('columbia', 40.80778821286171, -73.96345656010647, 'address'),
-     '2020-11-15 12:10', 
-     '2020-11-15 14:00',
-     200
-    ), 
-
-    ('5', 
      '2022 career fair', 
      'organizer1@gmail.com', 
      'description', 
      ROW('columbia', 40.80778821286171, -73.96345656010647, 'address'),
      '2022-11-15 12:10', 
      '2022-11-15 14:00',
+     200
+    ), 
+
+    ('2', 
+     '2022 student fair', 
+     'organizer2@gmail.com', 
+     'description', 
+     ROW('columbia', 40.80778821286171, -73.96345656010647, 'address'),
+     '2022-11-16 12:10', 
+     '2022-11-16 14:00',
+     200
+    ), 
+
+    ('3', 
+     '2022 research fair', 
+     'organizer3@gmail.com', 
+     'description', 
+     ROW('columbia', 40.80778821286171, -73.96345656010647, 'address'),
+     '2022-11-17 12:10', 
+     '2022-11-17 14:00',
+     200
+    ),
+
+    ('4', 
+     '2023 career fair', 
+     'organizer1@gmail.com', 
+     'description', 
+     ROW('columbia', 40.80778821286171, -73.96345656010647, 'address'),
+     '2023-11-15 12:10', 
+     '2023-11-15 14:00',
+     200
+    ), 
+
+    ('5', 
+     '2024 career fair', 
+     'organizer1@gmail.com', 
+     'description', 
+     ROW('columbia', 40.80778821286171, -73.96345656010647, 'address'),
+     '2024-11-15 12:10', 
+     '2024-11-15 14:00',
      200
     );
 
