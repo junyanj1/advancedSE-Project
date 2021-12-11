@@ -10,6 +10,9 @@ from models.attendance import Attendance
 class AttendanceController():
     def __init__(self, db: Database):
         self.db = db
+        self.error_msg = "Missing event_id or personal_code.."
+        self.unmatch_error_msg = "The input event_id-personal_code \
+                               combination is invalid.."
 
     def get_attendances(self, event_id: str, invited=None, rsvped=None,
                         checked_in=None) -> list:
@@ -56,7 +59,7 @@ class AttendanceController():
         based on the personalized code and check this person in.
         '''
         if not event_id or not personal_code:
-            return abort(400, "Missing event_id or personal_code..")
+            return abort(400, self.error_msg)
         query = """
                 SELECT * FROM Attendance WHERE event_id = %s
                 AND personal_code = %s
@@ -147,7 +150,7 @@ class AttendanceController():
                    Do we want to give unrsvp option?
         '''
         if not event_id or not personal_code:
-            return abort(400, "Missing event_id or personal_code..")
+            return abort(400, self.error_msg)
         query = "SELECT * FROM Attendance \
                  WHERE event_id = %s \
                  AND personal_code = %s"
@@ -183,7 +186,7 @@ class AttendanceController():
         @return: updated row in Attendance
         '''
         if not event_id or not personal_code:
-            return abort(400, "Missing event_id or personal_code..")
+            return abort(400, self.error_msg)
         query = "SELECT * FROM Attendance \
                  WHERE event_id = %s \
                  AND personal_code = %s"

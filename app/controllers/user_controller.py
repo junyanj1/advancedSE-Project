@@ -21,6 +21,7 @@ class UserController():
         self.auth = auth
         self.db = db
         self.requests = req
+        self.invalid_param_error = 'Invalid parameter value'
 
     def get_user_events(self, user_id):
         """
@@ -60,7 +61,7 @@ class UserController():
                 events.append(event.to_dict())
             return events
         else:
-            return abort(400, 'Invalid parameter value')
+            return abort(400, self.invalid_param_error)
 
     def get_user_by_token(self, token: str) -> dict:
         if self.auth.is_test_token(token):
@@ -118,7 +119,7 @@ class UserController():
                 abort(403, 'User information not available')
             return u
         else:
-            return abort(400, 'Invalid parameter value')
+            return abort(400, self.invalid_param_error)
 
     def create_user(self, user_id, org_name, username) -> dict:
         """
@@ -142,7 +143,7 @@ class UserController():
             except (ForeignKeyViolation, UniqueViolation) as e:
                 abort(400, e)
         else:
-            abort(400, 'Invalid parameter value')
+            abort(400, self.invalid_param_error)
 
     @staticmethod
     def validate_user_id(user_id) -> bool:
