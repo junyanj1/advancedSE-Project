@@ -220,7 +220,7 @@ class Test_Invite(unittest.TestCase):
         response = self.attendance_controller.send_email(
             "sampleUser1", "invite1@gmail.com", "random_pc", "event_name",
             "event_description", "event_location", "event_start_time",
-            "event_end_time")
+            "event_end_time", "1")
         self.assertEqual(response.status_code, 200)
 
     @unittest.mock.patch("controllers.attendance_controller.requests.post")
@@ -230,7 +230,7 @@ class Test_Invite(unittest.TestCase):
         response = self.attendance_controller.send_email(
             "sampleUser1", "invite1@gmail.com", "random_pc", "event_name",
             "event_description", "event_location", "event_start_time",
-            "event_end_time")
+            "event_end_time", "1")
         self.assertEqual(response.status_code, 404)
 
     @unittest.mock.patch("controllers.attendance_controller.requests.post")
@@ -245,7 +245,7 @@ class Test_Invite(unittest.TestCase):
             self.attendance_controller.send_email(
                 "sampleUser1", "invite1@gmail.com", "random_pc", "event_name",
                 "event_description", "event_location", "event_start_time",
-                "event_end_time")
+                "event_end_time", "1")
 
         expected = [{
                 'event_id': '1',
