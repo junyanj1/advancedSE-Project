@@ -135,16 +135,16 @@ class EventController():
         schema = Schema(
             {
                 'event_name': And(str, lambda s: bool(
-                    re.match(r"^[A-Za-z0-9\s]*$", s))),
+                    re.match(r"^[A-Za-z0-9.:#&\/,!\-?\"\'\s]{,100}$", s))),
                 'user_id': And(str, lambda s: bool(re.match(
                     r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', s))
                     ),
                 'description': And(str, lambda s: bool(
-                    re.match(r"^[A-Za-z0-9.,\s]*$", s))),
+                    re.match(r"^.{,2000}$", s))),
                 'location_name': And(str, lambda s: bool(
-                    re.match(r"^[A-Za-z0-9.,\s]*$", s))),
+                    re.match(r"^[A-Za-z0-9.#&\/,\-\s]{,100}$", s))),
                 'address': And(str, lambda s: bool(
-                    re.match(r"^[A-Za-z0-9.,\s]*$", s))),
+                    re.match(r"^[A-Za-z0-9.#&\/,\-\s]{,200}$", s))),
                 'lat': And(float, lambda n: n > -90 and n < 90),
                 'long': And(float, lambda n: n > -180 and n < 180),
                 'start_time': And(str, lambda s: bool(
