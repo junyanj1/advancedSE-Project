@@ -5,7 +5,7 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=junyanj1_advancedSE-Project&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=junyanj1_advancedSE-Project)
 
 
-Group project for Professor Kaiser's advanced software engineering course.
+This is an API toolset that helps people organize events through streamlining the event-planning process from end to end.
 
 Collaborators:
 * Junyang Jin (UNI: jj3132)
