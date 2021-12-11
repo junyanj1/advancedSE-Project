@@ -131,7 +131,7 @@ class AttendanceController():
             try:
                 self.send_email(organizer_name, email, personal_code,
                                 event_name, event_description, event_location,
-                                event_start_time, event_end_time)
+                                event_start_time, event_end_time, event_id)
             except requests.exceptions.RequestException:
                 failed.append(email)
 
@@ -216,13 +216,17 @@ class AttendanceController():
     def send_email(organizer_name: str, invitee_email: str,
                    personal_code: str, event_name: str,
                    event_description: str, event_location: str,
-                   event_start_time: str, event_end_time):
+                   event_start_time: str, event_end_time: str,
+                   event_id: str):
         apikey = os.getenv("MAILGUN_API", default="")
         maps_key = os.getenv("MAPS_API", default="")
         domain = "mg.team-aapi.me"
         url = f"https://api.mailgun.net/v3/{domain}/messages"
         location = str(event_location)[1:-1].split(',')[-1]
         location_query_string = location.replace(" ", "+")
+        invite_link = (f"http://{domain}/static/attendee.html?"
+                       f"event_id={event_id}&"
+                       f"personal_code={personal_code}")
 
         return requests.post(
             url,
@@ -236,7 +240,7 @@ class AttendanceController():
                       json.dumps(
                           {"invite_msg_body": "invite message body",
                            "organizer_name": organizer_name,
-                           "invite_link": personal_code,
+                           "invite_link": invite_link,
                            "event_name": event_name,
                            "event_description": event_description,
                            "event_location": location,
