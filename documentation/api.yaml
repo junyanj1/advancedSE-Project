@@ -16,7 +16,7 @@ info:
 # Check-in
 
 servers:
-  - url: http://18.218.235.18
+  - url: http://team-aapi.me
 
 externalDocs:
   description: Project Repository
@@ -28,9 +28,45 @@ tags:
     description: Event related APIs
   - name: Attendance
     description: Attendance, Check-in, APIs
-  - name: Sample
-    description: (Deprecated) Sample Proof-of-Concept APIs
+  - name: Management
 paths:
+  /signin:
+    post:
+      tags:
+        - User
+      summary: exchange id_token and key
+      parameters:
+        - in: header
+          name: X-Request-ID
+          schema:
+            type: string
+            format: uuid
+          required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 401
+                  name:
+                    type: string
+                    example: Unauthorized
+                  description:
+                    type: string
+                    example: Invalid parameter value
+      security:
+        - OpenIDC: []
   /users:
     post:
       tags:
@@ -63,7 +99,7 @@ paths:
                     example: Bad Request
                   description:
                     type: string
-                    example: Invalid parameter value
+                    example: "Wrong token format: xxx"
   /users/{user_id}:
     get:
       tags:
@@ -294,53 +330,11 @@ paths:
       responses:
         "200":
           description: OK
-  /sample/users:
+  /health:
     get:
-      deprecated: true
       tags:
-        - Sample
-      summary: Get sample users
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items: 
-                  type: object
-                  properties:
-                    email:
-                      type: string
-                      example: abc@abc.com
-                      description: Does not need to be unique
-                    username:
-                      type: string
-                      example: Pikachu
-                      description: Display name
-                    time:
-                      type: string
-                      example: "2021-03-22T18:34:00Z"
-                      description: "iso 8601 time format"
-    post:
-      deprecated: true
-      tags:
-        - Sample
-      summary: Create a new Sample User
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                  example: abc@abc.com
-                  description: Does not need to be unique
-                username:
-                  type: string
-                  example: Pikachu
-                  description: Display name
+        - Management
+      summary: Check server status
       responses:
         "200":
           description: OK
@@ -349,44 +343,23 @@ paths:
               schema:
                 type: object
                 properties:
-                  email:
+                  commit_id:
                     type: string
-                    example: abc@abc.com
-                    description: Does not need to be unique
-                  username:
+                    example: abcdef0
+                  status:
                     type: string
-                    example: Pikachu
-                    description: Display name
-                  time:
-                    type: string
-                    example: "2021-03-22T18:34:00Z"
-                    description: "iso 8601 time format"
-# servers:
-#   - url: http://
+                    example: UP
 components:
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
       in: header
-      name: X-API-Key
+      name: aapi-key
+    OpenIDC:
+      type: apiKey
+      in: header
+      name: aapi-token
   schemas:
-    # Organization:
-    #   type: object
-    #   properties:
-    #     organization_id:
-    #       type: string
-    #       example: abcdefghijklmn
-    #     organization_name:
-    #       type: string
-    #       example: Columbia University
-    # OrganizationWithKey:
-    #   allOf:  # Combines the Organization and the inline model
-    #     - $ref: '#/components/schemas/Organization'
-    #     - type: object
-    #       properties:
-    #         api_key:
-    #           type: string
-    #           example: asdfasdfasd
     User:
       type: object
       properties:
@@ -402,6 +375,10 @@ components:
           example: Pikachu
           description: Display name
           nullable: true
+        aapi-key:
+          type: string
+          example: WE3rK0QQuUkyKrEWavIsEcGX3Q8ZzVNTkUZb88OL
+          description: api key
     EventPostBody:
       type: object
       properties:

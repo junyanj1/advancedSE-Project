@@ -791,20 +791,13 @@
             defs["inline_response_200"] = {
   "type" : "object",
   "properties" : {
-    "email" : {
+    "commit_id" : {
       "type" : "string",
-      "description" : "Does not need to be unique",
-      "example" : "abc@abc.com"
+      "example" : "abcdef0"
     },
-    "username" : {
+    "status" : {
       "type" : "string",
-      "description" : "Display name",
-      "example" : "Pikachu"
-    },
-    "time" : {
-      "type" : "string",
-      "description" : "iso 8601 time format",
-      "example" : "2021-03-22T18:34:00Z"
+      "example" : "UP"
     }
   }
 };
@@ -821,7 +814,7 @@
     },
     "description" : {
       "type" : "string",
-      "example" : "Invalid parameter value"
+      "example" : "Wrong token format: xxx"
     }
   }
 };
@@ -842,6 +835,23 @@
     }
   }
 };
+            defs["inline_response_401"] = {
+  "type" : "object",
+  "properties" : {
+    "code" : {
+      "type" : "number",
+      "example" : 401
+    },
+    "name" : {
+      "type" : "string",
+      "example" : "Unauthorized"
+    },
+    "description" : {
+      "type" : "string",
+      "example" : "Invalid parameter value"
+    }
+  }
+};
             defs["inline_response_403"] = {
   "type" : "object",
   "properties" : {
@@ -856,21 +866,6 @@
     "description" : {
       "type" : "string",
       "example" : "User information not available"
-    }
-  }
-};
-            defs["sample_users_body"] = {
-  "type" : "object",
-  "properties" : {
-    "email" : {
-      "type" : "string",
-      "description" : "Does not need to be unique",
-      "example" : "abc@abc.com"
-    },
-    "username" : {
-      "type" : "string",
-      "description" : "Display name",
-      "example" : "Pikachu"
     }
   }
 };
@@ -891,6 +886,11 @@
       "description" : "Display name",
       "nullable" : true,
       "example" : "Pikachu"
+    },
+    "aapi-key" : {
+      "type" : "string",
+      "description" : "api key",
+      "example" : "WE3rK0QQuUkyKrEWavIsEcGX3Q8ZzVNTkUZb88OL"
     }
   }
 };
@@ -930,14 +930,14 @@
                     <li data-group="Event" data-name="eventsPost" class="">
                       <a href="#api-Event-eventsPost">eventsPost</a>
                     </li>
-                  <li class="nav-header" data-group="Sample"><a href="#api-Sample">API Methods - Sample</a></li>
-                    <li data-group="Sample" data-name="sampleUsersGet" class="">
-                      <a href="#api-Sample-sampleUsersGet">sampleUsersGet</a>
-                    </li>
-                    <li data-group="Sample" data-name="sampleUsersPost" class="">
-                      <a href="#api-Sample-sampleUsersPost">sampleUsersPost</a>
+                  <li class="nav-header" data-group="Management"><a href="#api-Management">API Methods - Management</a></li>
+                    <li data-group="Management" data-name="healthGet" class="">
+                      <a href="#api-Management-healthGet">healthGet</a>
                     </li>
                   <li class="nav-header" data-group="User"><a href="#api-User">API Methods - User</a></li>
+                    <li data-group="User" data-name="signinPost" class="">
+                      <a href="#api-User-signinPost">signinPost</a>
+                    </li>
                     <li data-group="User" data-name="usersPost" class="">
                       <a href="#api-User-usersPost">usersPost</a>
                     </li>
@@ -1001,9 +1001,9 @@
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Attendance-eventsEventIdAttendancesGet-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
--H "X-API-Key: [[apiKey]]"\
+-H "aapi-key: [[apiKey]]"\
 -H "Accept: application/json"\
-"http://18.218.235.18/events/{event_id}/attendances?is_invited=&is_rsvped=&is_checked_in="</code></pre>
+"http://team-aapi.me/events/{event_id}/attendances?is_invited=&is_rsvped=&is_checked_in="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Attendance-eventsEventIdAttendancesGet-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -1069,9 +1069,9 @@ public class AttendanceApiExample {
                             <div class="tab-pane" id="examples-Attendance-eventsEventIdAttendancesGet-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
 // Configure API key authorization: (authentication scheme: ApiKeyAuth)
-[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"X-API-Key"];
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"aapi-key"];
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"X-API-Key"];
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"aapi-key"];
 String *eventId = eventId_example; // 
 Boolean *isInvited = true; //  (optional)
 Boolean *isRsvped = true; //  (optional)
@@ -1103,7 +1103,7 @@ var defaultClient = AdvancedSeProject.ApiClient.instance;
 var ApiKeyAuth = defaultClient.authentications['ApiKeyAuth'];
 ApiKeyAuth.apiKey = "YOUR API KEY"
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//ApiKeyAuth.apiKeyPrefix['X-API-Key'] = "Token"
+//ApiKeyAuth.apiKeyPrefix['aapi-key'] = "Token"
 
 var api = new AdvancedSeProject.AttendanceApi()
 var eventId = eventId_example; // {{String}} 
@@ -1141,9 +1141,9 @@ namespace Example
         {
 
             // Configure API key authorization: ApiKeyAuth
-            Configuration.Default.ApiKey.Add("X-API-Key", "YOUR_API_KEY");
+            Configuration.Default.ApiKey.Add("aapi-key", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add("X-API-Key", "Bearer");
+            // Configuration.Default.ApiKeyPrefix.Add("aapi-key", "Bearer");
 
             var apiInstance = new AttendanceApi();
             var eventId = eventId_example;  // String | 
@@ -1172,9 +1172,9 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure API key authorization: ApiKeyAuth
-Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('X-API-Key', 'YOUR_API_KEY');
+Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('aapi-key', 'YOUR_API_KEY');
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('X-API-Key', 'Bearer');
+// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('aapi-key', 'Bearer');
 
 $api_instance = new Swagger\Client\ApiAttendanceApi();
 $eventId = eventId_example; // String | 
@@ -1197,9 +1197,9 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::AttendanceApi;
 
 # Configure API key authorization: ApiKeyAuth
-$WWW::SwaggerClient::Configuration::api_key->{'X-API-Key'} = 'YOUR_API_KEY';
+$WWW::SwaggerClient::Configuration::api_key->{'aapi-key'} = 'YOUR_API_KEY';
 # uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$WWW::SwaggerClient::Configuration::api_key_prefix->{'X-API-Key'} = "Bearer";
+#$WWW::SwaggerClient::Configuration::api_key_prefix->{'aapi-key'} = "Bearer";
 
 my $api_instance = WWW::SwaggerClient::AttendanceApi->new();
 my $eventId = eventId_example; # String | 
@@ -1224,9 +1224,9 @@ from swagger_client.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: ApiKeyAuth
-swagger_client.configuration.api_key['X-API-Key'] = 'YOUR_API_KEY'
+swagger_client.configuration.api_key['aapi-key'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# swagger_client.configuration.api_key_prefix['X-API-Key'] = 'Bearer'
+# swagger_client.configuration.api_key_prefix['aapi-key'] = 'Bearer'
 
 # create an instance of the API class
 api_instance = swagger_client.AttendanceApi()
@@ -1424,7 +1424,7 @@ check this person in.
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Attendance-eventsEventIdCheckInPersonalCodeGet-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
-"http://18.218.235.18/events/{event_id}/check_in/{personal_code}"</code></pre>
+"http://team-aapi.me/events/{event_id}/check_in/{personal_code}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Attendance-eventsEventIdCheckInPersonalCodeGet-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -1698,9 +1698,9 @@ except ApiException as e:
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Attendance-eventsEventIdInvitePost-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X POST\
--H "X-API-Key: [[apiKey]]"\
+-H "aapi-key: [[apiKey]]"\
 -H "Content-Type: application/json"\
-"http://18.218.235.18/events/{event_id}/invite"</code></pre>
+"http://team-aapi.me/events/{event_id}/invite"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Attendance-eventsEventIdInvitePost-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -1760,9 +1760,9 @@ public class AttendanceApiExample {
                             <div class="tab-pane" id="examples-Attendance-eventsEventIdInvitePost-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
 // Configure API key authorization: (authentication scheme: ApiKeyAuth)
-[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"X-API-Key"];
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"aapi-key"];
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"X-API-Key"];
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"aapi-key"];
 String *eventId = eventId_example; // 
 Event_id_invite_body *body = ; //  (optional)
 
@@ -1787,7 +1787,7 @@ var defaultClient = AdvancedSeProject.ApiClient.instance;
 var ApiKeyAuth = defaultClient.authentications['ApiKeyAuth'];
 ApiKeyAuth.apiKey = "YOUR API KEY"
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//ApiKeyAuth.apiKeyPrefix['X-API-Key'] = "Token"
+//ApiKeyAuth.apiKeyPrefix['aapi-key'] = "Token"
 
 var api = new AdvancedSeProject.AttendanceApi()
 var eventId = eventId_example; // {{String}} 
@@ -1823,9 +1823,9 @@ namespace Example
         {
 
             // Configure API key authorization: ApiKeyAuth
-            Configuration.Default.ApiKey.Add("X-API-Key", "YOUR_API_KEY");
+            Configuration.Default.ApiKey.Add("aapi-key", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add("X-API-Key", "Bearer");
+            // Configuration.Default.ApiKeyPrefix.Add("aapi-key", "Bearer");
 
             var apiInstance = new AttendanceApi();
             var eventId = eventId_example;  // String | 
@@ -1851,9 +1851,9 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure API key authorization: ApiKeyAuth
-Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('X-API-Key', 'YOUR_API_KEY');
+Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('aapi-key', 'YOUR_API_KEY');
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('X-API-Key', 'Bearer');
+// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('aapi-key', 'Bearer');
 
 $api_instance = new Swagger\Client\ApiAttendanceApi();
 $eventId = eventId_example; // String | 
@@ -1873,9 +1873,9 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::AttendanceApi;
 
 # Configure API key authorization: ApiKeyAuth
-$WWW::SwaggerClient::Configuration::api_key->{'X-API-Key'} = 'YOUR_API_KEY';
+$WWW::SwaggerClient::Configuration::api_key->{'aapi-key'} = 'YOUR_API_KEY';
 # uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$WWW::SwaggerClient::Configuration::api_key_prefix->{'X-API-Key'} = "Bearer";
+#$WWW::SwaggerClient::Configuration::api_key_prefix->{'aapi-key'} = "Bearer";
 
 my $api_instance = WWW::SwaggerClient::AttendanceApi->new();
 my $eventId = eventId_example; # String | 
@@ -1897,9 +1897,9 @@ from swagger_client.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: ApiKeyAuth
-swagger_client.configuration.api_key['X-API-Key'] = 'YOUR_API_KEY'
+swagger_client.configuration.api_key['aapi-key'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# swagger_client.configuration.api_key_prefix['X-API-Key'] = 'Bearer'
+# swagger_client.configuration.api_key_prefix['aapi-key'] = 'Bearer'
 
 # create an instance of the API class
 api_instance = swagger_client.AttendanceApi()
@@ -2037,7 +2037,7 @@ the user based on the personalized code and marks this invitee as rsvped.
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Attendance-eventsEventIdRsvpPersonalCodeGet-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
-"http://18.218.235.18/events/{event_id}/rsvp/{personal_code}"</code></pre>
+"http://team-aapi.me/events/{event_id}/rsvp/{personal_code}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Attendance-eventsEventIdRsvpPersonalCodeGet-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -2314,9 +2314,9 @@ except ApiException as e:
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Event-eventsEventIdGet-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
--H "X-API-Key: [[apiKey]]"\
+-H "aapi-key: [[apiKey]]"\
 -H "Accept: application/json"\
-"http://18.218.235.18/events/{event_id}"</code></pre>
+"http://team-aapi.me/events/{event_id}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Event-eventsEventIdGet-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -2376,9 +2376,9 @@ public class EventApiExample {
                             <div class="tab-pane" id="examples-Event-eventsEventIdGet-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
 // Configure API key authorization: (authentication scheme: ApiKeyAuth)
-[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"X-API-Key"];
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"aapi-key"];
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"X-API-Key"];
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"aapi-key"];
 String *eventId = eventId_example; // 
 
 EventApi *apiInstance = [[EventApi alloc] init];
@@ -2404,7 +2404,7 @@ var defaultClient = AdvancedSeProject.ApiClient.instance;
 var ApiKeyAuth = defaultClient.authentications['ApiKeyAuth'];
 ApiKeyAuth.apiKey = "YOUR API KEY"
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//ApiKeyAuth.apiKeyPrefix['X-API-Key'] = "Token"
+//ApiKeyAuth.apiKeyPrefix['aapi-key'] = "Token"
 
 var api = new AdvancedSeProject.EventApi()
 var eventId = eventId_example; // {{String}} 
@@ -2438,9 +2438,9 @@ namespace Example
         {
 
             // Configure API key authorization: ApiKeyAuth
-            Configuration.Default.ApiKey.Add("X-API-Key", "YOUR_API_KEY");
+            Configuration.Default.ApiKey.Add("aapi-key", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add("X-API-Key", "Bearer");
+            // Configuration.Default.ApiKeyPrefix.Add("aapi-key", "Bearer");
 
             var apiInstance = new EventApi();
             var eventId = eventId_example;  // String | 
@@ -2466,9 +2466,9 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure API key authorization: ApiKeyAuth
-Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('X-API-Key', 'YOUR_API_KEY');
+Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('aapi-key', 'YOUR_API_KEY');
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('X-API-Key', 'Bearer');
+// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('aapi-key', 'Bearer');
 
 $api_instance = new Swagger\Client\ApiEventApi();
 $eventId = eventId_example; // String | 
@@ -2488,9 +2488,9 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::EventApi;
 
 # Configure API key authorization: ApiKeyAuth
-$WWW::SwaggerClient::Configuration::api_key->{'X-API-Key'} = 'YOUR_API_KEY';
+$WWW::SwaggerClient::Configuration::api_key->{'aapi-key'} = 'YOUR_API_KEY';
 # uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$WWW::SwaggerClient::Configuration::api_key_prefix->{'X-API-Key'} = "Bearer";
+#$WWW::SwaggerClient::Configuration::api_key_prefix->{'aapi-key'} = "Bearer";
 
 my $api_instance = WWW::SwaggerClient::EventApi->new();
 my $eventId = eventId_example; # String | 
@@ -2512,9 +2512,9 @@ from swagger_client.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: ApiKeyAuth
-swagger_client.configuration.api_key['X-API-Key'] = 'YOUR_API_KEY'
+swagger_client.configuration.api_key['aapi-key'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# swagger_client.configuration.api_key_prefix['X-API-Key'] = 'Bearer'
+# swagger_client.configuration.api_key_prefix['aapi-key'] = 'Bearer'
 
 # create an instance of the API class
 api_instance = swagger_client.EventApi()
@@ -2647,10 +2647,10 @@ except ApiException as e:
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Event-eventsPost-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X POST\
--H "X-API-Key: [[apiKey]]"\
+-H "aapi-key: [[apiKey]]"\
 -H "Accept: application/json"\
 -H "Content-Type: application/json"\
-"http://18.218.235.18/events"</code></pre>
+"http://team-aapi.me/events"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Event-eventsPost-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -2710,9 +2710,9 @@ public class EventApiExample {
                             <div class="tab-pane" id="examples-Event-eventsPost-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
 // Configure API key authorization: (authentication scheme: ApiKeyAuth)
-[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"X-API-Key"];
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"aapi-key"];
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"X-API-Key"];
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"aapi-key"];
 EventPostBody *body = ; //  (optional)
 
 EventApi *apiInstance = [[EventApi alloc] init];
@@ -2738,7 +2738,7 @@ var defaultClient = AdvancedSeProject.ApiClient.instance;
 var ApiKeyAuth = defaultClient.authentications['ApiKeyAuth'];
 ApiKeyAuth.apiKey = "YOUR API KEY"
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//ApiKeyAuth.apiKeyPrefix['X-API-Key'] = "Token"
+//ApiKeyAuth.apiKeyPrefix['aapi-key'] = "Token"
 
 var api = new AdvancedSeProject.EventApi()
 var opts = { 
@@ -2773,9 +2773,9 @@ namespace Example
         {
 
             // Configure API key authorization: ApiKeyAuth
-            Configuration.Default.ApiKey.Add("X-API-Key", "YOUR_API_KEY");
+            Configuration.Default.ApiKey.Add("aapi-key", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add("X-API-Key", "Bearer");
+            // Configuration.Default.ApiKeyPrefix.Add("aapi-key", "Bearer");
 
             var apiInstance = new EventApi();
             var body = new EventPostBody(); // EventPostBody |  (optional) 
@@ -2801,9 +2801,9 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure API key authorization: ApiKeyAuth
-Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('X-API-Key', 'YOUR_API_KEY');
+Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('aapi-key', 'YOUR_API_KEY');
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('X-API-Key', 'Bearer');
+// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('aapi-key', 'Bearer');
 
 $api_instance = new Swagger\Client\ApiEventApi();
 $body = ; // EventPostBody | 
@@ -2823,9 +2823,9 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::EventApi;
 
 # Configure API key authorization: ApiKeyAuth
-$WWW::SwaggerClient::Configuration::api_key->{'X-API-Key'} = 'YOUR_API_KEY';
+$WWW::SwaggerClient::Configuration::api_key->{'aapi-key'} = 'YOUR_API_KEY';
 # uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$WWW::SwaggerClient::Configuration::api_key_prefix->{'X-API-Key'} = "Bearer";
+#$WWW::SwaggerClient::Configuration::api_key_prefix->{'aapi-key'} = "Bearer";
 
 my $api_instance = WWW::SwaggerClient::EventApi->new();
 my $body = WWW::SwaggerClient::Object::EventPostBody->new(); # EventPostBody | 
@@ -2847,9 +2847,9 @@ from swagger_client.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: ApiKeyAuth
-swagger_client.configuration.api_key['X-API-Key'] = 'YOUR_API_KEY'
+swagger_client.configuration.api_key['aapi-key'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# swagger_client.configuration.api_key_prefix['X-API-Key'] = 'Bearer'
+# swagger_client.configuration.api_key_prefix['aapi-key'] = 'Bearer'
 
 # create an instance of the API class
 api_instance = swagger_client.EventApi()
@@ -3014,13 +3014,13 @@ except ApiException as e:
                       </div>
                       <hr>
                   </section>
-                <section id="api-Sample">
-                  <h1>Sample</h1>
-                    <div id="api-Sample-sampleUsersGet">
-                      <article id="api-Sample-sampleUsersGet-0" data-group="User" data-name="sampleUsersGet" data-version="0">
+                <section id="api-Management">
+                  <h1>Management</h1>
+                    <div id="api-Management-healthGet">
+                      <article id="api-Management-healthGet-0" data-group="User" data-name="healthGet" data-version="0">
                         <div class="pull-left">
-                          <h1>sampleUsersGet</h1>
-                          <p>Get sample users</p>
+                          <h1>healthGet</h1>
+                          <p>Check server status</p>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
@@ -3028,83 +3028,83 @@ except ApiException as e:
                         <p class="marked"></p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/sample/users</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/health</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-Sample-sampleUsersGet-0-curl">Curl</a></li>
-                          <li class=""><a href="#examples-Sample-sampleUsersGet-0-java">Java</a></li>
-                          <li class=""><a href="#examples-Sample-sampleUsersGet-0-android">Android</a></li>
-                          <!--<li class=""><a href="#examples-Sample-sampleUsersGet-0-groovy">Groovy</a></li>-->
-                          <li class=""><a href="#examples-Sample-sampleUsersGet-0-objc">Obj-C</a></li>
-                          <li class=""><a href="#examples-Sample-sampleUsersGet-0-javascript">JavaScript</a></li>
-                          <!--<li class=""><a href="#examples-Sample-sampleUsersGet-0-angular">Angular</a></li>-->
-                          <li class=""><a href="#examples-Sample-sampleUsersGet-0-csharp">C#</a></li>
-                          <li class=""><a href="#examples-Sample-sampleUsersGet-0-php">PHP</a></li>
-                          <li class=""><a href="#examples-Sample-sampleUsersGet-0-perl">Perl</a></li>
-                          <li class=""><a href="#examples-Sample-sampleUsersGet-0-python">Python</a></li>
+                          <li class="active"><a href="#examples-Management-healthGet-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Management-healthGet-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Management-healthGet-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Management-healthGet-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Management-healthGet-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Management-healthGet-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Management-healthGet-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Management-healthGet-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Management-healthGet-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Management-healthGet-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Management-healthGet-0-python">Python</a></li>
                         </ul>
 
                         <div class="tab-content">
-                          <div class="tab-pane active" id="examples-Sample-sampleUsersGet-0-curl">
+                          <div class="tab-pane active" id="examples-Management-healthGet-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: application/json"\
-"http://18.218.235.18/sample/users"</code></pre>
+"http://team-aapi.me/health"</code></pre>
                           </div>
-                          <div class="tab-pane" id="examples-Sample-sampleUsersGet-0-java">
+                          <div class="tab-pane" id="examples-Management-healthGet-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
-import io.swagger.client.api.SampleApi;
+import io.swagger.client.api.ManagementApi;
 
 import java.io.File;
 import java.util.*;
 
-public class SampleApiExample {
+public class ManagementApiExample {
 
     public static void main(String[] args) {
         
-        SampleApi apiInstance = new SampleApi();
+        ManagementApi apiInstance = new ManagementApi();
         try {
-            array[inline_response_200] result = apiInstance.sampleUsersGet();
+            inline_response_200 result = apiInstance.healthGet();
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling SampleApi#sampleUsersGet");
+            System.err.println("Exception when calling ManagementApi#healthGet");
             e.printStackTrace();
         }
     }
 }</code></pre>
                           </div>
 
-                          <div class="tab-pane" id="examples-Sample-sampleUsersGet-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.SampleApi;
+                          <div class="tab-pane" id="examples-Management-healthGet-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.ManagementApi;
 
-public class SampleApiExample {
+public class ManagementApiExample {
 
     public static void main(String[] args) {
-        SampleApi apiInstance = new SampleApi();
+        ManagementApi apiInstance = new ManagementApi();
         try {
-            array[inline_response_200] result = apiInstance.sampleUsersGet();
+            inline_response_200 result = apiInstance.healthGet();
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling SampleApi#sampleUsersGet");
+            System.err.println("Exception when calling ManagementApi#healthGet");
             e.printStackTrace();
         }
     }
 }</code></pre>
                           </div>
   <!--
-  <div class="tab-pane" id="examples-Sample-sampleUsersGet-0-groovy">
+  <div class="tab-pane" id="examples-Management-healthGet-0-groovy">
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
-                            <div class="tab-pane" id="examples-Sample-sampleUsersGet-0-objc">
+                            <div class="tab-pane" id="examples-Management-healthGet-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">
-SampleApi *apiInstance = [[SampleApi alloc] init];
+ManagementApi *apiInstance = [[ManagementApi alloc] init];
 
-// Get sample users
-[apiInstance sampleUsersGetWithCompletionHandler: 
-              ^(array[inline_response_200] output, NSError* error) {
+// Check server status
+[apiInstance healthGetWithCompletionHandler: 
+              ^(inline_response_200 output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -3115,10 +3115,10 @@ SampleApi *apiInstance = [[SampleApi alloc] init];
 </code></pre>
                             </div>
 
-                            <div class="tab-pane" id="examples-Sample-sampleUsersGet-0-javascript">
+                            <div class="tab-pane" id="examples-Management-healthGet-0-javascript">
                               <pre class="prettyprint"><code class="language-js">var AdvancedSeProject = require('advanced_se_project');
 
-var api = new AdvancedSeProject.SampleApi()
+var api = new AdvancedSeProject.ManagementApi()
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -3126,14 +3126,14 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.sampleUsersGet(callback);
+api.healthGet(callback);
 </code></pre>
                             </div>
 
-                            <!--<div class="tab-pane" id="examples-Sample-sampleUsersGet-0-angular">
+                            <!--<div class="tab-pane" id="examples-Management-healthGet-0-angular">
               <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
             </div>-->
-                            <div class="tab-pane" id="examples-Sample-sampleUsersGet-0-csharp">
+                            <div class="tab-pane" id="examples-Management-healthGet-0-csharp">
                               <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
 using IO.Swagger.Api;
@@ -3142,22 +3142,22 @@ using IO.Swagger.Model;
 
 namespace Example
 {
-    public class sampleUsersGetExample
+    public class healthGetExample
     {
         public void main()
         {
 
-            var apiInstance = new SampleApi();
+            var apiInstance = new ManagementApi();
 
             try
             {
-                // Get sample users
-                array[inline_response_200] result = apiInstance.sampleUsersGet();
+                // Check server status
+                inline_response_200 result = apiInstance.healthGet();
                 Debug.WriteLine(result);
             }
             catch (Exception e)
             {
-                Debug.Print("Exception when calling SampleApi.sampleUsersGet: " + e.Message );
+                Debug.Print("Exception when calling ManagementApi.healthGet: " + e.Message );
             }
         }
     }
@@ -3165,38 +3165,38 @@ namespace Example
 </code></pre>
                             </div>
 
-                            <div class="tab-pane" id="examples-Sample-sampleUsersGet-0-php">
+                            <div class="tab-pane" id="examples-Management-healthGet-0-php">
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\ApiSampleApi();
+$api_instance = new Swagger\Client\ApiManagementApi();
 
 try {
-    $result = $api_instance->sampleUsersGet();
+    $result = $api_instance->healthGet();
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling SampleApi->sampleUsersGet: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling ManagementApi->healthGet: ', $e->getMessage(), PHP_EOL;
 }
 ?></code></pre>
                             </div>
 
-                            <div class="tab-pane" id="examples-Sample-sampleUsersGet-0-perl">
+                            <div class="tab-pane" id="examples-Management-healthGet-0-perl">
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
 use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::SampleApi;
+use WWW::SwaggerClient::ManagementApi;
 
-my $api_instance = WWW::SwaggerClient::SampleApi->new();
+my $api_instance = WWW::SwaggerClient::ManagementApi->new();
 
 eval { 
-    my $result = $api_instance->sampleUsersGet();
+    my $result = $api_instance->healthGet();
     print Dumper($result);
 };
 if ($@) {
-    warn "Exception when calling SampleApi->sampleUsersGet: $@\n";
+    warn "Exception when calling ManagementApi->healthGet: $@\n";
 }</code></pre>
                             </div>
 
-                            <div class="tab-pane" id="examples-Sample-sampleUsersGet-0-python">
+                            <div class="tab-pane" id="examples-Management-healthGet-0-python">
                               <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
 import time
 import swagger_client
@@ -3204,14 +3204,14 @@ from swagger_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.SampleApi()
+api_instance = swagger_client.ManagementApi()
 
 try: 
-    # Get sample users
-    api_response = api_instance.sample_users_get()
+    # Check server status
+    api_response = api_instance.health_get()
     pprint(api_response)
 except ApiException as e:
-    print("Exception when calling SampleApi->sampleUsersGet: %s\n" % e)</code></pre>
+    print("Exception when calling ManagementApi->healthGet: %s\n" % e)</code></pre>
                             </div>
                           </div>
 
@@ -3227,329 +3227,14 @@ except ApiException as e:
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
-                                  <a data-toggle="tab" href="#responses-sampleUsersGet-200-schema">Schema</a>
+                                  <a data-toggle="tab" href="#responses-healthGet-200-schema">Schema</a>
                                 </li>
 
                             </ul>
 
                             <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-sampleUsersGet-200-schema">
-                                  <div id='responses-sampleUsersGet-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-                                    <script>
-                                      $(document).ready(function() {
-                                        var schemaWrapper = {
-  "description" : "OK",
-  "content" : {
-    "application/json" : {
-      "schema" : {
-        "type" : "array",
-        "items" : {
-          "$ref" : "#/components/schemas/inline_response_200"
-        },
-        "x-content-type" : "application/json"
-      }
-    }
-  }
-};
-                                        var schema = schemaWrapper.content["application/json"].schema;
-                                        if (schema.$ref != null) {
-                                          schema = defsParser.$refs.get(schema.$ref);
-                                        } else {
-                                          schemaWrapper.components = {};
-                                          schemaWrapper.components.schemas = Object.assign({}, defs);
-                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                            console.log(err);
-                                          });
-                                        }
-
-                                        //console.log(JSON.stringify(schema));
-                                        var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-sampleUsersGet-200-schema-data').val(stringify(schema));
-                                        var result = $('#responses-sampleUsersGet-200-schema-200');
-                                        result.empty();
-                                        result.append(view.render());
-                                      });
-                                    </script>
-                                  </div>
-                                  <input id='responses-sampleUsersGet-200-schema-data' type='hidden' value=''></input>
-                                </div>
-                            </div>
-
-                        </article>
-                      </div>
-                      <hr>
-                    <div id="api-Sample-sampleUsersPost">
-                      <article id="api-Sample-sampleUsersPost-0" data-group="User" data-name="sampleUsersPost" data-version="0">
-                        <div class="pull-left">
-                          <h1>sampleUsersPost</h1>
-                          <p>Create a new Sample User</p>
-                        </div>
-                        <div class="pull-right"></div>
-                        <div class="clearfix"></div>
-                        <p></p>
-                        <p class="marked"></p>
-                        <p></p>
-                        <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/sample/users</span></code></pre>
-                        <p>
-                          <h3>Usage and SDK Samples</h3>
-                        </p>
-                        <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-Sample-sampleUsersPost-0-curl">Curl</a></li>
-                          <li class=""><a href="#examples-Sample-sampleUsersPost-0-java">Java</a></li>
-                          <li class=""><a href="#examples-Sample-sampleUsersPost-0-android">Android</a></li>
-                          <!--<li class=""><a href="#examples-Sample-sampleUsersPost-0-groovy">Groovy</a></li>-->
-                          <li class=""><a href="#examples-Sample-sampleUsersPost-0-objc">Obj-C</a></li>
-                          <li class=""><a href="#examples-Sample-sampleUsersPost-0-javascript">JavaScript</a></li>
-                          <!--<li class=""><a href="#examples-Sample-sampleUsersPost-0-angular">Angular</a></li>-->
-                          <li class=""><a href="#examples-Sample-sampleUsersPost-0-csharp">C#</a></li>
-                          <li class=""><a href="#examples-Sample-sampleUsersPost-0-php">PHP</a></li>
-                          <li class=""><a href="#examples-Sample-sampleUsersPost-0-perl">Perl</a></li>
-                          <li class=""><a href="#examples-Sample-sampleUsersPost-0-python">Python</a></li>
-                        </ul>
-
-                        <div class="tab-content">
-                          <div class="tab-pane active" id="examples-Sample-sampleUsersPost-0-curl">
-                           <pre class="prettyprint"><code class="language-bsh">curl -X POST\
--H "Accept: application/json"\
--H "Content-Type: application/json"\
-"http://18.218.235.18/sample/users"</code></pre>
-                          </div>
-                          <div class="tab-pane" id="examples-Sample-sampleUsersPost-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.SampleApi;
-
-import java.io.File;
-import java.util.*;
-
-public class SampleApiExample {
-
-    public static void main(String[] args) {
-        
-        SampleApi apiInstance = new SampleApi();
-        Sample_users_body body = ; // Sample_users_body | 
-        try {
-            inline_response_200 result = apiInstance.sampleUsersPost(body);
-            System.out.println(result);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling SampleApi#sampleUsersPost");
-            e.printStackTrace();
-        }
-    }
-}</code></pre>
-                          </div>
-
-                          <div class="tab-pane" id="examples-Sample-sampleUsersPost-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.SampleApi;
-
-public class SampleApiExample {
-
-    public static void main(String[] args) {
-        SampleApi apiInstance = new SampleApi();
-        Sample_users_body body = ; // Sample_users_body | 
-        try {
-            inline_response_200 result = apiInstance.sampleUsersPost(body);
-            System.out.println(result);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling SampleApi#sampleUsersPost");
-            e.printStackTrace();
-        }
-    }
-}</code></pre>
-                          </div>
-  <!--
-  <div class="tab-pane" id="examples-Sample-sampleUsersPost-0-groovy">
-  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
-  </div> -->
-                            <div class="tab-pane" id="examples-Sample-sampleUsersPost-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">Sample_users_body *body = ; //  (optional)
-
-SampleApi *apiInstance = [[SampleApi alloc] init];
-
-// Create a new Sample User
-[apiInstance sampleUsersPostWith:body
-              completionHandler: ^(inline_response_200 output, NSError* error) {
-                            if (output) {
-                                NSLog(@"%@", output);
-                            }
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-Sample-sampleUsersPost-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var AdvancedSeProject = require('advanced_se_project');
-
-var api = new AdvancedSeProject.SampleApi()
-var opts = { 
-  'body':  // {{Sample_users_body}} 
-};
-var callback = function(error, data, response) {
-  if (error) {
-    console.error(error);
-  } else {
-    console.log('API called successfully. Returned data: ' + data);
-  }
-};
-api.sampleUsersPost(opts, callback);
-</code></pre>
-                            </div>
-
-                            <!--<div class="tab-pane" id="examples-Sample-sampleUsersPost-0-angular">
-              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
-            </div>-->
-                            <div class="tab-pane" id="examples-Sample-sampleUsersPost-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">using System;
-using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
-
-namespace Example
-{
-    public class sampleUsersPostExample
-    {
-        public void main()
-        {
-
-            var apiInstance = new SampleApi();
-            var body = new Sample_users_body(); // Sample_users_body |  (optional) 
-
-            try
-            {
-                // Create a new Sample User
-                inline_response_200 result = apiInstance.sampleUsersPost(body);
-                Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling SampleApi.sampleUsersPost: " + e.Message );
-            }
-        }
-    }
-}
-</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-Sample-sampleUsersPost-0-php">
-                              <pre class="prettyprint"><code class="language-php"><&#63;php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-$api_instance = new Swagger\Client\ApiSampleApi();
-$body = ; // Sample_users_body | 
-
-try {
-    $result = $api_instance->sampleUsersPost($body);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling SampleApi->sampleUsersPost: ', $e->getMessage(), PHP_EOL;
-}
-?></code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-Sample-sampleUsersPost-0-perl">
-                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::SampleApi;
-
-my $api_instance = WWW::SwaggerClient::SampleApi->new();
-my $body = WWW::SwaggerClient::Object::Sample_users_body->new(); # Sample_users_body | 
-
-eval { 
-    my $result = $api_instance->sampleUsersPost(body => $body);
-    print Dumper($result);
-};
-if ($@) {
-    warn "Exception when calling SampleApi->sampleUsersPost: $@\n";
-}</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-Sample-sampleUsersPost-0-python">
-                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
-import time
-import swagger_client
-from swagger_client.rest import ApiException
-from pprint import pprint
-
-# create an instance of the API class
-api_instance = swagger_client.SampleApi()
-body =  # Sample_users_body |  (optional)
-
-try: 
-    # Create a new Sample User
-    api_response = api_instance.sample_users_post(body=body)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling SampleApi->sampleUsersPost: %s\n" % e)</code></pre>
-                            </div>
-                          </div>
-
-                          <h2>Parameters</h2>
-
-
-
-                            <div class="methodsubtabletitle">Body parameters</div>
-                            <table id="methodsubtable">
-                              <tr>
-                                <th width="150px">Name</th>
-                                <th>Description</th>
-                              </tr>
-                                <tr><td style="width:150px;">body </td>
-                                <td>
-                                
-                                
-                                <script>
-                                $(document).ready(function() {
-                                  var schemaWrapper = {
-  "content" : {
-    "application/json" : {
-      "schema" : {
-        "$ref" : "#/components/schemas/sample_users_body"
-      }
-    }
-  }
-};
-                                  var schema = schemaWrapper.content["application/json"].schema;
-                                  if (schema.$ref != null) {
-                                    schema = defsParser.$refs.get(schema.$ref);
-                                  } else {
-                                    schemaWrapper.components = {};
-                                    schemaWrapper.components.schemas = Object.assign({}, defs);
-                                    $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                      console.log(err);
-                                    });
-                                  }
-                                
-                                  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
-                                  var result = $('#d2e199_sampleUsersPost_body');
-                                  result.empty();
-                                  result.append(view.render());
-                                });
-                                </script>
-                                <div id="d2e199_sampleUsersPost_body"></div>
-                                </td>
-                                </tr>
-                            </table>
-
-
-
-                          <h2>Responses</h2>
-                            <h3> Status: 200 - OK </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                                <li class="active">
-                                  <a data-toggle="tab" href="#responses-sampleUsersPost-200-schema">Schema</a>
-                                </li>
-
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-sampleUsersPost-200-schema">
-                                  <div id='responses-sampleUsersPost-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                <div class="tab-pane active" id="responses-healthGet-200-schema">
+                                  <div id='responses-healthGet-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
@@ -3575,14 +3260,14 @@ except ApiException as e:
 
                                         //console.log(JSON.stringify(schema));
                                         var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-sampleUsersPost-200-schema-data').val(stringify(schema));
-                                        var result = $('#responses-sampleUsersPost-200-schema-200');
+                                        $('#responses-healthGet-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-healthGet-200-schema-200');
                                         result.empty();
                                         result.append(view.render());
                                       });
                                     </script>
                                   </div>
-                                  <input id='responses-sampleUsersPost-200-schema-data' type='hidden' value=''></input>
+                                  <input id='responses-healthGet-200-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
@@ -3592,6 +3277,390 @@ except ApiException as e:
                   </section>
                 <section id="api-User">
                   <h1>User</h1>
+                    <div id="api-User-signinPost">
+                      <article id="api-User-signinPost-0" data-group="User" data-name="signinPost" data-version="0">
+                        <div class="pull-left">
+                          <h1>signinPost</h1>
+                          <p>exchange id_token and key</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/signin</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-User-signinPost-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-User-signinPost-0-java">Java</a></li>
+                          <li class=""><a href="#examples-User-signinPost-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-User-signinPost-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-User-signinPost-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-User-signinPost-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-User-signinPost-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-User-signinPost-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-User-signinPost-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-User-signinPost-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-User-signinPost-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-User-signinPost-0-curl">
+                           <pre class="prettyprint"><code class="language-bsh">curl -X POST\
+-H "aapi-token: [[apiKey]]"\
+-H "Accept: application/json"\
+"http://team-aapi.me/signin"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-User-signinPost-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.UserApi;
+
+import java.io.File;
+import java.util.*;
+
+public class UserApiExample {
+
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+
+        // Configure API key authorization: OpenIDC
+        ApiKeyAuth OpenIDC = (ApiKeyAuth) defaultClient.getAuthentication("OpenIDC");
+        OpenIDC.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //OpenIDC.setApiKeyPrefix("Token");
+
+        UserApi apiInstance = new UserApi();
+        UUID xRequestID = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 
+        try {
+            User result = apiInstance.signinPost(xRequestID);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling UserApi#signinPost");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-User-signinPost-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.UserApi;
+
+public class UserApiExample {
+
+    public static void main(String[] args) {
+        UserApi apiInstance = new UserApi();
+        UUID xRequestID = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 
+        try {
+            User result = apiInstance.signinPost(xRequestID);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling UserApi#signinPost");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-User-signinPost-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-User-signinPost-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
+// Configure API key authorization: (authentication scheme: OpenIDC)
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"aapi-token"];
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"aapi-token"];
+UUID *xRequestID = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // 
+
+UserApi *apiInstance = [[UserApi alloc] init];
+
+// exchange id_token and key
+[apiInstance signinPostWith:xRequestID
+              completionHandler: ^(User output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-User-signinPost-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var AdvancedSeProject = require('advanced_se_project');
+var defaultClient = AdvancedSeProject.ApiClient.instance;
+
+// Configure API key authorization: OpenIDC
+var OpenIDC = defaultClient.authentications['OpenIDC'];
+OpenIDC.apiKey = "YOUR API KEY"
+// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+//OpenIDC.apiKeyPrefix['aapi-token'] = "Token"
+
+var api = new AdvancedSeProject.UserApi()
+var xRequestID = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // {{UUID}} 
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.signinPost(xRequestID, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-User-signinPost-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-User-signinPost-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class signinPostExample
+    {
+        public void main()
+        {
+
+            // Configure API key authorization: OpenIDC
+            Configuration.Default.ApiKey.Add("aapi-token", "YOUR_API_KEY");
+            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+            // Configuration.Default.ApiKeyPrefix.Add("aapi-token", "Bearer");
+
+            var apiInstance = new UserApi();
+            var xRequestID = new UUID(); // UUID | 
+
+            try
+            {
+                // exchange id_token and key
+                User result = apiInstance.signinPost(xRequestID);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling UserApi.signinPost: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-User-signinPost-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure API key authorization: OpenIDC
+Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('aapi-token', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('aapi-token', 'Bearer');
+
+$api_instance = new Swagger\Client\ApiUserApi();
+$xRequestID = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 
+
+try {
+    $result = $api_instance->signinPost($xRequestID);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling UserApi->signinPost: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-User-signinPost-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::UserApi;
+
+# Configure API key authorization: OpenIDC
+$WWW::SwaggerClient::Configuration::api_key->{'aapi-token'} = 'YOUR_API_KEY';
+# uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+#$WWW::SwaggerClient::Configuration::api_key_prefix->{'aapi-token'} = "Bearer";
+
+my $api_instance = WWW::SwaggerClient::UserApi->new();
+my $xRequestID = 38400000-8cf0-11bd-b23e-10b96e4ef00d; # UUID | 
+
+eval { 
+    my $result = $api_instance->signinPost(xRequestID => $xRequestID);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling UserApi->signinPost: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-User-signinPost-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure API key authorization: OpenIDC
+swagger_client.configuration.api_key['aapi-token'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# swagger_client.configuration.api_key_prefix['aapi-token'] = 'Bearer'
+
+# create an instance of the API class
+api_instance = swagger_client.UserApi()
+xRequestID = 38400000-8cf0-11bd-b23e-10b96e4ef00d # UUID | 
+
+try: 
+    # exchange id_token and key
+    api_response = api_instance.signin_post(xRequestID)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling UserApi->signinPost: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+                            <div class="methodsubtabletitle">Header parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                  <tr><td style="width:150px;">X-Request-ID*</td>
+                                  <td>
+                                  
+                                  
+                                      <div id="d2e199_signinPost_xRequestID">
+                                          <div class="json-schema-view">
+                                              <div class="primitive">
+                                                  <span class="type">
+                                                      UUID
+                                                  </span>
+                                                      <span class="format">
+                                                          (uuid)
+                                                      </span>
+                                  
+                                              </div>
+                                                  <div class="inner required">
+                                                      Required
+                                                  </div>
+                                          </div>
+                                      </div>
+                                  </td>
+                                  </tr>
+                            </table>
+
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - OK </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-signinPost-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-signinPost-200-schema">
+                                  <div id='responses-signinPost-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "OK",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/User"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-signinPost-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-signinPost-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-signinPost-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 401 - Unauthorized </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-signinPost-401-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-signinPost-401-schema">
+                                  <div id='responses-signinPost-401-schema-401' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Unauthorized",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/inline_response_401"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-signinPost-401-schema-data').val(stringify(schema));
+                                        var result = $('#responses-signinPost-401-schema-401');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-signinPost-401-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
                     <div id="api-User-usersPost">
                       <article id="api-User-usersPost-0" data-group="User" data-name="usersPost" data-version="0">
                         <div class="pull-left">
@@ -3627,7 +3696,7 @@ except ApiException as e:
                            <pre class="prettyprint"><code class="language-bsh">curl -X POST\
 -H "Accept: application/json"\
 -H "Content-Type: application/json"\
-"http://18.218.235.18/users"</code></pre>
+"http://team-aapi.me/users"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-usersPost-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -3984,9 +4053,9 @@ except ApiException as e:
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-usersUserIdEventsGet-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
--H "X-API-Key: [[apiKey]]"\
+-H "aapi-key: [[apiKey]]"\
 -H "Accept: application/json"\
-"http://18.218.235.18/users/{user_id}/events"</code></pre>
+"http://team-aapi.me/users/{user_id}/events"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-usersUserIdEventsGet-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -4046,9 +4115,9 @@ public class UserApiExample {
                             <div class="tab-pane" id="examples-User-usersUserIdEventsGet-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
 // Configure API key authorization: (authentication scheme: ApiKeyAuth)
-[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"X-API-Key"];
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"aapi-key"];
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"X-API-Key"];
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"aapi-key"];
 String *userId = userId_example; // 
 
 UserApi *apiInstance = [[UserApi alloc] init];
@@ -4074,7 +4143,7 @@ var defaultClient = AdvancedSeProject.ApiClient.instance;
 var ApiKeyAuth = defaultClient.authentications['ApiKeyAuth'];
 ApiKeyAuth.apiKey = "YOUR API KEY"
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//ApiKeyAuth.apiKeyPrefix['X-API-Key'] = "Token"
+//ApiKeyAuth.apiKeyPrefix['aapi-key'] = "Token"
 
 var api = new AdvancedSeProject.UserApi()
 var userId = userId_example; // {{String}} 
@@ -4108,9 +4177,9 @@ namespace Example
         {
 
             // Configure API key authorization: ApiKeyAuth
-            Configuration.Default.ApiKey.Add("X-API-Key", "YOUR_API_KEY");
+            Configuration.Default.ApiKey.Add("aapi-key", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add("X-API-Key", "Bearer");
+            // Configuration.Default.ApiKeyPrefix.Add("aapi-key", "Bearer");
 
             var apiInstance = new UserApi();
             var userId = userId_example;  // String | 
@@ -4136,9 +4205,9 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure API key authorization: ApiKeyAuth
-Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('X-API-Key', 'YOUR_API_KEY');
+Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('aapi-key', 'YOUR_API_KEY');
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('X-API-Key', 'Bearer');
+// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('aapi-key', 'Bearer');
 
 $api_instance = new Swagger\Client\ApiUserApi();
 $userId = userId_example; // String | 
@@ -4158,9 +4227,9 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::UserApi;
 
 # Configure API key authorization: ApiKeyAuth
-$WWW::SwaggerClient::Configuration::api_key->{'X-API-Key'} = 'YOUR_API_KEY';
+$WWW::SwaggerClient::Configuration::api_key->{'aapi-key'} = 'YOUR_API_KEY';
 # uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$WWW::SwaggerClient::Configuration::api_key_prefix->{'X-API-Key'} = "Bearer";
+#$WWW::SwaggerClient::Configuration::api_key_prefix->{'aapi-key'} = "Bearer";
 
 my $api_instance = WWW::SwaggerClient::UserApi->new();
 my $userId = userId_example; # String | 
@@ -4182,9 +4251,9 @@ from swagger_client.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: ApiKeyAuth
-swagger_client.configuration.api_key['X-API-Key'] = 'YOUR_API_KEY'
+swagger_client.configuration.api_key['aapi-key'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# swagger_client.configuration.api_key_prefix['X-API-Key'] = 'Bearer'
+# swagger_client.configuration.api_key_prefix['aapi-key'] = 'Bearer'
 
 # create an instance of the API class
 api_instance = swagger_client.UserApi()
@@ -4321,9 +4390,9 @@ except ApiException as e:
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-usersUserIdGet-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
--H "X-API-Key: [[apiKey]]"\
+-H "aapi-key: [[apiKey]]"\
 -H "Accept: application/json"\
-"http://18.218.235.18/users/{user_id}"</code></pre>
+"http://team-aapi.me/users/{user_id}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-usersUserIdGet-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -4383,9 +4452,9 @@ public class UserApiExample {
                             <div class="tab-pane" id="examples-User-usersUserIdGet-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
 // Configure API key authorization: (authentication scheme: ApiKeyAuth)
-[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"X-API-Key"];
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"aapi-key"];
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"X-API-Key"];
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"aapi-key"];
 String *userId = userId_example; // 
 
 UserApi *apiInstance = [[UserApi alloc] init];
@@ -4411,7 +4480,7 @@ var defaultClient = AdvancedSeProject.ApiClient.instance;
 var ApiKeyAuth = defaultClient.authentications['ApiKeyAuth'];
 ApiKeyAuth.apiKey = "YOUR API KEY"
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//ApiKeyAuth.apiKeyPrefix['X-API-Key'] = "Token"
+//ApiKeyAuth.apiKeyPrefix['aapi-key'] = "Token"
 
 var api = new AdvancedSeProject.UserApi()
 var userId = userId_example; // {{String}} 
@@ -4445,9 +4514,9 @@ namespace Example
         {
 
             // Configure API key authorization: ApiKeyAuth
-            Configuration.Default.ApiKey.Add("X-API-Key", "YOUR_API_KEY");
+            Configuration.Default.ApiKey.Add("aapi-key", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add("X-API-Key", "Bearer");
+            // Configuration.Default.ApiKeyPrefix.Add("aapi-key", "Bearer");
 
             var apiInstance = new UserApi();
             var userId = userId_example;  // String | 
@@ -4473,9 +4542,9 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure API key authorization: ApiKeyAuth
-Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('X-API-Key', 'YOUR_API_KEY');
+Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('aapi-key', 'YOUR_API_KEY');
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('X-API-Key', 'Bearer');
+// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('aapi-key', 'Bearer');
 
 $api_instance = new Swagger\Client\ApiUserApi();
 $userId = userId_example; // String | 
@@ -4495,9 +4564,9 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::UserApi;
 
 # Configure API key authorization: ApiKeyAuth
-$WWW::SwaggerClient::Configuration::api_key->{'X-API-Key'} = 'YOUR_API_KEY';
+$WWW::SwaggerClient::Configuration::api_key->{'aapi-key'} = 'YOUR_API_KEY';
 # uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$WWW::SwaggerClient::Configuration::api_key_prefix->{'X-API-Key'} = "Bearer";
+#$WWW::SwaggerClient::Configuration::api_key_prefix->{'aapi-key'} = "Bearer";
 
 my $api_instance = WWW::SwaggerClient::UserApi->new();
 my $userId = userId_example; # String | 
@@ -4519,9 +4588,9 @@ from swagger_client.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: ApiKeyAuth
-swagger_client.configuration.api_key['X-API-Key'] = 'YOUR_API_KEY'
+swagger_client.configuration.api_key['aapi-key'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# swagger_client.configuration.api_key_prefix['X-API-Key'] = 'Bearer'
+# swagger_client.configuration.api_key_prefix['aapi-key'] = 'Bearer'
 
 # create an instance of the API class
 api_instance = swagger_client.UserApi()
