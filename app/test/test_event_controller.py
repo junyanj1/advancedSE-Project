@@ -150,7 +150,7 @@ class Test_EventController(unittest.TestCase):
                                         'Career Fair',
                                         'test@gmail.com',
                                         'Example Description',
-                                        'Columbia University', 
+                                        'Columbia University',
                                         '2920 Broadway New York',
                                         -12.12, 21.21, '2021-03-22 18:34',
                                         '2021-03-22 18:34', 500)
@@ -163,7 +163,7 @@ class Test_EventController(unittest.TestCase):
                                         'Career Fair',
                                         'test@gmailcom',
                                         'Example Description',
-                                        'Columbia University', 
+                                        'Columbia University',
                                         '2920 Broadway New York',
                                         -12.12, 21.21, '2021-03-22 18:34',
                                         '2021-03-22 18:34', 500)
@@ -176,7 +176,7 @@ class Test_EventController(unittest.TestCase):
                                         'Career Fair.',
                                         'test@gmail.com',
                                         'Example Description',
-                                        'Columbia University', 
+                                        'Columbia University',
                                         '2920 Broadway New York',
                                         -12.12, 21.21, '2021-03-22 18:34',
                                         '2021-03-22 18:34', 500)
@@ -189,7 +189,7 @@ class Test_EventController(unittest.TestCase):
                                         'Career Fair',
                                         'test@gmail.com',
                                         'Example Description<',
-                                        'Columbia University', 
+                                        'Columbia University',
                                         '2920 Broadway New York',
                                         -12.12, 21.21, '2021-03-22 18:34',
                                         '2021-03-22 18:34', 500)
@@ -203,7 +203,7 @@ class Test_EventController(unittest.TestCase):
                                         'test@gmail.com',
                                         'Example Description',
                                         'Columbia University?',
-                                        '2920 Broadway New York', 
+                                        '2920 Broadway New York',
                                         -12.12, 21.21,
                                         '2021-03-22 18:34',
                                         '2021-03-22 18:34', 500)
@@ -229,7 +229,7 @@ class Test_EventController(unittest.TestCase):
                                         'Career Fair',
                                         'test@gmail.com',
                                         'Example Description',
-                                        'Columbia University', 
+                                        'Columbia University',
                                         '2920 Broadway New York',
                                         '-12.12', 21.21, '2021-03-22 18:34',
                                         '2021-03-22 18:34', 500)
@@ -242,7 +242,7 @@ class Test_EventController(unittest.TestCase):
                                         'Career Fair',
                                         'test@gmail.com',
                                         'Example Description',
-                                        'Columbia University', 
+                                        'Columbia University',
                                         '2920 Broadway New York',
                                         -12.12, 21.21, '2021-45-22 18:34',
                                         '2021-03-22 18:34', 500)
@@ -255,7 +255,7 @@ class Test_EventController(unittest.TestCase):
                                         'Career Fair',
                                         'test@gmail.com',
                                         'Example Description',
-                                        'Columbia University', 
+                                        'Columbia University',
                                         '2920 Broadway New York',
                                         -12.12, 21.21, '2021-45-22 18:34',
                                         '2021-03-22 18:34', -34)
