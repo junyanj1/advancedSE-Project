@@ -19,6 +19,7 @@ http://team-aapi.me/static/api.html
 
 ## Home Page
 http://team-aapi.me/static/index.html
+*Web client is written in plain JavaScript and can be found in `nginx/static` directory.
 
 ## Server Status Check
 ```sh
