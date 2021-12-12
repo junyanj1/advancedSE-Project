@@ -14,6 +14,7 @@ services:
       COMMIT_ID: ${COMMIT_ID:-unknown_env}
       MAILGUN_API: ${MAILGUN_API}
       MAPS_API: ${MAPS_API}
+      AUTH_KEY: ${AUTH_KEY:-team-aapi}
 
   db:
     image: postgres:alpine
