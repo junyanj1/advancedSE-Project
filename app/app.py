@@ -189,7 +189,7 @@ class Context:
         pool = Database.get_connection('postgresql://postgres@db:5432/aapi')
         requests = NetworkService()
         self.db = Database(pool)
-        self.auth = AuthService()
+        self.auth = AuthService(os.getenv("AUTH_KEY"))
         self.attendance = AttendanceController(self.db)
         self.event = EventController(self.db)
         self.user = UserController(self.db, self.auth, requests)

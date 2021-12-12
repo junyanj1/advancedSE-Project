@@ -30,7 +30,7 @@ class Whitelist():
 
 
 class AuthService():
-    def __init__(self, signkey='team-aapi'):
+    def __init__(self, signkey):
         self.signkey = signkey
 
     def sign(self, s: str) -> str:
