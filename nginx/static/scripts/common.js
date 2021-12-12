@@ -36,7 +36,6 @@ const apiGetEvent = (eventID, success, error) => {
     console.log("--> apiGetEvents");
     $.ajax({
         url: `${BASE_ENDPOINT}/events/${eventID}`,
-        headers: commonHeaders(),
         success: logSuccess(success),
         error: logError(error),
     });
@@ -46,7 +45,6 @@ const apiGetAttendees = (eventID, success, error) => {
     console.log("--> apiGetAttendees");
     $.ajax({
         url: `${BASE_ENDPOINT}/events/${eventID}/attendances`,
-        headers: commonHeaders(),
         success: logSuccess(success),
         error: logError(error),
     });
@@ -70,7 +68,6 @@ const apiRsvp = (eventID, personalCode, success, error) => {
     console.log("--> apiRsvp");
     $.ajax({
         url: `${BASE_ENDPOINT}/events/${eventID}/rsvp/${personalCode}`,
-        headers: commonHeaders(),
         success: logSuccess(success),
         error: logError(error),
     });
@@ -80,7 +77,6 @@ const apiCheckIn = (eventID, personalCode, success, error) => {
     console.log("--> apiCheckIn");
     $.ajax({
         url: `${BASE_ENDPOINT}/events/${eventID}/check_in/${personalCode}`,
-        headers: commonHeaders(),
         success: logSuccess(success),
         error: logError(error),
     });

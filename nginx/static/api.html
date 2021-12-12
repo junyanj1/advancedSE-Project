@@ -1001,7 +1001,6 @@
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Attendance-eventsEventIdAttendancesGet-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
--H "aapi-key: [[apiKey]]"\
 -H "Accept: application/json"\
 "http://team-aapi.me/events/{event_id}/attendances?is_invited=&is_rsvped=&is_checked_in="</code></pre>
                           </div>
@@ -1017,14 +1016,7 @@ import java.util.*;
 public class AttendanceApiExample {
 
     public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
-
-        // Configure API key authorization: ApiKeyAuth
-        ApiKeyAuth ApiKeyAuth = (ApiKeyAuth) defaultClient.getAuthentication("ApiKeyAuth");
-        ApiKeyAuth.setApiKey("YOUR API KEY");
-        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-        //ApiKeyAuth.setApiKeyPrefix("Token");
-
+        
         AttendanceApi apiInstance = new AttendanceApi();
         String eventId = eventId_example; // String | 
         Boolean isInvited = true; // Boolean | 
@@ -1067,12 +1059,7 @@ public class AttendanceApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Attendance-eventsEventIdAttendancesGet-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
-// Configure API key authorization: (authentication scheme: ApiKeyAuth)
-[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"aapi-key"];
-// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"aapi-key"];
-String *eventId = eventId_example; // 
+                              <pre class="prettyprint"><code class="language-cpp">String *eventId = eventId_example; // 
 Boolean *isInvited = true; //  (optional)
 Boolean *isRsvped = true; //  (optional)
 Boolean *isCheckedIn = true; //  (optional)
@@ -1097,13 +1084,6 @@ AttendanceApi *apiInstance = [[AttendanceApi alloc] init];
 
                             <div class="tab-pane" id="examples-Attendance-eventsEventIdAttendancesGet-0-javascript">
                               <pre class="prettyprint"><code class="language-js">var AdvancedSeProject = require('advanced_se_project');
-var defaultClient = AdvancedSeProject.ApiClient.instance;
-
-// Configure API key authorization: ApiKeyAuth
-var ApiKeyAuth = defaultClient.authentications['ApiKeyAuth'];
-ApiKeyAuth.apiKey = "YOUR API KEY"
-// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//ApiKeyAuth.apiKeyPrefix['aapi-key'] = "Token"
 
 var api = new AdvancedSeProject.AttendanceApi()
 var eventId = eventId_example; // {{String}} 
@@ -1140,11 +1120,6 @@ namespace Example
         public void main()
         {
 
-            // Configure API key authorization: ApiKeyAuth
-            Configuration.Default.ApiKey.Add("aapi-key", "YOUR_API_KEY");
-            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add("aapi-key", "Bearer");
-
             var apiInstance = new AttendanceApi();
             var eventId = eventId_example;  // String | 
             var isInvited = true;  // Boolean |  (optional) 
@@ -1171,11 +1146,6 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure API key authorization: ApiKeyAuth
-Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('aapi-key', 'YOUR_API_KEY');
-// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('aapi-key', 'Bearer');
-
 $api_instance = new Swagger\Client\ApiAttendanceApi();
 $eventId = eventId_example; // String | 
 $isInvited = true; // Boolean | 
@@ -1195,11 +1165,6 @@ try {
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
 use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::AttendanceApi;
-
-# Configure API key authorization: ApiKeyAuth
-$WWW::SwaggerClient::Configuration::api_key->{'aapi-key'} = 'YOUR_API_KEY';
-# uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$WWW::SwaggerClient::Configuration::api_key_prefix->{'aapi-key'} = "Bearer";
 
 my $api_instance = WWW::SwaggerClient::AttendanceApi->new();
 my $eventId = eventId_example; # String | 
@@ -1222,11 +1187,6 @@ import time
 import swagger_client
 from swagger_client.rest import ApiException
 from pprint import pprint
-
-# Configure API key authorization: ApiKeyAuth
-swagger_client.configuration.api_key['aapi-key'] = 'YOUR_API_KEY'
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# swagger_client.configuration.api_key_prefix['aapi-key'] = 'Bearer'
 
 # create an instance of the API class
 api_instance = swagger_client.AttendanceApi()
@@ -2314,7 +2274,6 @@ except ApiException as e:
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Event-eventsEventIdGet-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
--H "aapi-key: [[apiKey]]"\
 -H "Accept: application/json"\
 "http://team-aapi.me/events/{event_id}"</code></pre>
                           </div>
@@ -2330,14 +2289,7 @@ import java.util.*;
 public class EventApiExample {
 
     public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
-
-        // Configure API key authorization: ApiKeyAuth
-        ApiKeyAuth ApiKeyAuth = (ApiKeyAuth) defaultClient.getAuthentication("ApiKeyAuth");
-        ApiKeyAuth.setApiKey("YOUR API KEY");
-        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-        //ApiKeyAuth.setApiKeyPrefix("Token");
-
+        
         EventApi apiInstance = new EventApi();
         String eventId = eventId_example; // String | 
         try {
@@ -2374,12 +2326,7 @@ public class EventApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Event-eventsEventIdGet-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
-// Configure API key authorization: (authentication scheme: ApiKeyAuth)
-[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"aapi-key"];
-// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"aapi-key"];
-String *eventId = eventId_example; // 
+                              <pre class="prettyprint"><code class="language-cpp">String *eventId = eventId_example; // 
 
 EventApi *apiInstance = [[EventApi alloc] init];
 
@@ -2398,13 +2345,6 @@ EventApi *apiInstance = [[EventApi alloc] init];
 
                             <div class="tab-pane" id="examples-Event-eventsEventIdGet-0-javascript">
                               <pre class="prettyprint"><code class="language-js">var AdvancedSeProject = require('advanced_se_project');
-var defaultClient = AdvancedSeProject.ApiClient.instance;
-
-// Configure API key authorization: ApiKeyAuth
-var ApiKeyAuth = defaultClient.authentications['ApiKeyAuth'];
-ApiKeyAuth.apiKey = "YOUR API KEY"
-// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//ApiKeyAuth.apiKeyPrefix['aapi-key'] = "Token"
 
 var api = new AdvancedSeProject.EventApi()
 var eventId = eventId_example; // {{String}} 
@@ -2437,11 +2377,6 @@ namespace Example
         public void main()
         {
 
-            // Configure API key authorization: ApiKeyAuth
-            Configuration.Default.ApiKey.Add("aapi-key", "YOUR_API_KEY");
-            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add("aapi-key", "Bearer");
-
             var apiInstance = new EventApi();
             var eventId = eventId_example;  // String | 
 
@@ -2465,11 +2400,6 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure API key authorization: ApiKeyAuth
-Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('aapi-key', 'YOUR_API_KEY');
-// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('aapi-key', 'Bearer');
-
 $api_instance = new Swagger\Client\ApiEventApi();
 $eventId = eventId_example; // String | 
 
@@ -2486,11 +2416,6 @@ try {
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
 use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::EventApi;
-
-# Configure API key authorization: ApiKeyAuth
-$WWW::SwaggerClient::Configuration::api_key->{'aapi-key'} = 'YOUR_API_KEY';
-# uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$WWW::SwaggerClient::Configuration::api_key_prefix->{'aapi-key'} = "Bearer";
 
 my $api_instance = WWW::SwaggerClient::EventApi->new();
 my $eventId = eventId_example; # String | 
@@ -2510,11 +2435,6 @@ import time
 import swagger_client
 from swagger_client.rest import ApiException
 from pprint import pprint
-
-# Configure API key authorization: ApiKeyAuth
-swagger_client.configuration.api_key['aapi-key'] = 'YOUR_API_KEY'
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# swagger_client.configuration.api_key_prefix['aapi-key'] = 'Bearer'
 
 # create an instance of the API class
 api_instance = swagger_client.EventApi()

@@ -110,9 +110,6 @@ def create_event():
 @app.route('/events/<event_id>')
 def get_event(event_id):
     """GET /events/<event_id>"""
-    app.ctx.auth.verify_request(request.headers,
-                                app.ctx.event.get_organizer_id(event_id))
-    print('  get_eventapi')
     return jsonify(app.ctx.event.get_event(
         event_id,  # "abcdefghijklmn"
     ))
@@ -121,8 +118,6 @@ def get_event(event_id):
 @app.route('/events/<event_id>/attendances')
 def get_attendances(event_id):
     """GET /events/<event_id>/attendances"""
-    app.ctx.auth.verify_request(request.headers,
-                                app.ctx.event.get_organizer_id(event_id))
     return jsonify(app.ctx.attendance.get_attendances(
         event_id,  # "abcdefghijklmn"
         request.args.get('is_invited'),

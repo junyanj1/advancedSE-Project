@@ -212,8 +212,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Event"
-      security:
-        - ApiKeyAuth: []
 
   /events/{event_id}/attendances:
     get:
@@ -250,8 +248,6 @@ paths:
                 type: array
                 items: 
                   $ref: "#/components/schemas/Attendance"
-      security:
-        - ApiKeyAuth: []
   /events/{event_id}/invite:
     post:
       tags:
